@@ -35,7 +35,7 @@ for x in range(args.spine):
     net.addLink(s1, spine_switches[x], bw=10, delay='10ms', loss=0, max_queue_size=10000)
 
 for x in range(args.leaf):
-    leaf_switches.append(net.addSwitch(f's{x + 2 + args.spine}', protocols='OpenFlow13'))
+    leaf_switches.append(net.addSwitch(f's{x + 2 + args.spine}'))
     servers.append(net.addHost(f'h{x + 1 + args.host}', ip=f'10.0.{x + 1}.11/24'))
     server_links.append(net.addLink(servers[x], leaf_switches[x]))
     for spine in spine_switches:
