@@ -41,7 +41,7 @@ for x in range(args.leaf):
     for spine in spine_switches:
         net.addLink(spine, leaf_switches[x], bw=10, delay='10ms', loss=0, max_queue_size=10000)
 
-net.addController(RemoteController('onos', ip='127.0.0.1', port=6653))
+net.addController(RemoteController('onos', ip='127.0.0.1', port=6633))
 
 net.start()
 
