@@ -31,7 +31,7 @@ for x in range(args.host):
     host_links.append(net.addLink(hosts[x], s1))
 
 for x in range(args.spine):
-    spine_switches.append(net.addSwitch(f's{x + 2}', protocols='OpenFlow13'))
+    spine_switches.append(net.addSwitch(f's{x + 2}'))
     net.addLink(s1, spine_switches[x], bw=10, delay='10ms', loss=0, max_queue_size=10000)
 
 for x in range(args.leaf):
@@ -41,7 +41,7 @@ for x in range(args.leaf):
     for spine in spine_switches:
         net.addLink(spine, leaf_switches[x], bw=10, delay='10ms', loss=0, max_queue_size=10000)
 
-net.addController(RemoteController('onos', ip='127.0.0.1', port=6633))
+net.addController(RemoteController('ryu'))
 
 net.start()
 
