@@ -17,7 +17,7 @@ args = parser.parse_args()
 
 net = Mininet(switch=OVSSwitch, link=TCLink, autoSetMacs=True, autoStaticArp=True)
 
-s1 = net.addSwitch('s1', protocols='OpenFlow13')
+s1 = net.addSwitch('s1')
 
 spine_switches = []
 leaf_switches = []
