@@ -60,45 +60,46 @@ from mininet.topolib import Topo
 
 class Topology(Topo):
     def build(self):
-        # s1 = self.addSwitch('s1', protocols='OpenFlow13')
-        # s2 = self.addSwitch('s2', protocols='OpenFlow13')
+        self.addSwitch('s1', protocols='OpenFlow13')
+        self.addSwitch('s2', protocols='OpenFlow13')
+
+        self.addHost('h1', ip='10.0.0.1/24')
+        self.addHost('h2', ip='10.0.0.2/24')
+
+        self.addLink('h1', 's1', bw=10, delay='10ms')
+        self.addLink('s1', 's2', bw=10, delay='10ms')
+        self.addLink('s2', 'h2', bw=10, delay='10ms')
+
+        # s1 = self.addSwitch('s1')
         #
-        # h1 = self.addHost('h1', ip='10.0.0.1/24')
-        # h2 = self.addHost('h2', ip='10.0.0.2/24')
+        # spine_switches = []
+        # leaf_switches = []
+        # servers = []
+        # hosts = []
+        # host_links = []
+        # server_links = []
         #
-        # self.addLink(h1, s1, bw=10, delay='10ms')
-        # self.addLink(s1, s2, bw=10, delay='10ms')
-        # self.addLink(s2, h2, bw=10, delay='10ms')
-        s1 = self.addSwitch('s1')
-
-        spine_switches = []
-        leaf_switches = []
-        servers = []
-        hosts = []
-        host_links = []
-        server_links = []
-
-        index = 1
-
-        for x in range(args.host):
-            # hosts.append(net.addHost(f'h{x + 1}', ip=f'192.168.{x + 1}.11/24'))
-            hosts.append(self.addHost(f'h{x + 1}', ip=f'10.0.0.{index}/24'))
-            index += 1
-            host_links.append(self.addLink(hosts[x], s1))
-
-        for x in range(args.spine):
-            spine_switches.append(self.addSwitch(f's{x + 2}'))
-            self.addLink(s1, spine_switches[x], bw=10, delay='10ms')
-
-        for x in range(args.leaf):
-            leaf_switches.append(self.addSwitch(f's{x + 2 + args.spine}'))
-            # servers.append(net.addHost(f'h{x + 1 + args.host}', ip=f'10.0.{x + 1}.11/24'))
-            for i in range(2):
-                servers.append(self.addHost(f'h{index}', ip=f'10.0.0.{index}/24'))
-                server_links.append(self.addLink(servers[2 * x + i], leaf_switches[x]))
-                index += 1
-            for spine in spine_switches:
-                self.addLink(spine, leaf_switches[x], bw=10, delay='10ms')
+        # index = 1
+        #
+        # # for x in range(args.host):
+        # #     # hosts.append(net.addHost(f'h{x + 1}', ip=f'192.168.{x + 1}.11/24'))
+        # #     hosts.append(self.addHost(f'h{x + 1}', ip=f'10.0.0.{index}/24'))
+        # #     index += 1
+        # #     host_links.append(self.addLink(hosts[x], s1))
+        #
+        # for x in range(args.spine):
+        #     spine_switches.append(self.addSwitch(f's{x + 2}'))
+        #     self.addLink(s1, spine_switches[x], bw=10, delay='10ms')
+        #
+        # for x in range(args.leaf):
+        #     leaf_switches.append(self.addSwitch(f's{x + 2 + args.spine}'))
+        #     # servers.append(net.addHost(f'h{x + 1 + args.host}', ip=f'10.0.{x + 1}.11/24'))
+        #     for i in range(1):
+        #         servers.append(self.addHost(f'h{index}', ip=f'10.0.0.{index}/24'))
+        #         server_links.append(self.addLink(servers[1 * x + i], leaf_switches[x]))
+        #         index += 1
+        #     for spine in spine_switches:
+        #         self.addLink(spine, leaf_switches[x], bw=10, delay='10ms')
 
 
 if __name__ == '__main__':
