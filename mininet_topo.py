@@ -15,6 +15,7 @@ parser.add_argument('-ht', '--host', dest='host', default=3, type=int,
                     help='Number of hosts (default 3)')
 args = parser.parse_args()
 
+ryu_controller = RemoteController('ryu', ip='0.0.0.0', port=6633)
 net = Mininet(switch=OVSSwitch, link=TCLink, autoSetMacs=True, autoStaticArp=True)
 
 s1 = net.addSwitch('s1')
@@ -26,8 +27,12 @@ hosts = []
 host_links = []
 server_links = []
 
+index = 1
+
 for x in range(args.host):
-    hosts.append(net.addHost(f'h{x + 1}', ip=f'192.168.{x + 1}.11/24'))
+    # hosts.append(net.addHost(f'h{x + 1}', ip=f'192.168.{x + 1}.11/24'))
+    hosts.append(net.addHost(f'h{x + 1}', ip=f'10.0.0.{index}/24'))
+    index += 1
     host_links.append(net.addLink(hosts[x], s1))
 
 for x in range(args.spine):
@@ -36,12 +41,14 @@ for x in range(args.spine):
 
 for x in range(args.leaf):
     leaf_switches.append(net.addSwitch(f's{x + 2 + args.spine}'))
-    servers.append(net.addHost(f'h{x + 1 + args.host}', ip=f'10.0.{x + 1}.11/24'))
+    # servers.append(net.addHost(f'h{x + 1 + args.host}', ip=f'10.0.{x + 1}.11/24'))
+    servers.append(net.addHost(f'h{x + 1 + args.host}', ip=f'10.0.0.{index}/24'))
+    index += 1
     server_links.append(net.addLink(servers[x], leaf_switches[x]))
     for spine in spine_switches:
         net.addLink(spine, leaf_switches[x], bw=10, delay='10ms', loss=0, max_queue_size=10000)
 
-net.addController(RemoteController('ryu'))
+net.addController(RemoteController(ryu_controller))
 
 net.start()
 
