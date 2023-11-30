@@ -82,6 +82,9 @@ class SimpleSwitch13(app_manager.RyuApp):
         if eth.ethertype == ether_types.ETH_TYPE_LLDP:
             # ignore lldp packet
             return
+        if eth.ethertype == ether_types.ETH_TYPE_IPV6:
+            # ignore ipv6 packet
+            return
         dst = eth.dst
         src = eth.src
 
