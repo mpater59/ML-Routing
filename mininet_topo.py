@@ -69,7 +69,7 @@ class Topology(Topo):
         # self.addLink(h1, s1, bw=10, delay='10ms')
         # self.addLink(s1, s2, bw=10, delay='10ms')
         # self.addLink(s2, h2, bw=10, delay='10ms')
-        s1 = net.addSwitch('s1')
+        s1 = self.addSwitch('s1')
 
         spine_switches = []
         leaf_switches = []
@@ -82,23 +82,23 @@ class Topology(Topo):
 
         for x in range(args.host):
             # hosts.append(net.addHost(f'h{x + 1}', ip=f'192.168.{x + 1}.11/24'))
-            hosts.append(net.addHost(f'h{x + 1}', ip=f'10.0.0.{index}/24'))
+            hosts.append(self.addHost(f'h{x + 1}', ip=f'10.0.0.{index}/24'))
             index += 1
-            host_links.append(net.addLink(hosts[x], s1))
+            host_links.append(self.addLink(hosts[x], s1))
 
         for x in range(args.spine):
-            spine_switches.append(net.addSwitch(f's{x + 2}'))
-            net.addLink(s1, spine_switches[x], bw=10, delay='10ms')
+            spine_switches.append(self.addSwitch(f's{x + 2}'))
+            self.addLink(s1, spine_switches[x], bw=10, delay='10ms')
 
         for x in range(args.leaf):
-            leaf_switches.append(net.addSwitch(f's{x + 2 + args.spine}'))
+            leaf_switches.append(self.addSwitch(f's{x + 2 + args.spine}'))
             # servers.append(net.addHost(f'h{x + 1 + args.host}', ip=f'10.0.{x + 1}.11/24'))
             for _ in range(2):
-                servers.append(net.addHost(f'h{x + 1 + args.host}', ip=f'10.0.0.{index}/24'))
+                servers.append(self.addHost(f'h{x + 1 + args.host}', ip=f'10.0.0.{index}/24'))
                 index += 1
-            server_links.append(net.addLink(servers[x], leaf_switches[x]))
+            server_links.append(self.addLink(servers[x], leaf_switches[x]))
             for spine in spine_switches:
-                net.addLink(spine, leaf_switches[x], bw=10, delay='10ms')
+                self.addLink(spine, leaf_switches[x], bw=10, delay='10ms')
 
 
 if __name__ == '__main__':
