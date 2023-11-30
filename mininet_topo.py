@@ -15,7 +15,7 @@ parser.add_argument('-ht', '--host', dest='host', default=3, type=int,
                     help='Number of hosts (default 3)')
 args = parser.parse_args()
 
-ryu_controller = RemoteController('ryu', ip='0.0.0.0', port=6633)
+ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
 net = Mininet(switch=OVSSwitch, link=TCLink, autoSetMacs=True, autoStaticArp=True)
 
 s1 = net.addSwitch('s1')
