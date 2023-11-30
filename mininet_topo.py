@@ -4,7 +4,7 @@ from mininet.net import Mininet
 from mininet.cli import CLI
 from mininet.node import RemoteController, OVSSwitch
 from mininet.link import TCLink
-
+from mininet.topolib import TreeTopo
 
 # parser = argparse.ArgumentParser()
 # parser.add_argument('-s', '--spine', dest='spine', default=2, type=int,
@@ -57,18 +57,20 @@ from mininet.link import TCLink
 # for server, link in zip(servers, server_links):
 #     server.setDefaultRoute(intf=link.intf1)
 
-ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
-net = Mininet(switch=OVSSwitch, link=TCLink)
+# ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
+# net = Mininet(switch=OVSSwitch, link=TCLink)
+#
+# net.addSwitch('s1', protocols='OpenFlow13')
+# net.addSwitch('s2', protocols='OpenFlow13')
+#
+# net.addHost('h1', ip='10.0.0.1/24')
+# net.addHost('h2', ip='10.0.0.2/24')
+#
+# net.addLink('h1', 's1', bw=10, delay='10ms')
+# net.addLink('s1', 's2', bw=10, delay='10ms')
+# net.addLink('s2', 'h2', bw=10, delay='10ms')
 
-net.addSwitch('s1', protocols='OpenFlow13')
-net.addSwitch('s2', protocols='OpenFlow13')
-
-net.addHost('h1', ip='10.0.0.1/24')
-net.addHost('h2', ip='10.0.0.2/24')
-
-net.addLink('h1', 's1', bw=10, delay='10ms')
-net.addLink('s1', 's2', bw=10, delay='10ms')
-net.addLink('s2', 'h2', bw=10, delay='10ms')
+net = Mininet(topo=TreeTopo(depth=3, fanout=3), controller='remote')
 
 net.start()
 
