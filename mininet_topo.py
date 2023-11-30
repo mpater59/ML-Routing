@@ -60,15 +60,15 @@ from mininet.topolib import TreeTopo
 ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
 net = Mininet(switch=OVSSwitch, link=TCLink, controller=ryu_controller)
 
-net.addSwitch('s1')
-net.addSwitch('s2')
+s1 = net.addSwitch('s1', protocols='OpenFlow13')
+s2 = net.addSwitch('s2', protocols='OpenFlow13')
 
-net.addHost('h1', ip='10.0.0.1/24')
-net.addHost('h2', ip='10.0.0.2/24')
+h1 = net.addHost('h1', ip='10.0.0.1/24')
+h2 = net.addHost('h2', ip='10.0.0.2/24')
 
-net.addLink('h1', 's1', bw=10, delay='10ms')
-net.addLink('s1', 's2', bw=10, delay='10ms')
-net.addLink('s2', 'h2', bw=10, delay='10ms')
+net.addLink(h1, s1, bw=10, delay='10ms')
+net.addLink(s1, s2, bw=10, delay='10ms')
+net.addLink(s2, h2, bw=10, delay='10ms')
 
 net.start()
 
