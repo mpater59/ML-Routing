@@ -60,21 +60,61 @@ from mininet.topolib import Topo
 
 class Topology(Topo):
     def build(self):
-        s1 = self.addSwitch('s1', protocols='OpenFlow13')
-        s2 = self.addSwitch('s2', protocols='OpenFlow13')
+        # s1 = self.addSwitch('s1', protocols='OpenFlow13')
+        # s2 = self.addSwitch('s2', protocols='OpenFlow13')
+        #
+        # h1 = self.addHost('h1', ip='10.0.0.1/24')
+        # h2 = self.addHost('h2', ip='10.0.0.2/24')
+        #
+        # self.addLink(h1, s1, bw=10, delay='10ms')
+        # self.addLink(s1, s2, bw=10, delay='10ms')
+        # self.addLink(s2, h2, bw=10, delay='10ms')
+        s1 = net.addSwitch('s1')
 
-        h1 = self.addHost('h1', ip='10.0.0.1/24')
-        h2 = self.addHost('h2', ip='10.0.0.2/24')
+        spine_switches = []
+        leaf_switches = []
+        servers = []
+        hosts = []
+        host_links = []
+        server_links = []
 
-        self.addLink(h1, s1, bw=10, delay='10ms')
-        self.addLink(s1, s2, bw=10, delay='10ms')
-        self.addLink(s2, h2, bw=10, delay='10ms')
+        index = 1
+
+        for x in range(args.host):
+            # hosts.append(net.addHost(f'h{x + 1}', ip=f'192.168.{x + 1}.11/24'))
+            hosts.append(net.addHost(f'h{x + 1}', ip=f'10.0.0.{index}/24'))
+            index += 1
+            host_links.append(net.addLink(hosts[x], s1))
+
+        for x in range(args.spine):
+            spine_switches.append(net.addSwitch(f's{x + 2}'))
+            net.addLink(s1, spine_switches[x], bw=10, delay='10ms')
+
+        for x in range(args.leaf):
+            leaf_switches.append(net.addSwitch(f's{x + 2 + args.spine}'))
+            # servers.append(net.addHost(f'h{x + 1 + args.host}', ip=f'10.0.{x + 1}.11/24'))
+            for _ in range(2):
+                servers.append(net.addHost(f'h{x + 1 + args.host}', ip=f'10.0.0.{index}/24'))
+                index += 1
+            server_links.append(net.addLink(servers[x], leaf_switches[x]))
+            for spine in spine_switches:
+                net.addLink(spine, leaf_switches[x], bw=10, delay='10ms')
 
 
-ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
-topo = Topology()
-net = Mininet(switch=OVSSwitch, link=TCLink, topo=topo, controller=ryu_controller)
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-s', '--spine', dest='spine', default=2, type=int,
+                        help='Number of spine switches (default 2)')
+    parser.add_argument('-l', '--leaf', dest='leaf', default=4, type=int,
+                        help='Number of leaf switches (default 4)')
+    parser.add_argument('-ht', '--host', dest='host', default=3, type=int,
+                        help='Number of hosts (default 3)')
+    args = parser.parse_args()
 
-net.start()
-CLI(net)
-net.stop()
+    ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
+    topo = Topology()
+    net = Mininet(switch=OVSSwitch, link=TCLink, topo=topo, controller=ryu_controller)
+
+    net.start()
+    CLI(net)
+    net.stop()
