@@ -70,7 +70,7 @@ ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
 # net.addLink('s1', 's2', bw=10, delay='10ms')
 # net.addLink('s2', 'h2', bw=10, delay='10ms')
 
-net = Mininet(topo=TreeTopo(depth=3, fanout=3), controller='remote')
+net = Mininet(topo=TreeTopo(depth=3, fanout=3), controller=ryu_controller)
 
 net.start()
 
