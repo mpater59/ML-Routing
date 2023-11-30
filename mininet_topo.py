@@ -70,6 +70,8 @@ net.addLink('h1', 's1', bw=10, delay='10ms')
 net.addLink('s1', 's2', bw=10, delay='10ms')
 net.addLink('s2', 'h2', bw=10, delay='10ms')
 
+net.start()
+
 CLI(net)
 
 net.stop()
