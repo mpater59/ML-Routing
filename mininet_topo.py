@@ -57,7 +57,7 @@ from mininet.topolib import TreeTopo
 # for server, link in zip(servers, server_links):
 #     server.setDefaultRoute(intf=link.intf1)
 
-# ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
+ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
 # net = Mininet(switch=OVSSwitch, link=TCLink)
 #
 # net.addSwitch('s1', protocols='OpenFlow13')
