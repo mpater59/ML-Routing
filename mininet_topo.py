@@ -70,7 +70,7 @@ class Topology(Topo):
         # self.addLink('s1', 's2', bw=10, delay='10ms')
         # self.addLink('s2', 'h2', bw=10, delay='10ms')
 
-        # s1 = self.addSwitch('s1')
+        s1 = self.addSwitch('s1')
 
         spine_switches = []
         leaf_switches = []
@@ -81,15 +81,15 @@ class Topology(Topo):
 
         index = 1
 
-        # for x in range(args.host):
-        #     # hosts.append(net.addHost(f'h{x + 1}', ip=f'192.168.{x + 1}.11/24'))
-        #     hosts.append(self.addHost(f'h{x + 1}', ip=f'10.0.0.{index}/24'))
-        #     index += 1
-        #     host_links.append(self.addLink(hosts[x], s1))
+        for x in range(args.host):
+            # hosts.append(net.addHost(f'h{x + 1}', ip=f'192.168.{x + 1}.11/24'))
+            hosts.append(self.addHost(f'h{x + 1}', ip=f'10.0.0.{index}/24'))
+            index += 1
+            host_links.append(self.addLink(hosts[x], s1))
 
         for x in range(args.spine):
             spine_switches.append(self.addSwitch(f's{x + 2}'))
-            # self.addLink(s1, spine_switches[x], bw=10, delay='10ms')
+            self.addLink(s1, spine_switches[x], bw=10, delay='10ms')
 
         for x in range(args.leaf):
             leaf_switches.append(self.addSwitch(f's{x + 2 + args.spine}'))
