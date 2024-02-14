@@ -39,16 +39,6 @@ class Topology(Topo):
             for spine in spine_switches:
                 self.addLink(spine, leaf_switches[x], bw=10, delay='10ms')
 
-        for host in net.hosts:
-            host.cmd("sysctl -w net.ipv6.conf.all.disable_ipv6=1")
-            host.cmd("sysctl -w net.ipv6.conf.default.disable_ipv6=1")
-            host.cmd("sysctl -w net.ipv6.conf.lo.disable_ipv6=1")
-
-        for switch in net.switches:
-            switch.cmd("sysctl -w net.ipv6.conf.all.disable_ipv6=1")
-            switch.cmd("sysctl -w net.ipv6.conf.default.disable_ipv6=1")
-            switch.cmd("sysctl -w net.ipv6.conf.lo.disable_ipv6=1")
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -63,6 +53,16 @@ if __name__ == '__main__':
     ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
     topo = Topology()
     net = Mininet(switch=OVSSwitch, link=TCLink, topo=topo, controller=ryu_controller)
+
+    for host in net.hosts:
+        host.cmd("sysctl -w net.ipv6.conf.all.disable_ipv6=1")
+        host.cmd("sysctl -w net.ipv6.conf.default.disable_ipv6=1")
+        host.cmd("sysctl -w net.ipv6.conf.lo.disable_ipv6=1")
+
+    for switch in net.switches:
+        switch.cmd("sysctl -w net.ipv6.conf.all.disable_ipv6=1")
+        switch.cmd("sysctl -w net.ipv6.conf.default.disable_ipv6=1")
+        switch.cmd("sysctl -w net.ipv6.conf.lo.disable_ipv6=1")
 
     net.start()
     CLI(net)
