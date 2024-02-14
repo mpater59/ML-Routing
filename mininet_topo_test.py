@@ -52,7 +52,7 @@ if __name__ == '__main__':
 
     ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
     topo = Topology()
-    net = Mininet(switch=OVSSwitch, link=TCLink, topo=topo, controller=ryu_controller)
+    net = Mininet(switch=OVSSwitch, link=TCLink, topo=topo, controller=ryu_controller, autoSetMacs=True)
 
     for host in net.hosts:
         host.cmd("sysctl -w net.ipv6.conf.all.disable_ipv6=1")
