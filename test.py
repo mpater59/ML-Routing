@@ -23,13 +23,12 @@ def create_topology():
     net.addLink(h4, s2)
     net.addLink(s1, s2)
 
+    net.start()
     s1.cmd('ovs-vsctl add-port s1 vxlan1 -- set interface vxlan1 type=vxlan options:remote_ip=10.0.0.3 options:key=100')
     s1.cmd('ovs-vsctl add-port s1 vxlan2 -- set interface vxlan2 type=vxlan options:remote_ip=10.0.0.3 options:key=200')
 
     s2.cmd('ovs-vsctl add-port s2 vxlan1 -- set interface vxlan1 type=vxlan options:remote_ip=10.0.0.1 options:key=100')
     s2.cmd('ovs-vsctl add-port s2 vxlan2 -- set interface vxlan2 type=vxlan options:remote_ip=10.0.0.1 options:key=200')
-
-    net.start()
     CLI(net)
     net.stop()
 
