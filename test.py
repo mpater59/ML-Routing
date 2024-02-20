@@ -17,20 +17,15 @@ def create_topology():
     s1 = net.addSwitch('s1')
     s2 = net.addSwitch('s2')
 
-    # net.addLink(h1, s1)
-    net.addLink(h1, s1, intfName1='h1-eth0', params1={'key': '100'})
+    net.addLink(h1, s1)
     net.addLink(h2, s1)
     net.addLink(h3, s2)
     net.addLink(h4, s2)
-    # net.addLink(s1, s2)
-    net.addLink(s1, s2, cls=None, params1={'key': '100', 'dst_ip': '192.168.0.2'}, params2={'key': '100', 'dst_ip': '192.168.0.1'})
+    net.addLink(s1, s2)
 
     net.start()
-    # s1.cmd('ovs-vsctl add-port s1 s1-vxlan1 -- set interface s1-vxlan1 type=vxlan options:remote_ip=10.1.1.3 options:key=100')
-    # s1.cmd('ovs-vsctl add-port s1 s1-vxlan2 -- set interface s1-vxlan2 type=vxlan options:remote_ip=10.1.1.3 options:key=200')
-    #
-    # s2.cmd('ovs-vsctl add-port s2 s2-vxlan1 -- set interface s2-vxlan1 type=vxlan options:remote_ip=10.1.1.1 options:key=100')
-    # s2.cmd('ovs-vsctl add-port s2 s2-vxlan2 -- set interface s2-vxlan2 type=vxlan options:remote_ip=10.1.1.1 options:key=200')
+    s1.cmd('ovs-vsctl add-port s1 s1-vxlan1 -- set interface s1-vxlan1 type=vxlan options:remote_ip=flow options:key=flow')
+    s2.cmd('ovs-vsctl add-port s2 s2-vxlan1 -- set interface s2-vxlan1 type=vxlan options:remote_ip=flow options:key=flow')
     CLI(net)
     net.stop()
 
