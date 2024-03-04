@@ -112,7 +112,7 @@ class RestController(ControllerBase):
         print(data)
         print(dpid)
         print(req)
-        if 'type' in data and 'id' in data:
+        if 'type' in data:
             if 'leaf' == data['type']:
                 self._add_leaf(dpid)
             elif 'spine' == data['type']:
