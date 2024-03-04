@@ -64,7 +64,8 @@ class RestController(ControllerBase):
     def __init__(self, req, link, data, **config):
         super(RestController, self).__init__(req, link, data, **config)
         self.rest_controller = data['rest_controller']
-        print(data)
+        self.dpset = self.rest_controller['dpset']
+        self.waiters = self.rest_controller['waiters']
         # self.dpset = data['dpset']
         # self.waiters = data['waiters']
 
