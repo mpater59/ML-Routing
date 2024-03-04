@@ -104,25 +104,26 @@ class RestController(ControllerBase):
     #     elif switch_id in spine_switches:
     #         Controller._del_spine(switch_id)
 
-    @route('set_switch', '/switch/{switch_id}', methods=['POST'],
-           requirements={'switch_id': dpid_lib.DPID_PATTERN})
-    def set_switch(self, switch_id, req, **kwargs):
+    @route('set_switch', '/switch/{dpid}', methods=['POST'],
+           requirements={'dpid': dpid_lib.DPID_PATTERN})
+    def set_switch(self, req, **kwargs):
         data = json.loads(req.body)
+        dpid = dpid_lib.str_to_dpid(kwargs['dpid'])
         print(data)
-        print(switch_id)
+        print(dpid)
         print(req)
         if 'type' in data and 'id' in data:
             if 'leaf' == data['type']:
-                self._add_leaf(switch_id)
+                self._add_leaf(dpid)
             elif 'spine' == data['type']:
-                RestController._add_spine(switch_id)
+                RestController._add_spine(dpid)
         print(leaf_switches)
         print(spine_switches)
 
-    def _add_leaf(self, switch_id):
-        if switch_id not in leaf_switches:
+    def _add_leaf(self, dpid):
+        if dpid not in leaf_switches:
             leaf_id = len(leaf_switches) + 1
-            leaf_switches[switch_id] = {'id': leaf_id}
+            leaf_switches[dpid] = {'id': leaf_id}
             # for spine_switch in spine_switches:
             #     self._add_flow_spine(spine_switch, leaf_id, f'{leaf_id}.{leaf_id}.{leaf_id}.0/24')
 
