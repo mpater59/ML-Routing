@@ -103,7 +103,8 @@ class Controller(ControllerBase):
     #     elif switch_id in spine_switches:
     #         Controller._del_spine(switch_id)
 
-    @route('set_switch', '/switch/{switch_id}', methods=['POST'])
+    @route('set_switch', '/switch/{switch_id}', methods=['POST'],
+           requirements={'switch_id': dpid_lib.DPID_PATTERN})
     def set_switch(self, switch_id, req, **kwargs):
         data = json.loads(req.body)
         print(data)
