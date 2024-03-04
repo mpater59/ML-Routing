@@ -103,11 +103,12 @@ class Controller(ControllerBase):
     #     elif switch_id in spine_switches:
     #         Controller._del_spine(switch_id)
 
-    route_name = 'controller'
-
-    @route(route_name, '/switch/{switch_id}', methods=['POST'])
+    @route('set_switch', '/switch/{switch_id}', methods=['POST'])
     def set_switch(self, switch_id, req, **kwargs):
         data = json.loads(req.body)
+        print(data)
+        print(switch_id)
+        print(req)
         if 'type' in data and 'id' in data:
             if 'leaf' == data['type']:
                 self._add_leaf(switch_id)
@@ -123,6 +124,8 @@ class Controller(ControllerBase):
 
     def _add_flow_spine(self, switch_id, output_port, network_route):
         dp = self.dpset.get(switch_id)
+        print(dp)
+        print(dp.id)
         ofproto = dp.ofproto
         parser = dp.ofproto_parser
 
