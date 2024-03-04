@@ -32,6 +32,8 @@ class NotFoundError(RyuException):
 def rest_command(func):
     def _wrapper(*args, **kwargs):
         try:
+            print(*args)
+            print(**kwargs)
             msg = func(*args, **kwargs)
             return Response(content_type='application/json',
                             body=json.dumps(msg))
@@ -61,7 +63,6 @@ class Controller(ControllerBase):
 
     def __init__(self, req, link, data, **config):
         super(Controller, self).__init__(req, link, data, **config)
-        print(data)
         self.dpset = data['dpset']
         self.waiters = data['waiters']
 
