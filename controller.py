@@ -153,7 +153,7 @@ class RestControllerAPI(app_manager.RyuApp):
         self.data['waiters'] = self.waiters
 
         mapper = wsgi.mapper
-        wsgi.registory['SwitchController'] = self.data
+        wsgi.registory['Controller'] = self.data
 
         # REST functions
         path = '/switch/{switch_id}'
@@ -194,10 +194,10 @@ class RestControllerAPI(app_manager.RyuApp):
         #                action='del_vxlan',
         #                conditions=dict(method=['DELETE']))
 
-    @set_ev_cls(dpset.EventDP, dpset.DPSET_EV_DISPATCHER)
-    def datapath_handler(self, ev):
-        if ev.enter:
-            Controller.register_switch(ev.dp)
+    # @set_ev_cls(dpset.EventDP, dpset.DPSET_EV_DISPATCHER)
+    # def datapath_handler(self, ev):
+    #     if ev.enter:
+    #         Controller.register_switch(ev.dp)
 
 
 
