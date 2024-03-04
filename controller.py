@@ -1,122 +1,193 @@
-# Copyright (C) 2011 Nippon Telegraph and Telephone Corporation.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-# implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+import json
+import logging
 
 from ryu.base import app_manager
-from ryu.controller import ofp_event
-from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER
-from ryu.controller.handler import set_ev_cls
 from ryu.ofproto import ofproto_v1_3
+from ryu.lib import ofctl_v1_3
+from ryu.app.wsgi import ControllerBase
+from ryu.lib import dpid as dpid_lib
+from ryu.controller.handler import set_ev_cls
+from ryu.controller import ofp_event, dpset
+from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER
 from ryu.lib.packet import packet
 from ryu.lib.packet import ethernet
 from ryu.lib.packet import ether_types
+from ryu.app.wsgi import WSGIApplication
+from ryu.app.wsgi import Response
+from ryu.exception import OFPUnknownVersion
+from ryu.lib import hub
+from ryu.exception import RyuException
 
 
-class SimpleSwitch13(app_manager.RyuApp):
+leaf_switches = {}
+spine_switches = []
+vxlan = {}
+ofctl = ofctl_v1_3
+
+
+class NotFoundError(RyuException):
+    message = 'Switch is not connected: switch_id=%(switch_id)s'
+
+
+def rest_command(func):
+    def _wrapper(*args, **kwargs):
+        try:
+            msg = func(*args, **kwargs)
+            return Response(content_type='application/json',
+                            body=json.dumps(msg))
+
+        except SyntaxError as e:
+            status = 400
+            details = e.msg
+        except (ValueError, NameError) as e:
+            status = 400
+            details = e.message
+
+        except NotFoundError as msg:
+            status = 404
+            details = str(msg)
+
+        msg = {'result': 'failure',
+               'details': details}
+        return Response(status=status, body=json.dumps(msg))
+
+    return _wrapper
+
+
+class Controller(ControllerBase):
+
+    # _LOGGER = None
+
+    def __init__(self, req, link, data, **config):
+        super(Controller, self).__init__(req, link, data, **config)
+        self.dpset = data['dpset']
+        self.waiters = data['waiters']
+
+    # @classmethod
+    # def set_logger(cls, logger):
+    #     cls._LOGGER = logger
+    #     cls._LOGGER.propagate = False
+    #     hdlr = logging.StreamHandler()
+    #     FORMAT = '[%(levelname)s] switch_id=%(sw_id)s: %(message)s'
+    #     hdlr.setFormatter(logging.Formatter(FORMAT))
+    #     cls._LOGGER.addHandler(hdlr)
+
+    # @classmethod
+    # def packet_in_handler(cls, msg):
+    #     dp_id = msg.datapath.id
+    #     if dp_id in cls._SWITCH_LIST:
+    #         switch = cls._SWITCH_LIST[dp_id]
+    #         switch.packet_in_handler(msg)
+
+    @rest_command
+    def set_switch(self, switch_id, req, **kwargs):
+        data = json.loads(req.body)
+        if 'type' in data and 'id' in data:
+            if 'leaf' == data['type']:
+                Controller._add_leaf(switch_id)
+            elif 'spine' == data['type']:
+                Controller._add_spine(switch_id)
+
+    # @rest_command
+    # def del_switch(self, switch_id, req, **kwargs):
+    #     if switch_id in leaf_switches:
+    #         Controller._del_leaf(switch_id)
+    #     elif switch_id in spine_switches:
+    #         Controller._del_spine(switch_id)
+
+    def _add_leaf(self, switch_id):
+        if switch_id not in leaf_switches:
+            leaf_id = len(leaf_switches) + 1
+            leaf_switches[switch_id] = {'id': leaf_id}
+            for spine_switch in spine_switches:
+                self._add_flow_spine(spine_switch, leaf_id, f'{leaf_id}.{leaf_id}.{leaf_id}.0/24')
+
+    def _add_flow_spine(self, switch_id, output_port, network_route):
+        dp = self.dpset.get(switch_id)
+        ofproto = dp.ofproto
+        parser = dp.ofproto_parser
+
+        match = parser.OFPMatch(ipv4_dst=network_route)
+        actions = [parser.OFPActionOutput(output_port)]
+        inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
+        mod = parser.OFPFlowMod(datapath=dp, match=match, command=ofproto.OFPFC_ADD, instructions=inst)
+        dp.send_msg(mod)
+
+    # @staticmethod
+    # def _del_leaf(switch_id):
+    #     pass
+
+    @staticmethod
+    def _add_spine(switch_id):
+        if switch_id not in spine_switches:
+            spine_switches.append(switch_id)
+
+    # @staticmethod
+    # def _del_spine(switch_id):
+    #     pass
+
+
+class RestControllerAPI(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
 
+    _CONTEXTS = {'dpset': dpset.DPSet,
+                 'wsgi': WSGIApplication}
+
     def __init__(self, *args, **kwargs):
-        super(SimpleSwitch13, self).__init__(*args, **kwargs)
-        self.mac_to_port = {}
+        super(RestControllerAPI, self).__init__(*args, **kwargs)
 
-    @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
-    def switch_features_handler(self, ev):
-        datapath = ev.msg.datapath
-        ofproto = datapath.ofproto
-        parser = datapath.ofproto_parser
+        # Controller.set_logger(self.logger)
 
-        # install table-miss flow entry
-        #
-        # We specify NO BUFFER to max_len of the output action due to
-        # OVS bug. At this moment, if we specify a lesser number, e.g.,
-        # 128, OVS will send Packet-In with invalid buffer_id and
-        # truncated packet data. In that case, we cannot output packets
-        # correctly.  The bug has been fixed in OVS v2.1.0.
-        match = parser.OFPMatch()
-        actions = [parser.OFPActionOutput(ofproto.OFPP_CONTROLLER,
-                                          ofproto.OFPCML_NO_BUFFER)]
-        self.add_flow(datapath, 0, match, actions)
+        self.dpset = kwargs['dpset']
+        wsgi = kwargs['wsgi']
+        self.waiters = {}
+        self.data = {}
+        self.data['dpset'] = self.dpset
+        self.data['waiters'] = self.waiters
 
-    def add_flow(self, datapath, priority, match, actions, buffer_id=None):
-        ofproto = datapath.ofproto
-        parser = datapath.ofproto_parser
+        mapper = wsgi.mapper
+        wsgi.registory['SwitchController'] = self.data
 
-        inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS,
-                                             actions)]
-        if buffer_id:
-            mod = parser.OFPFlowMod(datapath=datapath, buffer_id=buffer_id,
-                                    priority=priority, match=match,
-                                    instructions=inst)
-        else:
-            mod = parser.OFPFlowMod(datapath=datapath, priority=priority,
-                                    match=match, instructions=inst)
-        datapath.send_msg(mod)
+        # REST functions
+        path = '/switch/{switch_id}'
+        # uri = path + '/data'
+        # mapper.connect('switch', uri, controller=Controller,
+        #                action='get_data',
+        #                conditions=dict(method=['GET']))
+        # uri = path + '/flows'
+        # mapper.connect('switch', uri, controller=Controller,
+        #                action='get_flows',
+        #                conditions=dict(method=['GET']))
+        # uri = path + '/stats'
+        # mapper.connect('switch', uri, controller=Controller,
+        #                action='get_stats',
+        #                conditions=dict(method=['GET']))
+        uri = path
+        mapper.connect('switch', uri, controller=Controller,
+                       action='get_switch',
+                       conditions=dict(method=['GET']))
+        uri = path + '/vxlan'
+        mapper.connect('switch', uri, controller=Controller,
+                       action='get_vxlan',
+                       conditions=dict(method=['GET']))
+        uri = path
+        mapper.connect('switch', uri, controller=Controller,
+                       action='set_switch',
+                       conditions=dict(method=['POST']))
+        uri = path + '/vxlan'
+        mapper.connect('switch', uri, controller=Controller,
+                       action='set_vxlan',
+                       conditions=dict(method=['POST']))
+        # uri = path
+        # mapper.connect('switch', uri, controller=Controller,
+        #                action='del_switch',
+        #                conditions=dict(method=['DELETE']))
+        # uri = path + '/vxlan'
+        # mapper.connect('switch', uri, controller=Controller,
+        #                action='del_vxlan',
+        #                conditions=dict(method=['DELETE']))
 
-    @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
-    def _packet_in_handler(self, ev):
-        # If you hit this you might want to increase
-        # the "miss_send_length" of your switch
-        if ev.msg.msg_len < ev.msg.total_len:
-            self.logger.debug("packet truncated: only %s of %s bytes",
-                              ev.msg.msg_len, ev.msg.total_len)
-        msg = ev.msg
-        datapath = msg.datapath
-        ofproto = datapath.ofproto
-        parser = datapath.ofproto_parser
-        in_port = msg.match['in_port']
 
-        pkt = packet.Packet(msg.data)
-        eth = pkt.get_protocols(ethernet.ethernet)[0]
 
-        if eth.ethertype == ether_types.ETH_TYPE_LLDP:
-            # ignore lldp packet
-            return
-        if eth.ethertype == ether_types.ETH_TYPE_IPV6:
-            # ignore ipv6 packet
-            return
-        dst = eth.dst
-        src = eth.src
 
-        dpid = format(datapath.id, "d").zfill(16)
-        self.mac_to_port.setdefault(dpid, {})
 
-        self.logger.info("packet in %s %s %s %s", dpid, src, dst, in_port)
-
-        # learn a mac address to avoid FLOOD next time.
-        self.mac_to_port[dpid][src] = in_port
-
-        if dst in self.mac_to_port[dpid]:
-            out_port = self.mac_to_port[dpid][dst]
-        else:
-            out_port = ofproto.OFPP_FLOOD
-
-        actions = [parser.OFPActionOutput(out_port)]
-
-        # install a flow to avoid packet_in next time
-        if out_port != ofproto.OFPP_FLOOD:
-            match = parser.OFPMatch(in_port=in_port, eth_dst=dst, eth_src=src)
-            # verify if we have a valid buffer_id, if yes avoid to send both
-            # flow_mod & packet_out
-            if msg.buffer_id != ofproto.OFP_NO_BUFFER:
-                self.add_flow(datapath, 1, match, actions, msg.buffer_id)
-                return
-            else:
-                self.add_flow(datapath, 1, match, actions)
-        data = None
-        if msg.buffer_id == ofproto.OFP_NO_BUFFER:
-            data = msg.data
-
-        out = parser.OFPPacketOut(datapath=datapath, buffer_id=msg.buffer_id,
-                                  in_port=in_port, actions=actions, data=data)
-        datapath.send_msg(out)
