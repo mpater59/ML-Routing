@@ -56,13 +56,13 @@ def rest_command(func):
     return _wrapper
 
 
-class Controller(ControllerBase):
+class RestController(ControllerBase):
 
     # _LOGGER = None
     _SWITCHES = []
 
     def __init__(self, req, link, data, **config):
-        super(Controller, self).__init__(req, link, data, **config)
+        super(RestController, self).__init__(req, link, data, **config)
         self.dpset = data['dpset']
         self.waiters = data['waiters']
 
@@ -114,7 +114,7 @@ class Controller(ControllerBase):
             if 'leaf' == data['type']:
                 self._add_leaf(switch_id)
             elif 'spine' == data['type']:
-                Controller._add_spine(switch_id)
+                RestController._add_spine(switch_id)
 
     def _add_leaf(self, switch_id):
         if switch_id not in leaf_switches:
@@ -170,7 +170,7 @@ class RestControllerAPI(app_manager.RyuApp):
 
         # mapper = wsgi.mapper
         # wsgi.registory['Controller'] = self.data
-        wsgi.register(RestControllerAPI, {'controller': self})
+        wsgi.register(RestController, {'rest_controller': self})
 
         # # REST functions
         # path = '/switch/{switch_id}'
