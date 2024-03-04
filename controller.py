@@ -109,45 +109,46 @@ class RestController(ControllerBase):
     def set_switch(self, req, **kwargs):
         data = json.loads(req.body)
         dpid = dpid_lib.str_to_dpid(kwargs['dpid'])
-        print(data)
-        print(dpid)
-        print(req)
         if 'type' in data:
             if 'leaf' == data['type']:
                 self._add_leaf(dpid)
+                print(leaf_switches)
             elif 'spine' == data['type']:
                 RestController._add_spine(dpid)
-        print(leaf_switches)
-        print(spine_switches)
+                print(spine_switches)
 
     def _add_leaf(self, dpid):
         if dpid not in leaf_switches:
             leaf_id = len(leaf_switches) + 1
             leaf_switches[dpid] = {'id': leaf_id}
-            # for spine_switch in spine_switches:
-            #     self._add_flow_spine(spine_switch, leaf_id, f'{leaf_id}.{leaf_id}.{leaf_id}.0/24')
-
-    # def _add_flow_spine(self, switch_id, output_port, network_route):
-    #     dp = self.dpset.get(switch_id)
-    #     print(dp)
-    #     print(dp.id)
-    #     ofproto = dp.ofproto
-    #     parser = dp.ofproto_parser
-    #
-    #     match = parser.OFPMatch(ipv4_dst=network_route)
-    #     actions = [parser.OFPActionOutput(output_port)]
-    #     inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
-    #     mod = parser.OFPFlowMod(datapath=dp, match=match, command=ofproto.OFPFC_ADD, instructions=inst)
-    #     dp.send_msg(mod)
-
-    # @staticmethod
-    # def _del_leaf(switch_id):
-    #     pass
+            for spine_switch in spine_switches:
+                self._add_flow_spine(spine_switch, leaf_id, f'{leaf_id}.{leaf_id}.{leaf_id}.0/24')
 
     @staticmethod
     def _add_spine(switch_id):
         if switch_id not in spine_switches:
             spine_switches.append(switch_id)
+
+    def _add_flow_spine(self, dpid, output_port, network_route):
+        print(self.rest_controller)
+        exit()
+        dp = self.dpset.get(dpid)
+        print(dp)
+        print(dp.id)
+        ofproto = dp.ofproto
+        parser = dp.ofproto_parser
+
+        match = parser.OFPMatch(ipv4_dst=network_route)
+        actions = [parser.OFPActionOutput(output_port)]
+        inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
+        mod = parser.OFPFlowMod(datapath=dp, match=match, command=ofproto.OFPFC_ADD, instructions=inst)
+        dp.send_msg(mod)
+
+    # @staticmethod
+    # def _del_leaf(switch_id):
+    #     pass
+
+
 
     # @staticmethod
     # def _del_spine(switch_id):
