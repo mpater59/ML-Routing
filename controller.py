@@ -12,7 +12,7 @@ from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER
 from ryu.lib.packet import packet
 from ryu.lib.packet import ethernet
 from ryu.lib.packet import ether_types
-from ryu.app.wsgi import WSGIApplication
+from ryu.app.wsgi import WSGIApplication, ControllerBase, route
 from ryu.app.wsgi import Response
 from ryu.exception import OFPUnknownVersion
 from ryu.lib import hub
@@ -87,14 +87,14 @@ class Controller(ControllerBase):
     #         switch = cls._SWITCH_LIST[dp_id]
     #         switch.packet_in_handler(msg)
 
-    @rest_command
-    def set_switch(self, switch_id, req, **kwargs):
-        data = json.loads(req.body)
-        if 'type' in data and 'id' in data:
-            if 'leaf' == data['type']:
-                self._add_leaf(switch_id)
-            elif 'spine' == data['type']:
-                Controller._add_spine(switch_id)
+    # @rest_command
+    # def set_switch(self, switch_id, req, **kwargs):
+    #     data = json.loads(req.body)
+    #     if 'type' in data and 'id' in data:
+    #         if 'leaf' == data['type']:
+    #             self._add_leaf(switch_id)
+    #         elif 'spine' == data['type']:
+    #             Controller._add_spine(switch_id)
 
     # @rest_command
     # def del_switch(self, switch_id, req, **kwargs):
@@ -102,6 +102,17 @@ class Controller(ControllerBase):
     #         Controller._del_leaf(switch_id)
     #     elif switch_id in spine_switches:
     #         Controller._del_spine(switch_id)
+
+    route_name = 'controller'
+
+    @route(route_name, '/switch/{switch_id}', methods=['POST'])
+    def set_switch(self, switch_id, req, **kwargs):
+        data = json.loads(req.body)
+        if 'type' in data and 'id' in data:
+            if 'leaf' == data['type']:
+                self._add_leaf(switch_id)
+            elif 'spine' == data['type']:
+                Controller._add_spine(switch_id)
 
     def _add_leaf(self, switch_id):
         if switch_id not in leaf_switches:
@@ -153,47 +164,48 @@ class RestControllerAPI(app_manager.RyuApp):
         self.data['dpset'] = self.dpset
         self.data['waiters'] = self.waiters
 
-        mapper = wsgi.mapper
-        wsgi.registory['Controller'] = self.data
+        # mapper = wsgi.mapper
+        # wsgi.registory['Controller'] = self.data
+        wsgi.register(RestControllerAPI, {'controller': self})
 
-        # REST functions
-        path = '/switch/{switch_id}'
-        # uri = path + '/data'
-        # mapper.connect('switch', uri, controller=Controller,
-        #                action='get_data',
-        #                conditions=dict(method=['GET']))
-        # uri = path + '/flows'
-        # mapper.connect('switch', uri, controller=Controller,
-        #                action='get_flows',
-        #                conditions=dict(method=['GET']))
-        # uri = path + '/stats'
-        # mapper.connect('switch', uri, controller=Controller,
-        #                action='get_stats',
-        #                conditions=dict(method=['GET']))
-        uri = path
-        mapper.connect('switch', uri, controller=Controller,
-                       action='get_switch',
-                       conditions=dict(method=['GET']))
-        uri = path + '/vxlan'
-        mapper.connect('switch', uri, controller=Controller,
-                       action='get_vxlan',
-                       conditions=dict(method=['GET']))
-        uri = path
-        mapper.connect('switch', uri, controller=Controller,
-                       action='set_switch',
-                       conditions=dict(method=['POST']))
-        uri = path + '/vxlan'
-        mapper.connect('switch', uri, controller=Controller,
-                       action='set_vxlan',
-                       conditions=dict(method=['POST']))
+        # # REST functions
+        # path = '/switch/{switch_id}'
+        # # uri = path + '/data'
+        # # mapper.connect('switch', uri, controller=Controller,
+        # #                action='get_data',
+        # #                conditions=dict(method=['GET']))
+        # # uri = path + '/flows'
+        # # mapper.connect('switch', uri, controller=Controller,
+        # #                action='get_flows',
+        # #                conditions=dict(method=['GET']))
+        # # uri = path + '/stats'
+        # # mapper.connect('switch', uri, controller=Controller,
+        # #                action='get_stats',
+        # #                conditions=dict(method=['GET']))
         # uri = path
         # mapper.connect('switch', uri, controller=Controller,
-        #                action='del_switch',
-        #                conditions=dict(method=['DELETE']))
+        #                action='get_switch',
+        #                conditions=dict(method=['GET']))
         # uri = path + '/vxlan'
         # mapper.connect('switch', uri, controller=Controller,
-        #                action='del_vxlan',
-        #                conditions=dict(method=['DELETE']))
+        #                action='get_vxlan',
+        #                conditions=dict(method=['GET']))
+        # uri = path
+        # mapper.connect('switch', uri, controller=Controller,
+        #                action='set_switch',
+        #                conditions=dict(method=['POST']))
+        # uri = path + '/vxlan'
+        # mapper.connect('switch', uri, controller=Controller,
+        #                action='set_vxlan',
+        #                conditions=dict(method=['POST']))
+        # # uri = path
+        # # mapper.connect('switch', uri, controller=Controller,
+        # #                action='del_switch',
+        # #                conditions=dict(method=['DELETE']))
+        # # uri = path + '/vxlan'
+        # # mapper.connect('switch', uri, controller=Controller,
+        # #                action='del_vxlan',
+        # #                conditions=dict(method=['DELETE']))
 
     # @set_ev_cls(dpset.EventDP, dpset.DPSET_EV_DISPATCHER)
     # def datapath_handler(self, ev):
