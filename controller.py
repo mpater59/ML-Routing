@@ -63,13 +63,14 @@ class RestController(ControllerBase):
 
     def __init__(self, req, link, data, **config):
         super(RestController, self).__init__(req, link, data, **config)
-        self.dpset = data['dpset']
-        self.waiters = data['waiters']
+        self.rest_controller = data['rest_controller']
+        # self.dpset = data['dpset']
+        # self.waiters = data['waiters']
 
-    @classmethod
-    def register_switch(cls, dp):
-        if dp not in cls._SWITCHES:
-            cls._SWITCHES.append(dp)
+    # @classmethod
+    # def register_switch(cls, dp):
+    #     if dp not in cls._SWITCHES:
+    #         cls._SWITCHES.append(dp)
 
     # @classmethod
     # def set_logger(cls, logger):
@@ -115,26 +116,28 @@ class RestController(ControllerBase):
                 self._add_leaf(switch_id)
             elif 'spine' == data['type']:
                 RestController._add_spine(switch_id)
+        print(leaf_switches)
+        print(spine_switches)
 
     def _add_leaf(self, switch_id):
         if switch_id not in leaf_switches:
             leaf_id = len(leaf_switches) + 1
             leaf_switches[switch_id] = {'id': leaf_id}
-            for spine_switch in spine_switches:
-                self._add_flow_spine(spine_switch, leaf_id, f'{leaf_id}.{leaf_id}.{leaf_id}.0/24')
+            # for spine_switch in spine_switches:
+            #     self._add_flow_spine(spine_switch, leaf_id, f'{leaf_id}.{leaf_id}.{leaf_id}.0/24')
 
-    def _add_flow_spine(self, switch_id, output_port, network_route):
-        dp = self.dpset.get(switch_id)
-        print(dp)
-        print(dp.id)
-        ofproto = dp.ofproto
-        parser = dp.ofproto_parser
-
-        match = parser.OFPMatch(ipv4_dst=network_route)
-        actions = [parser.OFPActionOutput(output_port)]
-        inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
-        mod = parser.OFPFlowMod(datapath=dp, match=match, command=ofproto.OFPFC_ADD, instructions=inst)
-        dp.send_msg(mod)
+    # def _add_flow_spine(self, switch_id, output_port, network_route):
+    #     dp = self.dpset.get(switch_id)
+    #     print(dp)
+    #     print(dp.id)
+    #     ofproto = dp.ofproto
+    #     parser = dp.ofproto_parser
+    #
+    #     match = parser.OFPMatch(ipv4_dst=network_route)
+    #     actions = [parser.OFPActionOutput(output_port)]
+    #     inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
+    #     mod = parser.OFPFlowMod(datapath=dp, match=match, command=ofproto.OFPFC_ADD, instructions=inst)
+    #     dp.send_msg(mod)
 
     # @staticmethod
     # def _del_leaf(switch_id):
