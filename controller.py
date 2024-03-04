@@ -57,11 +57,17 @@ def rest_command(func):
 class Controller(ControllerBase):
 
     # _LOGGER = None
+    _SWITCHES = []
 
     def __init__(self, req, link, data, **config):
         super(Controller, self).__init__(req, link, data, **config)
         self.dpset = data['dpset']
         self.waiters = data['waiters']
+
+    @classmethod
+    def register_switch(cls, dp):
+        if dp not in cls._SWITCHES:
+            cls._SWITCHES.append(dp)
 
     # @classmethod
     # def set_logger(cls, logger):
@@ -187,7 +193,10 @@ class RestControllerAPI(app_manager.RyuApp):
         #                action='del_vxlan',
         #                conditions=dict(method=['DELETE']))
 
-
+    @set_ev_cls(dpset.EventDP, dpset.DPSET_EV_DISPATCHER)
+    def datapath_handler(self, ev):
+        if ev.enter:
+            Controller.register_switch(ev.dp)
 
 
 
