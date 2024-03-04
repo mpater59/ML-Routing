@@ -84,7 +84,7 @@ class Controller(ControllerBase):
         data = json.loads(req.body)
         if 'type' in data and 'id' in data:
             if 'leaf' == data['type']:
-                Controller._add_leaf(switch_id)
+                self._add_leaf(switch_id)
             elif 'spine' == data['type']:
                 Controller._add_spine(switch_id)
 
