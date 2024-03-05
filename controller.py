@@ -218,8 +218,8 @@ class RestControllerAPI(app_manager.RyuApp):
                 leaf_id = leaf_switches[switch['id']]['id']
 
                 match = parser.OFPMatch(eth_type=0x0800, in_port=in_port, eth_dst=eth_dst)
-                actions = [parser.OFPActionOutput(port=1),
-                           parser.OFPActionSetField(ipv4_dst=f'{leaf_id}.{leaf_id}.0.{vni}')]
+                actions = [parser.OFPActionSetField(ipv4_dst=f'{leaf_id}.{leaf_id}.0.{vni}'),
+                           parser.OFPActionOutput(port=1)]
                 inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
                 mod = parser.OFPFlowMod(datapath=dp, priority=100, match=match, instructions=inst,
                                         command=ofproto.OFPFC_ADD)
@@ -232,8 +232,8 @@ class RestControllerAPI(app_manager.RyuApp):
 
                 port = switch['port']
                 match = parser.OFPMatch(eth_type=0x0800, ipv4_dst=f'{leaf_id}.{leaf_id}.0.{vni}')
-                actions = [parser.OFPActionOutput(port=port),
-                           parser.OFPActionSetField(ipv4_dst=ip_dst)]
+                actions = [parser.OFPActionSetField(ipv4_dst=ip_dst),
+                           parser.OFPActionOutput(port=port)]
                 inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
                 mod = parser.OFPFlowMod(datapath=dp, priority=100, match=match, instructions=inst,
                                         command=ofproto.OFPFC_ADD)
@@ -246,8 +246,8 @@ class RestControllerAPI(app_manager.RyuApp):
                 leaf_id = leaf_switches[switch['id']]['id']
 
                 pkt.serialize()
-                actions = [parser.OFPActionOutput(port=1),
-                           parser.OFPActionSetField(ipv4_dst=f'{leaf_id}.{leaf_id}.0.{vni}')]
+                actions = [parser.OFPActionSetField(ipv4_dst=f'{leaf_id}.{leaf_id}.0.{vni}'),
+                           parser.OFPActionOutput(port=1)]
                 req = parser.OFPPacketOut(datapath=dp, in_port=ofproto.OFPP_CONTROLLER, actions=actions, data=pkt,
                                           buffer_id=ofproto.OFP_NO_BUFFER)
                 dp.send_msg(req)
