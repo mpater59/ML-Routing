@@ -151,7 +151,7 @@ class RestControllerAPI(app_manager.RyuApp):
                             arp_pkt = pkt.get_protocol(arp.arp)
                             # arp request handler
                             if arp_pkt.opcode == arp.ARP_REQUEST:
-                                self._arp_request_handler(dp, pkt, eth_pkt, arp_pkt, list(vni.keyes())[0])
+                                self._arp_request_handler(dp, pkt, eth_pkt, arp_pkt, vni)
                             # arp replay handler
                             elif arp_pkt.opcode == arp.ARP_REPLY:
                                 pass
