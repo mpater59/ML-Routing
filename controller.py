@@ -65,8 +65,7 @@ class RestController(ControllerBase):
         super(RestController, self).__init__(req, link, data, **config)
         self.rest_controller = data['rest_controller']
         self.dpset = self.rest_controller.dpset
-        # self.dpset = data['dpset']
-        # self.waiters = data['waiters']
+        self.waiters = self.rest_controller.waiters
 
     # @classmethod
     # def register_switch(cls, dp):
@@ -125,17 +124,15 @@ class RestController(ControllerBase):
             for spine_switch in spine_switches:
                 self._add_flow_spine(spine_switch, leaf_id, f'{leaf_id}.{leaf_id}.{leaf_id}.0/24')
 
-    @staticmethod
-    def _add_spine(switch_id):
-        if switch_id not in spine_switches:
-            spine_switches.append(switch_id)
+    def _add_spine(self, dpid):
+        if dpid not in spine_switches:
+            spine_switches.append(dpid)
+        for switch_id in leaf_switches:
+            leaf_id = leaf_switches[switch_id]['id']
+            self._add_flow_spine(dpid, leaf_id, f'{leaf_id}.{leaf_id}.{leaf_id}.0/24')
 
     def _add_flow_spine(self, dpid, output_port, network_route):
-        print(self.rest_controller)
-        exit()
         dp = self.dpset.get(dpid)
-        print(dp)
-        print(dp.id)
         ofproto = dp.ofproto
         parser = dp.ofproto_parser
 
