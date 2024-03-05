@@ -26,10 +26,6 @@ ofctl = ofctl_v1_3
 
 
 class RestController(ControllerBase):
-
-    # _LOGGER = None
-    _SWITCHES = []
-
     def __init__(self, req, link, data, **config):
         super(RestController, self).__init__(req, link, data, **config)
         self.rest_controller = data['rest_controller']
@@ -41,14 +37,22 @@ class RestController(ControllerBase):
     def set_switch(self, req, **kwargs):
         data = json.loads(req.body)
         dpid = dpid_lib.str_to_dpid(kwargs['dpid'])
-        print(kwargs)
         if 'type' in data:
             if 'leaf' == data['type']:
                 self._add_leaf(dpid)
-                print(leaf_switches)
+                print(f'Leaf switches: {leaf_switches}')
             elif 'spine' == data['type']:
                 self._add_spine(dpid)
-                print(spine_switches)
+                print(f'Spine switches ID: {spine_switches}')
+
+    @route('get_switch', '/switch/{dpid}', methods=['GET'],
+           requirements={'dpid': dpid_lib.DPID_PATTERN})
+    def get_switch(self, req, **kwargs):
+        dpid = dpid_lib.str_to_dpid(kwargs['dpid'])
+        if dpid in leaf_switches:
+            return f"Switch {dpid} is leaf switch, ID: {leaf_switches[dpid]['id']}"
+        elif dpid in spine_switches:
+            return f"Switch {dpid} is spine switch"
 
     def _add_leaf(self, dpid):
         if dpid not in leaf_switches:
