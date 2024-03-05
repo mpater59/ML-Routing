@@ -151,10 +151,10 @@ class RestControllerAPI(app_manager.RyuApp):
                             arp_pkt = pkt.get_protocol(arp.arp)
                             # arp request handler
                             if arp_pkt.opcode == arp.ARP_REQUEST:
-                                self._arp_request_handler(dp, pkt, eth_pkt, arp_pkt, vni)
-                            # arp replay handler
+                                self._arp_request_handler(dp, pkt, vni)
+                            # arp reply handler
                             elif arp_pkt.opcode == arp.ARP_REPLY:
-                                pass
+                                self._arp_reply_handler(pkt, vni)
                         # handle IP traffic
                         elif eth_pkt and eth_pkt.ethertype == ether_types.ETH_TYPE_IP:
                             pass
@@ -170,7 +170,7 @@ class RestControllerAPI(app_manager.RyuApp):
                     switch['mac_addr'].append(mac_addr)
         print(f"Updated mac addresses for VNI {vni}: {vxlan[vni]}")
 
-    def _arp_request_handler(self, datapath, pkt, eth_pkt, arp_pkt, vni):
+    def _arp_request_handler(self, datapath, pkt, vni):
         for switch in vxlan[vni]['switches']:
             if switch['id'] != datapath.id:
                 dp = self.dpset.get(switch['id'])
@@ -178,11 +178,29 @@ class RestControllerAPI(app_manager.RyuApp):
                 parser = dp.ofproto_parser
 
                 pkt.serialize()
-                data = pkt.data
+                # data = pkt.data
                 port = switch['port']
 
                 actions = [parser.OFPActionOutput(port=port)]
-                req = parser.OFPPacketOut(datapath=dp, in_port=ofproto.OFPP_CONTROLLER, actions=actions, data=data,
+                req = parser.OFPPacketOut(datapath=dp, in_port=ofproto.OFPP_CONTROLLER, actions=actions, data=pkt,
                                           buffer_id=ofproto.OFP_NO_BUFFER)
                 dp.send_msg(req)
 
+    def _arp_reply_handler(self, pkt, vni):
+        eth_pkt = pkt.get_protocols(ethernet.ethernet)[0]
+        eth_dst = eth_pkt.dst
+
+        for switch in vxlan[vni]['switches']:
+            if eth_dst in switch['mac_addr']:
+                dp = self.dpset.get(switch['id'])
+                ofproto = dp.ofproto
+                parser = dp.ofproto_parser
+
+                pkt.serialize()
+                # data = pkt.data
+                port = switch['port']
+
+                actions = [parser.OFPActionOutput(port=port)]
+                req = parser.OFPPacketOut(datapath=dp, in_port=ofproto.OFPP_CONTROLLER, actions=actions, data=pkt,
+                                          buffer_id=ofproto.OFP_NO_BUFFER)
+                dp.send_msg(req)
