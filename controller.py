@@ -66,10 +66,8 @@ class RestController(ControllerBase):
 
     def _add_flow_spine(self, dpid, output_port, network_route):
         dp = self.dpset.get(dpid)
-        print(self.dpset.get(50))
-        print(dp)
-        print(dp.id)
         ofproto = dp.ofproto
+        print(ofproto.VERSION)
         parser = dp.ofproto_parser
 
         match = parser.OFPMatch(ipv4_dst=network_route)
