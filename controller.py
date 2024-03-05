@@ -211,7 +211,7 @@ class RestControllerAPI(app_manager.RyuApp):
 
         for switch in vxlan[vni]['switches']:
             if eth_dst in switch['mac_addr']:
-                dp = self.dpset.get(datapath)
+                dp = self.dpset.get(datapath.id)
                 ofproto = dp.ofproto
                 parser = dp.ofproto_parser
                 leaf_id = leaf_switches[switch['id']]['id']
