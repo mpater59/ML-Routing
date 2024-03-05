@@ -40,19 +40,34 @@ class RestController(ControllerBase):
         if 'type' in data:
             if 'leaf' == data['type']:
                 self._add_leaf(dpid)
-                print(f'Leaf switches: {leaf_switches}')
+                return f'Leaf switches: {leaf_switches}\n'
             elif 'spine' == data['type']:
                 self._add_spine(dpid)
-                print(f'Spine switches ID: {spine_switches}')
+                return f'Spine switches ID: {spine_switches}\n'
+            else:
+                return f'Wrong JSON body\n'
+        else:
+            return f'Wrong JSON body\n'
 
     @route('get_switch', '/switch/{dpid}', methods=['GET'],
            requirements={'dpid': dpid_lib.DPID_PATTERN})
     def get_switch(self, req, **kwargs):
         dpid = dpid_lib.str_to_dpid(kwargs['dpid'])
         if dpid in leaf_switches:
-            return f"Switch {dpid} is leaf switch, ID: {leaf_switches[dpid]['id']}"
+            return f"Switch {dpid} is leaf switch, ID: {leaf_switches[dpid]['id']}\n"
         elif dpid in spine_switches:
-            return f"Switch {dpid} is spine switch"
+            return f"Switch {dpid} is spine switch\n"
+
+    @route('set_vxlan', '/switch/{dpid}/vxlan', methods=['POST'],
+           requirements={'dpid': dpid_lib.DPID_PATTERN})
+    def set_vxlan(self, req, **kwargs):
+        data = json.loads(req.body)
+        dpid = dpid_lib.str_to_dpid(kwargs['dpid'])
+        if 'vni' in data and 'port' in data:
+            vxlan[data['vni']] = {'switch': dpid, 'port': data['port']}
+            return f"Configured VxLAN: {vxlan}\n"
+        else:
+            return f'Wrong JSON body\n'
 
     def _add_leaf(self, dpid):
         if dpid not in leaf_switches:
