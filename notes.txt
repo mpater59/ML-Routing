@@ -1,0 +1,18 @@
+curl -X GET http://127.0.0.1:8080/switch/0000000000000001 -H "Accept: application/json"
+curl -X GET http://127.0.0.1:8080/switch/0000000000000002 -H "Accept: application/json"
+curl -X GET http://127.0.0.1:8080/switch/0000000000000003 -H "Accept: application/json"
+curl -X GET http://127.0.0.1:8080/switch/0000000000000004 -H "Accept: application/json"
+curl -X GET http://127.0.0.1:8080/switch/0000000000000005 -H "Accept: application/json"
+
+curl -X POST http://127.0.0.1:8080/switch/0000000000000001 -H "Accept: application/json" -d '{"type": "spine"}'
+curl -X POST http://127.0.0.1:8080/switch/0000000000000002 -H "Accept: application/json" -d '{"type": "spine"}'
+curl -X POST http://127.0.0.1:8080/switch/0000000000000003 -H "Accept: application/json" -d '{"type": "leaf"}'
+curl -X POST http://127.0.0.1:8080/switch/0000000000000004 -H "Accept: application/json" -d '{"type": "leaf"}'
+curl -X POST http://127.0.0.1:8080/switch/0000000000000005 -H "Accept: application/json" -d '{"type": "leaf"}'
+
+curl -X POST http://127.0.0.1:8080/switch/0000000000000003/vxlan -H "Accept: application/json" -d '{"vni": 10, "port": 3}'
+curl -X POST http://127.0.0.1:8080/switch/0000000000000003/vxlan -H "Accept: application/json" -d '{"vni": 20, "port": 4}'
+curl -X POST http://127.0.0.1:8080/switch/0000000000000004/vxlan -H "Accept: application/json" -d '{"vni": 10, "port": 3}'
+curl -X POST http://127.0.0.1:8080/switch/0000000000000004/vxlan -H "Accept: application/json" -d '{"vni": 20, "port": 4}'
+curl -X POST http://127.0.0.1:8080/switch/0000000000000005/vxlan -H "Accept: application/json" -d '{"vni": 10, "port": 3}'
+curl -X POST http://127.0.0.1:8080/switch/0000000000000005/vxlan -H "Accept: application/json" -d '{"vni": 20, "port": 4}'
