@@ -118,6 +118,18 @@ class RestControllerAPI(app_manager.RyuApp):
         wsgi = kwargs['wsgi']
         wsgi.register(RestController, {'rest_controller': self})
 
+    @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
+    def switch_features_handler(self, ev):
+        dp = ev.msg.dp
+        ofproto = dp.ofproto
+        parser = dp.ofproto_parser
+
+        match = parser.OFPMatch()
+        actions = [parser.OFPActionOutput(ofproto.OFPP_CONTROLLER, ofproto.OFPCML_NO_BUFFER)]
+        inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
+        mod = parser.OFPFlowMod(datapath=dp, priority=0, match=match, instructions=inst)
+        dp.send_msg(mod)
+
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def packet_in_handler(self, ev):
         msg = ev.msg
