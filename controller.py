@@ -25,37 +25,6 @@ vxlan = {}
 ofctl = ofctl_v1_3
 
 
-class NotFoundError(RyuException):
-    message = 'Switch is not connected: switch_id=%(switch_id)s'
-
-
-def rest_command(func):
-    def _wrapper(*args, **kwargs):
-        try:
-            print(*args)
-            print(**kwargs)
-            msg = func(*args, **kwargs)
-            return Response(content_type='application/json',
-                            body=json.dumps(msg))
-
-        except SyntaxError as e:
-            status = 400
-            details = e.msg
-        except (ValueError, NameError) as e:
-            status = 400
-            details = e.message
-
-        except NotFoundError as msg:
-            status = 404
-            details = str(msg)
-
-        msg = {'result': 'failure',
-               'details': details}
-        return Response(status=status, body=json.dumps(msg))
-
-    return _wrapper
-
-
 class RestController(ControllerBase):
 
     # _LOGGER = None
@@ -66,43 +35,6 @@ class RestController(ControllerBase):
         self.rest_controller = data['rest_controller']
         self.dpset = self.rest_controller.dpset
         self.waiters = self.rest_controller.waiters
-
-    # @classmethod
-    # def register_switch(cls, dp):
-    #     if dp not in cls._SWITCHES:
-    #         cls._SWITCHES.append(dp)
-
-    # @classmethod
-    # def set_logger(cls, logger):
-    #     cls._LOGGER = logger
-    #     cls._LOGGER.propagate = False
-    #     hdlr = logging.StreamHandler()
-    #     FORMAT = '[%(levelname)s] switch_id=%(sw_id)s: %(message)s'
-    #     hdlr.setFormatter(logging.Formatter(FORMAT))
-    #     cls._LOGGER.addHandler(hdlr)
-
-    # @classmethod
-    # def packet_in_handler(cls, msg):
-    #     dp_id = msg.datapath.id
-    #     if dp_id in cls._SWITCH_LIST:
-    #         switch = cls._SWITCH_LIST[dp_id]
-    #         switch.packet_in_handler(msg)
-
-    # @rest_command
-    # def set_switch(self, switch_id, req, **kwargs):
-    #     data = json.loads(req.body)
-    #     if 'type' in data and 'id' in data:
-    #         if 'leaf' == data['type']:
-    #             self._add_leaf(switch_id)
-    #         elif 'spine' == data['type']:
-    #             Controller._add_spine(switch_id)
-
-    # @rest_command
-    # def del_switch(self, switch_id, req, **kwargs):
-    #     if switch_id in leaf_switches:
-    #         Controller._del_leaf(switch_id)
-    #     elif switch_id in spine_switches:
-    #         Controller._del_spine(switch_id)
 
     @route('set_switch', '/switch/{dpid}', methods=['POST'],
            requirements={'dpid': dpid_lib.DPID_PATTERN})
@@ -133,6 +65,8 @@ class RestController(ControllerBase):
 
     def _add_flow_spine(self, dpid, output_port, network_route):
         dp = self.dpset.get(dpid)
+        print(dp)
+        print(dp.id)
         ofproto = dp.ofproto
         parser = dp.ofproto_parser
 
@@ -141,14 +75,6 @@ class RestController(ControllerBase):
         inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
         mod = parser.OFPFlowMod(datapath=dp, match=match, command=ofproto.OFPFC_ADD, instructions=inst)
         dp.send_msg(mod)
-
-    # @staticmethod
-    # def _del_leaf(switch_id):
-    #     pass
-
-    # @staticmethod
-    # def _del_spine(switch_id):
-    #     pass
 
 
 class RestControllerAPI(app_manager.RyuApp):
@@ -159,64 +85,15 @@ class RestControllerAPI(app_manager.RyuApp):
 
     def __init__(self, *args, **kwargs):
         super(RestControllerAPI, self).__init__(*args, **kwargs)
-
-        # Controller.set_logger(self.logger)
-
         self.dpset = kwargs['dpset']
-        wsgi = kwargs['wsgi']
         self.waiters = {}
         self.data = {}
         self.data['dpset'] = self.dpset
         self.data['waiters'] = self.waiters
 
-        # mapper = wsgi.mapper
-        # wsgi.registory['Controller'] = self.data
-        # rest_controller_instance = RestController(req=None, link=None, data=self.data, dpset=self.dpset)
+        wsgi = kwargs['wsgi']
         wsgi.register(RestController, {'rest_controller': self})
 
-        # # REST functions
-        # path = '/switch/{switch_id}'
-        # # uri = path + '/data'
-        # # mapper.connect('switch', uri, controller=Controller,
-        # #                action='get_data',
-        # #                conditions=dict(method=['GET']))
-        # # uri = path + '/flows'
-        # # mapper.connect('switch', uri, controller=Controller,
-        # #                action='get_flows',
-        # #                conditions=dict(method=['GET']))
-        # # uri = path + '/stats'
-        # # mapper.connect('switch', uri, controller=Controller,
-        # #                action='get_stats',
-        # #                conditions=dict(method=['GET']))
-        # uri = path
-        # mapper.connect('switch', uri, controller=Controller,
-        #                action='get_switch',
-        #                conditions=dict(method=['GET']))
-        # uri = path + '/vxlan'
-        # mapper.connect('switch', uri, controller=Controller,
-        #                action='get_vxlan',
-        #                conditions=dict(method=['GET']))
-        # uri = path
-        # mapper.connect('switch', uri, controller=Controller,
-        #                action='set_switch',
-        #                conditions=dict(method=['POST']))
-        # uri = path + '/vxlan'
-        # mapper.connect('switch', uri, controller=Controller,
-        #                action='set_vxlan',
-        #                conditions=dict(method=['POST']))
-        # # uri = path
-        # # mapper.connect('switch', uri, controller=Controller,
-        # #                action='del_switch',
-        # #                conditions=dict(method=['DELETE']))
-        # # uri = path + '/vxlan'
-        # # mapper.connect('switch', uri, controller=Controller,
-        # #                action='del_vxlan',
-        # #                conditions=dict(method=['DELETE']))
-
-    # @set_ev_cls(dpset.EventDP, dpset.DPSET_EV_DISPATCHER)
-    # def datapath_handler(self, ev):
-    #     if ev.enter:
-    #         Controller.register_switch(ev.dp)
 
 
 
