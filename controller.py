@@ -41,6 +41,7 @@ class RestController(ControllerBase):
     def set_switch(self, req, **kwargs):
         data = json.loads(req.body)
         dpid = dpid_lib.str_to_dpid(kwargs['dpid'])
+        print(kwargs)
         if 'type' in data:
             if 'leaf' == data['type']:
                 self._add_leaf(dpid)
