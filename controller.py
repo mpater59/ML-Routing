@@ -8,7 +8,7 @@ from ryu.lib import dpid as dpid_lib
 from ryu.controller.handler import set_ev_cls
 from ryu.controller import ofp_event, dpset
 from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER
-from ryu.lib.packet import packet, ethernet, ether_types, arp
+from ryu.lib.packet import packet, ethernet, ether_types, arp, ipv4
 from ryu.app.wsgi import WSGIApplication, ControllerBase, route
 from ryu.app.wsgi import Response
 from ryu.exception import OFPUnknownVersion
@@ -78,14 +78,14 @@ class RestController(ControllerBase):
             leaf_id = len(leaf_switches) + 1
             leaf_switches[dpid] = {'id': leaf_id}
             for spine_switch in spine_switches:
-                self._add_flow_spine(spine_switch, leaf_id, f'{leaf_id}.{leaf_id}.{leaf_id}.0/24')
+                self._add_flow_spine(spine_switch, leaf_id, f'{leaf_id}.{leaf_id}.0.0/16')
 
     def _add_spine(self, dpid):
         if dpid not in spine_switches:
             spine_switches.append(dpid)
         for switch_id in leaf_switches:
             leaf_id = leaf_switches[switch_id]['id']
-            self._add_flow_spine(dpid, leaf_id, f'{leaf_id}.{leaf_id}.{leaf_id}.0/24')
+            self._add_flow_spine(dpid, leaf_id, f'{leaf_id}.{leaf_id}.0.0/16')
 
     def _add_flow_spine(self, dpid, output_port, network_route):
         dp = self.dpset.get(dpid)
@@ -157,7 +157,7 @@ class RestControllerAPI(app_manager.RyuApp):
                                 self._arp_reply_handler(pkt, vni)
                         # handle IP traffic
                         elif eth_pkt and eth_pkt.ethertype == ether_types.ETH_TYPE_IP:
-                            pass
+                            self._ip_traffic_handler(dp, pkt, vni, in_port)
 
     @staticmethod
     def _update_mac_table(dpid, vni, mac_addr):
@@ -178,7 +178,6 @@ class RestControllerAPI(app_manager.RyuApp):
                 parser = dp.ofproto_parser
 
                 pkt.serialize()
-                # data = pkt.data
                 port = switch['port']
 
                 actions = [parser.OFPActionOutput(port=port)]
@@ -197,10 +196,52 @@ class RestControllerAPI(app_manager.RyuApp):
                 parser = dp.ofproto_parser
 
                 pkt.serialize()
-                # data = pkt.data
                 port = switch['port']
 
                 actions = [parser.OFPActionOutput(port=port)]
                 req = parser.OFPPacketOut(datapath=dp, in_port=ofproto.OFPP_CONTROLLER, actions=actions, data=pkt,
                                           buffer_id=ofproto.OFP_NO_BUFFER)
                 dp.send_msg(req)
+
+    def _ip_traffic_handler(self, datapath, pkt, vni, in_port):
+        eth_pkt = pkt.get_protocols(ethernet.ethernet)[0]
+        eth_dst = eth_pkt.dst
+        ip_pkt = pkt.get_protocol(ipv4.ipv4)
+        ip_dst = ip_pkt.dst
+
+        for switch in vxlan[vni]['switches']:
+            if eth_dst in switch['mac_addr']:
+                dp = self.dpset.get(datapath)
+                ofproto = dp.ofproto
+                parser = dp.ofproto_parser
+                leaf_id = leaf_switches[switch['id']]['id']
+
+                # output IP packet
+                pkt.serialize()
+                actions = [parser.OFPActionOutput(port=1),
+                           parser.OFPActionSetField(ipv4_dst=f'{leaf_id}.{leaf_id}.0.{vni}')]
+                req = parser.OFPPacketOut(datapath=dp, in_port=ofproto.OFPP_CONTROLLER, actions=actions, data=pkt,
+                                          buffer_id=ofproto.OFP_NO_BUFFER)
+                dp.send_msg(req)
+
+                # add flow rule for source leaf switch
+                match = parser.OFPMatch(eth_type=0x0800, in_port=in_port, eth_dst=eth_dst)
+                inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
+                mod = parser.OFPFlowMod(datapath=dp, priority=100, match=match, instructions=inst,
+                                        command=ofproto.OFPFC_ADD)
+                dp.send_msg(mod)
+
+                dp = self.dpset.get(switch['id'])
+                ofproto = dp.ofproto
+                parser = dp.ofproto_parser
+
+                # add flow rule for destination leaf switch
+                port = switch['port']
+                match = parser.OFPMatch(eth_type=0x0800, ipv4_dst=f'{leaf_id}.{leaf_id}.0.{vni}')
+                actions = [parser.OFPActionOutput(port=port),
+                           parser.OFPActionSetField(ipv4_dst=ip_dst)]
+                inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
+                mod = parser.OFPFlowMod(datapath=dp, priority=100, match=match, instructions=inst,
+                                        command=ofproto.OFPFC_ADD)
+                dp.send_msg(mod)
+                break
