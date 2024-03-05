@@ -211,31 +211,23 @@ class RestControllerAPI(app_manager.RyuApp):
 
         for switch in vxlan[vni]['switches']:
             if eth_dst in switch['mac_addr']:
+                # add flow rule for source leaf switch
                 dp = self.dpset.get(datapath.id)
                 ofproto = dp.ofproto
                 parser = dp.ofproto_parser
                 leaf_id = leaf_switches[switch['id']]['id']
 
-                # output IP packet
-                pkt.serialize()
-                actions = [parser.OFPActionOutput(port=1),
-                           parser.OFPActionSetField(ipv4_dst=f'{leaf_id}.{leaf_id}.0.{vni}')]
-                req = parser.OFPPacketOut(datapath=dp, in_port=ofproto.OFPP_CONTROLLER, actions=actions, data=pkt,
-                                          buffer_id=ofproto.OFP_NO_BUFFER)
-                dp.send_msg(req)
-
-                # add flow rule for source leaf switch
                 match = parser.OFPMatch(eth_type=0x0800, in_port=in_port, eth_dst=eth_dst)
                 inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
                 mod = parser.OFPFlowMod(datapath=dp, priority=100, match=match, instructions=inst,
                                         command=ofproto.OFPFC_ADD)
                 dp.send_msg(mod)
 
+                # add flow rule for destination leaf switch
                 dp = self.dpset.get(switch['id'])
                 ofproto = dp.ofproto
                 parser = dp.ofproto_parser
 
-                # add flow rule for destination leaf switch
                 port = switch['port']
                 match = parser.OFPMatch(eth_type=0x0800, ipv4_dst=f'{leaf_id}.{leaf_id}.0.{vni}')
                 actions = [parser.OFPActionOutput(port=port),
@@ -244,4 +236,17 @@ class RestControllerAPI(app_manager.RyuApp):
                 mod = parser.OFPFlowMod(datapath=dp, priority=100, match=match, instructions=inst,
                                         command=ofproto.OFPFC_ADD)
                 dp.send_msg(mod)
+
+                # output IP packet
+                dp = self.dpset.get(datapath.id)
+                ofproto = dp.ofproto
+                parser = dp.ofproto_parser
+                leaf_id = leaf_switches[switch['id']]['id']
+
+                pkt.serialize()
+                actions = [parser.OFPActionOutput(port=1),
+                           parser.OFPActionSetField(ipv4_dst=f'{leaf_id}.{leaf_id}.0.{vni}')]
+                req = parser.OFPPacketOut(datapath=dp, in_port=ofproto.OFPP_CONTROLLER, actions=actions, data=pkt,
+                                          buffer_id=ofproto.OFP_NO_BUFFER)
+                dp.send_msg(req)
                 break
