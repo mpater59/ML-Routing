@@ -218,6 +218,8 @@ class RestControllerAPI(app_manager.RyuApp):
                 leaf_id = leaf_switches[switch['id']]['id']
 
                 match = parser.OFPMatch(eth_type=0x0800, in_port=in_port, eth_dst=eth_dst)
+                actions = [parser.OFPActionOutput(port=1),
+                           parser.OFPActionSetField(ipv4_dst=f'{leaf_id}.{leaf_id}.0.{vni}')]
                 inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
                 mod = parser.OFPFlowMod(datapath=dp, priority=100, match=match, instructions=inst,
                                         command=ofproto.OFPFC_ADD)
