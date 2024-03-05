@@ -130,7 +130,7 @@ class RestControllerAPI(app_manager.RyuApp):
         # update mac tables
         if dp.id in leaf_switches:
             for vni in vxlan:
-                for switch in vni['switches']:
+                for switch in vxlan[vni]['switches']:
                     if switch['id'] == dp.id and switch['port'] == in_port:
                         if eth_pkt.src not in switch['mac_addr']:
                             RestControllerAPI._update_mac_table(dp.id, vni, eth_pkt.src)
@@ -149,7 +149,7 @@ class RestControllerAPI(app_manager.RyuApp):
 
     @staticmethod
     def _update_mac_table(dpid, vni, mac_addr):
-        for switch in vxlan[vni]:
+        for switch in vxlan[vni]['switches']:
             if dpid != switch['id']:
                 if mac_addr in switch['mac_addr']:
                     switch['mac_addr'].remove(mac_addr)
@@ -159,7 +159,7 @@ class RestControllerAPI(app_manager.RyuApp):
         print(f"Updated mac addresses for VNI {vni}: {vxlan[vni]}")
 
     def _arp_request_handler(self, datapath, pkt, eth_pkt, arp_pkt, vni):
-        for switch in vxlan[vni]:
+        for switch in vxlan[vni]['switches']:
             if switch['id'] != datapath.id:
                 dp = self.dpset.get(switch['id'])
                 ofproto = dp.ofproto
