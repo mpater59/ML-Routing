@@ -31,7 +31,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-s', '--spine', dest='spine', default=2, type=int,
                         help='Number of spine switches (default 2)')
-    parser.add_argument('-l', '--leaf', dest='leaf', default=2, type=int,
+    parser.add_argument('-l', '--leaf', dest='leaf', default=3, type=int,
                         help='Number of leaf switches (default 3)')
     args = parser.parse_args()
 
