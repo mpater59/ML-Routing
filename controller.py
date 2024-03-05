@@ -114,7 +114,7 @@ class RestController(ControllerBase):
                 self._add_leaf(dpid)
                 print(leaf_switches)
             elif 'spine' == data['type']:
-                RestController._add_spine(dpid)
+                self._add_spine(dpid)
                 print(spine_switches)
 
     def _add_leaf(self, dpid):
