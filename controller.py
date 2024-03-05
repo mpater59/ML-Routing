@@ -1,5 +1,4 @@
 import json
-import logging
 
 from ryu.base import app_manager
 from ryu.ofproto import ofproto_v1_3
@@ -9,9 +8,7 @@ from ryu.lib import dpid as dpid_lib
 from ryu.controller.handler import set_ev_cls
 from ryu.controller import ofp_event, dpset
 from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER
-from ryu.lib.packet import packet
-from ryu.lib.packet import ethernet
-from ryu.lib.packet import ether_types
+from ryu.lib.packet import packet, ethernet, ether_types, arp
 from ryu.app.wsgi import WSGIApplication, ControllerBase, route
 from ryu.app.wsgi import Response
 from ryu.exception import OFPUnknownVersion
@@ -71,7 +68,7 @@ class RestController(ControllerBase):
                 if dpid == switch['id']:
                     switch['port'] = data['port']
                     return f"Configured VxLAN: {vxlan}\n"
-            vxlan[vni]['switches'].append({'id': dpid, 'port': data['port']})
+            vxlan[vni]['switches'].append({'id': dpid, 'port': data['port'], 'mac_addr': []})
             return f"Configured VxLAN: {vxlan}\n"
         else:
             return f'Wrong JSON body\n'
@@ -121,6 +118,55 @@ class RestControllerAPI(app_manager.RyuApp):
         wsgi = kwargs['wsgi']
         wsgi.register(RestController, {'rest_controller': self})
 
+    @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
+    def packet_in_handler(self, ev):
+        msg = ev.msg
+        dp = msg.datapath
+        in_port = msg.match['in_port']
 
+        pkt = packet.Packet(msg.data)
+        eth_pkt = pkt.get_protocols(ethernet.ethernet)[0]
 
+        # update mac tables
+        if dp.id in leaf_switches:
+            for vni in vxlan:
+                for switch in vni['switches']:
+                    if switch['id'] == dp.id and switch['port'] == in_port:
+                        if eth_pkt.src not in switch['mac_addr']:
+                            RestControllerAPI._update_mac_table(dp.id, vni, eth_pkt.src)
+
+                        if eth_pkt and eth_pkt.ethertype == ether_types.ETH_TYPE_ARP:
+                            arp_pkt = pkt.get_protocol(arp.arp)
+                            # arp request handler
+                            if arp_pkt.opcode == arp.ARP_REQUEST:
+                                self._arp_request_handler(dp, pkt, eth_pkt, arp_pkt, list(vni.keyes())[0])
+                            # arp replay handler
+                            elif arp_pkt.opcode == arp.ARP_REPLY:
+                                pass
+                        # handle IP traffic
+                        elif eth_pkt and eth_pkt.ethertype == ether_types.ETH_TYPE_IP:
+                            pass
+
+    @staticmethod
+    def _update_mac_table(dpid, vni, mac_addr):
+        for switch in vxlan[vni]:
+            if dpid != switch['id']:
+                if mac_addr in switch['mac_addr']:
+                    switch['mac_addr'].remove(mac_addr)
+            else:
+                if mac_addr not in switch['mac_addr']:
+                    switch['mac_addr'].append(mac_addr)
+        print(f"Updated mac addresses for VNI {vni}: {vxlan[vni]}")
+
+    def _arp_request_handler(self, datapath, pkt, eth_pkt, arp_pkt, vni):
+        for switch in vxlan[vni]:
+            if switch['id'] != datapath.id:
+                dp = self.dpset.get(switch['id'])
+                ofproto = dp.ofproto
+                parser = dp.ofproto_parser
+
+                port = switch['port']
+                actions = [parser.OFPActionOutput(port=port)]
+                req = parser.OFPPacketOut(datapath=dp, in_port=ofproto.OFPP_CONTROLLER, actions=actions, data=pkt)
+                dp.send_msg(req)
 
