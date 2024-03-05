@@ -64,7 +64,14 @@ class RestController(ControllerBase):
         data = json.loads(req.body)
         dpid = dpid_lib.str_to_dpid(kwargs['dpid'])
         if 'vni' in data and 'port' in data:
-            vxlan[data['vni']] = {'switch': dpid, 'port': data['port']}
+            vni = data['vni']
+            if vni not in vxlan:
+                vxlan[vni] = {'switches': []}
+            for switch in vxlan[vni]['switches']:
+                if dpid == switch['id']:
+                    switch['port'] = data['port']
+                    return f"Configured VxLAN: {vxlan}\n"
+            vxlan[vni]['switches'].append({'id': dpid, 'port': data['port']})
             return f"Configured VxLAN: {vxlan}\n"
         else:
             return f'Wrong JSON body\n'

@@ -19,11 +19,12 @@ class Topology(Topo):
 
         for x in range(args.leaf):
             leaf_switches.append(self.addSwitch(f's{x + 1 + args.spine}'))
-            # servers.append(net.addHost(f'h{x + 1 + args.host}', ip=f'10.0.{x + 1}.11/24'))
-            servers.append(self.addHost(f'h{x + 1}', ip=f'10.0.0.{x + 1}/24'))
-            server_links.append(self.addLink(servers[x], leaf_switches[x]))
             for spine in spine_switches:
                 self.addLink(spine, leaf_switches[x], bw=10, delay='10ms')
+            servers.append(self.addHost(f'h{2 * x + 1}', ip=f'10.0.0.{2* x + 1}/24'))
+            server_links.append(self.addLink(servers[2 * x], leaf_switches[2 * x]))
+            servers.append(self.addHost(f'h{2 * x + 2}', ip=f'10.0.1.{2 * x + 2}/24'))
+            server_links.append(self.addLink(servers[2 * x + 1], leaf_switches[2 * x + 1]))
 
 
 if __name__ == '__main__':
@@ -31,7 +32,7 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--spine', dest='spine', default=2, type=int,
                         help='Number of spine switches (default 2)')
     parser.add_argument('-l', '--leaf', dest='leaf', default=2, type=int,
-                        help='Number of leaf switches (default 2)')
+                        help='Number of leaf switches (default 3)')
     args = parser.parse_args()
 
     ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
