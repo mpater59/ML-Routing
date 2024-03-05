@@ -22,9 +22,9 @@ class Topology(Topo):
             for spine in spine_switches:
                 self.addLink(spine, leaf_switches[x], bw=10, delay='10ms')
             servers.append(self.addHost(f'h{2 * x + 1}', ip=f'10.0.0.{2* x + 1}/24'))
-            server_links.append(self.addLink(servers[2 * x], leaf_switches[2 * x]))
+            server_links.append(self.addLink(servers[2 * x], leaf_switches[x]))
             servers.append(self.addHost(f'h{2 * x + 2}', ip=f'10.0.1.{2 * x + 2}/24'))
-            server_links.append(self.addLink(servers[2 * x + 1], leaf_switches[2 * x + 1]))
+            server_links.append(self.addLink(servers[2 * x + 1], leaf_switches[x]))
 
 
 if __name__ == '__main__':
