@@ -64,7 +64,8 @@ class RestController(ControllerBase):
     def __init__(self, req, link, data, **config):
         super(RestController, self).__init__(req, link, data, **config)
         self.rest_controller = data['rest_controller']
-        self.dpset = data['dpset']
+        print(config)
+        # self.dpset = data['dpset']
         # self.waiters = data['waiters']
 
     # @classmethod
@@ -175,8 +176,8 @@ class RestControllerAPI(app_manager.RyuApp):
 
         # mapper = wsgi.mapper
         # wsgi.registory['Controller'] = self.data
-        # rest_controller_instance = RestController(req=None, link=None, data=self.data, dpset=self.dpset)
-        wsgi.register(RestController, {'rest_controller': self})
+        rest_controller_instance = RestController(req=None, link=None, data=self.data, dpset=self.dpset)
+        wsgi.register(rest_controller_instance, {'rest_controller': self})
 
         # # REST functions
         # path = '/switch/{switch_id}'
