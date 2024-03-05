@@ -120,7 +120,7 @@ class RestControllerAPI(app_manager.RyuApp):
 
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
     def switch_features_handler(self, ev):
-        dp = ev.msg.dp
+        dp = ev.msg.datapath
         ofproto = dp.ofproto
         parser = dp.ofproto_parser
 
