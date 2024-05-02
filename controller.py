@@ -189,7 +189,7 @@ class RestController(ControllerBase):
 
             for adj_node in adj_nodes:
                 new_cost = path_cost[visiting_node] + self._link_cost(visiting_node, adj_nodes)
-                if path_cost[adj_node] < new_cost:
+                if path_cost[adj_node] > new_cost:
                     path_cost[adj_node] = new_cost
                     prev_node[adj_node] = visiting_node
         return prev_node
