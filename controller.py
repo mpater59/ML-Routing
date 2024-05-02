@@ -11,10 +11,6 @@ from ryu.lib.packet import packet, ethernet, ether_types, arp, ipv4
 from ryu.app.wsgi import WSGIApplication, ControllerBase, route
 
 
-# CONSTANTS
-DEFAULT_GATEWAY_MAC = '00:aa:bb:00:00:01'
-
-
 # GLOBAL VARIABLES
 ospf = {'links': [], 'networks': [], 'paths': {}, 'routing tables': {}}
 sw_info_type = []
@@ -47,7 +43,6 @@ class RestController(ControllerBase):
                                  'queue': []}
             elif data['type'] == 'switch':
                 sw_info_type.append({'dpid': dpid, 'type': 'switch'})
-                sw_mac_to_port[str(dpid)][DEFAULT_GATEWAY_MAC] = 1
             else:
                 return "Wrong JSON body\n"
         else:
@@ -278,7 +273,7 @@ class RestControllerAPI(app_manager.RyuApp):
             sw_mac_to_port[eth_pkt.src] = in_port
             if eth_pkt.ethertype == ether_types.ETH_TYPE_IP:
                 self._ip_handler_switch(dp.id, pkt)
-            else:
+            elif eth_pkt.ethertype == ether_types.ETH_TYPE_ARP:
                 self._other_handler_switch(dp.id, pkt)
 
     @staticmethod
@@ -345,7 +340,7 @@ class RestControllerAPI(app_manager.RyuApp):
         else:
             dp = self.dpset.get(dpid)
             ofproto = dp.ofproto
-            self._send_packet(dpid, ofproto.OFP_FLOOD, pkt)
+            self._send_packet(dpid, ofproto.OFPP_FLOOD, pkt)
 
     def _send_arp_request(self, dpid, ip_dst):
         dp = self.dpset.get(dpid)
