@@ -100,14 +100,17 @@ class RestController(ControllerBase):
     @staticmethod
     def _set_ospf_link(sw1, sw2, metric):
         link_exists = False
-        if sw1 not in routers or sw2 not in routers:
+
+        sw1_dpid = dpid_lib.str_to_dpid(sw1['dpid'])
+        sw2_dpid = dpid_lib.str_to_dpid(sw2['dpid'])
+
+        if sw1_dpid not in routers or sw2_dpid not in routers:
             return "Entered DPID does not belong to routers!\n"
 
         for link in ospf['links']:
-            if (link['sw1']['dpid'] == sw1['dpid'] or sw2['dpid']) and (link['sw2']['dpid'] == sw1['dpid'] or
-                                                                        sw2['dpid']):
-                link['sw1']['dpid'] = sw1['dpid']
-                link['sw2']['dpid'] = sw2['dpid']
+            if (link['sw1']['dpid'] == sw1_dpid or sw2_dpid) and (link['sw2']['dpid'] == sw1_dpid or sw2_dpid):
+                link['sw1']['dpid'] = sw1_dpid
+                link['sw2']['dpid'] = sw2_dpid
 
                 link['sw1']['port'] = sw1['port']
                 link['sw2']['port'] = sw2['port']
@@ -116,7 +119,9 @@ class RestController(ControllerBase):
                 link_exists = True
                 break
         if link_exists is False:
-            ospf['links'].append({'sw1': sw1, 'sw2': sw2, 'metric': metric})
+            ospf['links'].append({'sw1': {'dpid': sw1_dpid, 'port': sw1['port']},
+                                  'sw2': {'dpid': sw2_dpid, 'port': sw2['port']},
+                                  'metric': metric})
 
     @staticmethod
     def _set_ospf_network(dpid, network):
