@@ -176,6 +176,7 @@ class RestController(ControllerBase):
                 if path_cost[node] < current_min_path:
                     current_min_path = path_cost[node]
                     visiting_node = node
+            print(f'path_cost: {path_cost}')
             print(f'current_min_path: {current_min_path}')
             print(f'visiting_node: {visiting_node}')
             print(f'unvisited_nodes: {unvisited_nodes}\n')
