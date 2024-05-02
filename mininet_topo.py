@@ -48,7 +48,7 @@ class Topology(Topo):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-h', '--hosts', dest='hosts', default=3, type=int,
+    parser.add_argument('-hs', '--hosts', dest='hosts', default=3, type=int,
                         help='Number of hosts for every router switch')
     args = parser.parse_args()
 
