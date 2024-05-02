@@ -58,11 +58,11 @@ if __name__ == '__main__':
 
     net.start()
 
-    for switch_id in range(1, NUMBER_OF_ROUTERS + 1):
-        for host_id in range(1, args.hosts + 1):
-            host = net.get(f's{switch_id}-h{host_id}')
-            host.setARP(f'192.168.{10 * switch_id}.1', '00:aa:bb:00:00:01')
-            host.setDefaultRoute(f'dev eth0 via 192.168.{10 * switch_id}.1')
+    # for switch_id in range(1, NUMBER_OF_ROUTERS + 1):
+    #     for host_id in range(1, args.hosts + 1):
+    #         host = net.get(f's{switch_id}-h{host_id}')
+    #         host.setARP(f'192.168.{10 * switch_id}.1', '00:aa:bb:00:00:01')
+    #         host.setDefaultRoute(f'dev eth0 via 192.168.{10 * switch_id}.1')
 
     CLI(net)
     net.stop()
