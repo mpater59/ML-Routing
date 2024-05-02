@@ -267,7 +267,7 @@ class RestControllerAPI(app_manager.RyuApp):
             if eth_pkt.ethertype == ether_types.ETH_TYPE_ARP and in_port == 1:
                 arp_pkt = pkt.get_protocol(arp.arp)
                 routers[dp.id]['arp'][arp_pkt.src_ip] = arp_pkt.src_mac
-                if arp_pkt.opcode == arp.ARP_REQUEST:
+                if arp_pkt.opcode == arp.ARP_REQUEST and arp_pkt.dst_ip == routers[dp.id]['ip address']:
                     self._arp_request_handler_router(dp.id, arp_pkt)
             elif eth_pkt.ethertype == ether_types.ETH_TYPE_IP:
                 ip_pkt = pkt.get_protocol(ipv4.ipv4)
