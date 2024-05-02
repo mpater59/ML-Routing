@@ -108,7 +108,8 @@ class RestController(ControllerBase):
             return "Entered DPID does not belong to routers!\n"
 
         for link in ospf['links']:
-            if (link['sw1']['dpid'] == sw1_dpid or sw2_dpid) and (link['sw2']['dpid'] == sw1_dpid or sw2_dpid):
+            if (((link['sw1']['dpid'] == sw1_dpid) and (link['sw2']['dpid'] == sw2_dpid)) or
+                    ((link['sw1']['dpid'] == sw2_dpid) and (link['sw2']['dpid'] == sw1_dpid))):
                 link['sw1']['dpid'] = sw1_dpid
                 link['sw2']['dpid'] = sw2_dpid
 
