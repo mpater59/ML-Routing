@@ -47,7 +47,7 @@ class RestController(ControllerBase):
                                  'queue': []}
             elif data['type'] == 'switch':
                 sw_info_type.append({'dpid': dpid, 'type': 'switch'})
-                sw_mac_to_port[dpid][DEFAULT_GATEWAY_MAC] = 1
+                sw_mac_to_port[str(dpid)][DEFAULT_GATEWAY_MAC] = 1
             else:
                 return "Wrong JSON body\n"
         else:
