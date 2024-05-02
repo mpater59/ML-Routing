@@ -49,7 +49,7 @@ class Topology(Topo):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-hs', '--hosts', dest='hosts', default=3, type=int,
-                        help='Number of hosts for every router switch')
+                        help='Number of hosts for every router switch (default 3)')
     args = parser.parse_args()
 
     ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
