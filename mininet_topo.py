@@ -19,9 +19,9 @@ class Topology(Topo):
         for x in range(1, NUMBER_OF_ROUTERS + 1):
             routers.append(self.addSwitch(f'r{x}'))
 
-        # for x in range(1, NUMBER_OF_ROUTERS + 1):
-        #     r_switches.append(self.addSwitch(f's{x}'))
-        #     self.addLink(routers[x-1], r_switches[-1])
+        for x in range(1, NUMBER_OF_ROUTERS + 1):
+            r_switches.append(self.addSwitch(f's{x}'))
+            self.addLink(routers[x-1], r_switches[-1])
 
         # hosts = {}
         # for switch_id in range(1, NUMBER_OF_ROUTERS + 1):
