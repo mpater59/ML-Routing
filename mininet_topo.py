@@ -11,27 +11,34 @@ from mininet.topolib import Topo
 NUMBER_OF_ROUTERS = 5
 
 
+def get_dpid(dpid):
+    dpid = hex(dpid)[2:]
+    dpid = '0' * (16 - len(dpid)) + dpid
+    return dpid
+
+
 class Topology(Topo):
     def build(self):
 
+        dpid_id = 1
         routers = []
         r_switches = []
         for x in range(1, NUMBER_OF_ROUTERS + 1):
-            routers.append(self.addSwitch(f's{x}'))
+            routers.append(self.addSwitch(f'r{x}', dpid=get_dpid(dpid_id)))
+            dpid_id += 1
 
-        for x in range(NUMBER_OF_ROUTERS + 1, 2 * NUMBER_OF_ROUTERS + 1):
-            y = 0
-            r_switches.append(self.addSwitch(f's{x}'))
-            self.addLink(routers[y], r_switches[-1])
-            y += 1
+        for x in range(1, NUMBER_OF_ROUTERS + 1):
+            r_switches.append(self.addSwitch(f's{x}', dpid=get_dpid(dpid_id)))
+            dpid_id += 1
+            self.addLink(routers[x-1], r_switches[-1])
 
-        # hosts = {}
-        # for switch_id in range(1, NUMBER_OF_ROUTERS + 1):
-        #     hosts[switch_id] = []
-        #     for host_id in range(1, args.hosts + 1):
-        #         hosts[switch_id].append(self.addHost(f's{switch_id}-h{host_id}',
-        #                                              ip=f'192.168.{10 * switch_id}.{10 * host_id}/24'))
-        #         self.addLink(r_switches[switch_id - 1], hosts[switch_id][-1])
+        hosts = {}
+        for switch_id in range(1, NUMBER_OF_ROUTERS + 1):
+            hosts[switch_id] = []
+            for host_id in range(1, args.hosts + 1):
+                hosts[switch_id].append(self.addHost(f's{switch_id}-h{host_id}',
+                                                     ip=f'192.168.{10 * switch_id}.{10 * host_id}/24'))
+                self.addLink(r_switches[switch_id - 1], hosts[switch_id][-1])
 
         r1 = routers[0]
         r2 = routers[1]
@@ -60,11 +67,11 @@ if __name__ == '__main__':
 
     net.start()
 
-    # for switch_id in range(1, NUMBER_OF_ROUTERS + 1):
-    #     for host_id in range(1, args.hosts + 1):
-    #         host = net.get(f's{switch_id}-h{host_id}')
-    #         host.setARP(f'192.168.{10 * switch_id}.1', '00:aa:bb:00:00:01')
-    #         host.setDefaultRoute(f'dev eth0 via 192.168.{10 * switch_id}.1')
+    for switch_id in range(1, NUMBER_OF_ROUTERS + 1):
+        for host_id in range(1, args.hosts + 1):
+            host = net.get(f's{switch_id}-h{host_id}')
+            host.setARP(f'192.168.{10 * switch_id}.1', '00:aa:bb:00:00:01')
+            host.setDefaultRoute(f'dev eth0 via 192.168.{10 * switch_id}.1')
 
     CLI(net)
     net.stop()
