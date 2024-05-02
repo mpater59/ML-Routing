@@ -26,7 +26,7 @@ class Topology(Topo):
         hosts = {}
         for switch_id in range(1, NUMBER_OF_ROUTERS + 1):
             hosts[switch_id] = []
-            for host_id in range(1, args.hots + 1):
+            for host_id in range(1, args.hosts + 1):
                 hosts[switch_id].append(self.addHost(f's{switch_id}-h{host_id}',
                                                      ip=f'192.168.{10 * switch_id}.{10 * host_id}/24'))
                 self.addLink(r_switches[switch_id - 1], hosts[switch_id][-1])
