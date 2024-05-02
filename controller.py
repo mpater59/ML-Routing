@@ -95,7 +95,15 @@ class RestController(ControllerBase):
 
     @route('get_ospf', '/ospf', methods=['GET'])
     def get_ospf(self, req, **kwargs):
-        return f"OSPF info: {ospf}\n"
+        output = "OSPF info\n"
+        for key, value in ospf.items():
+            if key == 'links':
+                output += "Links:\n"
+                for link in value:
+                    output += f"{link}\n"
+            else:
+                output += f"{key}: {value}\n"
+        return output
 
     @staticmethod
     def _set_ospf_link(sw1, sw2, metric):
