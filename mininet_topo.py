@@ -71,7 +71,7 @@ if __name__ == '__main__':
         for host_id in range(1, args.hosts + 1):
             host = net.get(f's{switch_id}h{host_id}')
             host.setARP(f'192.168.{10 * switch_id}.1', f'00:aa:bb:00:00:0{switch_id}')
-            host.setDefaultRoute(f'dev eth0 via 192.168.{10 * switch_id}.1')
+            host.setDefaultRoute(f'dev s{switch_id}h{host_id}-eth0 via 192.168.{10 * switch_id}.1')
 
     CLI(net)
     net.stop()
