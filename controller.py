@@ -416,8 +416,12 @@ class RestControllerAPI(app_manager.RyuApp):
         dp.send_msg(req)
 
     def _send_packet_in_queue(self, dpid):
+        print()
+        print('_send_packet_in_queue\n')
         for q_packet in routers[dpid]['queue']:
-            if q_packet['ip address'] in routers[dpid][arp]:
+            print(f'q_packet: {q_packet}')
+            print(f"routers[dpid]['arp']: {routers[dpid]['arp']}\n")
+            if q_packet['ip address'] in routers[dpid]['arp']:
                 pkt = q_packet
                 eth_pkt = pkt.get_protocol(ethernet.ethernet)
                 ip_pkt = pkt.get_protocol(ipv4.ipv4)
