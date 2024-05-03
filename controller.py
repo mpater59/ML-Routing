@@ -113,7 +113,7 @@ class RestController(ControllerBase):
             output += f"{key}: {value}\n"
         return output
 
-    @route('get_sw_info', '/mac', methods=['GET'])
+    @route('get_sw_info', '/switch/info', methods=['GET'])
     def get_sw_info(self, req, **kwargs):
         output = "Switch info\n"
         for info in sw_info_type:
