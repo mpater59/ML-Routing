@@ -298,11 +298,6 @@ class RestControllerAPI(app_manager.RyuApp):
         if (eth_pkt.ethertype == ether_types.ETH_TYPE_LLDP) or (eth_pkt.ethertype == ether_types.ETH_TYPE_IPV6):
             return
 
-        print('Correct!')
-        print(f'dp.id: {dp.id}')
-        print(f'pkt: {pkt}')
-        print(f'in_port: {in_port}')
-        print()
         if dp.id in routers:
             if eth_pkt.ethertype == ether_types.ETH_TYPE_ARP and in_port == 1:
                 arp_pkt = pkt.get_protocol(arp.arp)
@@ -347,11 +342,7 @@ class RestControllerAPI(app_manager.RyuApp):
         replay_pkt = packet.Packet()
         replay_pkt.add_protocol(eth_replay)
         replay_pkt.add_protocol(arp_replay)
-        print('_arp_request_handler_router')
-        print(replay_pkt)
         replay_pkt.serialize()
-        print(replay_pkt)
-        print()
 
         actions = [parser.OFPActionOutput(port=1)]
         req = parser.OFPPacketOut(datapath=dp, in_port=ofproto.OFPP_CONTROLLER, actions=actions, data=replay_pkt,
@@ -364,11 +355,7 @@ class RestControllerAPI(app_manager.RyuApp):
             eth_pkt = pkt.get_protocol(ethernet.ethernet)
             eth_pkt.src = routers[dpid]['mac address']
             eth_pkt.dst = routers[dpid]['arp'][ip_pkt.dst]
-            print('_ip_handler_router')
-            print(pkt)
             pkt.serialize()
-            print(pkt)
-            print()
             self._send_packet(dpid, 1, pkt)
             self._add_flow_router(dpid, ip_pkt.dst)
         else:
@@ -412,11 +399,7 @@ class RestControllerAPI(app_manager.RyuApp):
         replay_pkt = packet.Packet()
         replay_pkt.add_protocol(eth_replay)
         replay_pkt.add_protocol(arp_replay)
-        print('_send_arp_request')
-        print(replay_pkt)
         replay_pkt.serialize()
-        print(replay_pkt)
-        print()
 
         actions = [parser.OFPActionOutput(port=1)]
         req = parser.OFPPacketOut(datapath=dp, in_port=ofproto.OFPP_CONTROLLER, actions=actions, data=replay_pkt,
@@ -424,23 +407,15 @@ class RestControllerAPI(app_manager.RyuApp):
         dp.send_msg(req)
 
     def _send_packet_in_queue(self, dpid):
-        print()
-        print('_send_packet_in_queue\n')
         del_packets = []
         for q_packet in routers[dpid]['queue']:
-            print(f'q_packet: {q_packet}')
-            print(f"routers[dpid]['arp']: {routers[dpid]['arp']}\n")
             if q_packet['ip address'] in routers[dpid]['arp']:
                 pkt = q_packet['packet']
                 eth_pkt = pkt.get_protocol(ethernet.ethernet)
                 ip_pkt = pkt.get_protocol(ipv4.ipv4)
                 eth_pkt.src = routers[dpid]['mac address']
                 eth_pkt.dst = routers[dpid]['arp'][ip_pkt.dst]
-                print('_send_packet_in_queue')
-                print(pkt)
                 pkt.serialize()
-                print(pkt)
-                print()
                 self._send_packet(dpid, 1, pkt)
                 self._add_flow_router(dpid, q_packet['ip address'])
                 del_packets.append(q_packet)
