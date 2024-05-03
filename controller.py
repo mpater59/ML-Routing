@@ -273,7 +273,7 @@ class RestControllerAPI(app_manager.RyuApp):
         pkt = packet.Packet(msg.data)
         eth_pkt = pkt.get_protocols(ethernet.ethernet)[0]
 
-        if eth_pkt.ethertype == ether_types.ETH_TYPE_LLDP:
+        if eth_pkt.ethertype == ether_types.ETH_TYPE_LLDP or ether_types.ETH_TYPE_IPV6:
             return
 
         print(f'dp.id: {dp.id}')
