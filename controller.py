@@ -273,7 +273,7 @@ class RestControllerAPI(app_manager.RyuApp):
         pkt = packet.Packet(msg.data)
         eth_pkt = pkt.get_protocols(ethernet.ethernet)[0]
 
-        if eth_pkt.ethertype == ether_types.ETH_TYPE_LLDP or ether_types.ETH_TYPE_IPV6:
+        if (eth_pkt.ethertype != ether_types.ETH_TYPE_IP) or (eth_pkt.ethertype != ether_types.ETH_TYPE_ARP):
             if eth_pkt.src == '00:00:00:00:00:01' and eth_pkt.dst == 'ff:ff:ff:ff:ff:ff':
                 print('Blocked!')
                 print(f'dp.id: {dp.id}')
