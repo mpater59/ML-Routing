@@ -311,7 +311,8 @@ class RestControllerAPI(app_manager.RyuApp):
                     self._arp_request_handler_router(dp.id, arp_pkt)
             elif eth_pkt.ethertype == ether_types.ETH_TYPE_IP:
                 ip_pkt = pkt.get_protocol(ipv4.ipv4)
-                routers[dp.id]['arp'][ip_pkt.src] = eth_pkt.src
+                if in_port == 1:
+                    routers[dp.id]['arp'][ip_pkt.src] = eth_pkt.src
                 self._ip_handler_router(dp.id, pkt)
             self._send_packet_in_queue(dp.id)
         elif self._check_if_switch(dp.id) is True:
@@ -429,7 +430,7 @@ class RestControllerAPI(app_manager.RyuApp):
             print(f'q_packet: {q_packet}')
             print(f"routers[dpid]['arp']: {routers[dpid]['arp']}\n")
             if q_packet['ip address'] in routers[dpid]['arp']:
-                pkt = q_packet
+                pkt = q_packet['packet']
                 eth_pkt = pkt.get_protocol(ethernet.ethernet)
                 ip_pkt = pkt.get_protocol(ipv4.ipv4)
                 eth_pkt.src = routers[dpid]['mac address']
