@@ -151,8 +151,13 @@ class RestController(ControllerBase):
                 ospf['routing tables'][s_dpid] = self._set_routing_table(s_dpid)
                 for network in ospf['networks']:
                     d_dpid = network['dpid']
+                    print(f'd_dpid: {d_dpid}')
+                    print(f's_dpid: {s_dpid}\n')
                     if d_dpid != s_dpid:
                         port = self._get_route_port(s_dpid, ospf['routing tables'][s_dpid][d_dpid])
+                        print(f"ospf['routing tables'][s_dpid][d_dpid]: {ospf['routing tables'][s_dpid][d_dpid]}")
+                        print(f'port: {port}')
+                        print(f'_get_network(d_dpid): {_get_network(d_dpid)}\n')
                         self._add_flow_network(d_dpid, port, _get_network(d_dpid))
 
     def _dijkstra_algorithm(self, s_dpid):
@@ -203,16 +208,10 @@ class RestController(ControllerBase):
     def _set_routing_table(dpid):
         paths = ospf['paths'][dpid]
         routing_table = {}
-        print(f'dpid: {dpid}')
-        print(f'paths: {paths}\n')
         for d_dpid, prev_node in paths.items():
-            print(f'd_dpid: {d_dpid}')
-            print(f'prev_node: {prev_node}\n')
             via_node = d_dpid
             while prev_node != dpid:
                 for d_dpid_temp, prev_node_temp in paths.items():
-                    print(f'prev_node_temp: {prev_node_temp}')
-                    print(f'd_dpid_temp: {d_dpid_temp}')
                     if d_dpid_temp == prev_node:
                         prev_node = prev_node_temp
                         via_node = d_dpid_temp
