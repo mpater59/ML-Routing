@@ -159,7 +159,7 @@ class RestController(ControllerBase):
                         print(f'port: {port}')
                         print(f'_get_network(d_dpid): {_get_network(d_dpid)}\n')
                         self._add_flow_network(d_dpid, port, _get_network(d_dpid))
-                        exit()
+                exit()
 
     def _dijkstra_algorithm(self, s_dpid):
         unvisited_nodes = []
