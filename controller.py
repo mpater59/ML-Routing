@@ -373,7 +373,8 @@ class RestControllerAPI(app_manager.RyuApp):
         if eth_pkt.dst in sw_mac_to_port[dpid]:
             ip_pkt = pkt.get_protocol(ipv4.ipv4)
             self._send_packet(dpid, sw_mac_to_port[dpid][eth_pkt.dst], pkt)
-            self._add_flow_switch(dpid, ip_pkt.src, ip_pkt.dst, sw_mac_to_port[dpid][eth_pkt.dst])
+            self._add_flow_switch(dpid, eth_pkt.src, eth_pkt.dst, ip_pkt.src, ip_pkt.dst,
+                                  sw_mac_to_port[dpid][eth_pkt.dst])
         else:
             dp = self.dpset.get(dpid)
             ofproto = dp.ofproto
@@ -460,13 +461,10 @@ class RestControllerAPI(app_manager.RyuApp):
                                 command=ofproto.OFPFC_ADD)
         dp.send_msg(mod)
 
-    def _add_flow_switch(self, dpid, src_ip, dst_ip, out_port):
+    def _add_flow_switch(self, dpid, src_mac, dst_mac, src_ip, dst_ip, out_port):
         dp = self.dpset.get(dpid)
         ofproto = dp.ofproto
         parser = dp.ofproto_parser
-
-        src_mac = routers[dpid]['mac address']
-        dst_mac = routers[dpid]['arp'][dst_ip]
 
         match = parser.OFPMatch(eth_src=src_mac, eth_dst=dst_mac, eth_type=0x0800, ipv4_src=src_ip, ipv4_dst=dst_ip)
         actions = [parser.OFPActionOutput(port=out_port)]
