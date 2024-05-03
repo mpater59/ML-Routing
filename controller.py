@@ -208,14 +208,16 @@ class RestController(ControllerBase):
         for d_dpid, prev_node in paths.items():
             print(f'd_dpid: {d_dpid}')
             print(f'prev_node: {prev_node}\n')
+            via_node = d_dpid
             while prev_node != dpid:
                 for d_dpid_temp, prev_node_temp in paths.items():
                     print(f'prev_node_temp: {prev_node_temp}')
                     print(f'd_dpid_temp: {d_dpid_temp}')
                     if d_dpid_temp == prev_node:
                         prev_node = prev_node_temp
+                        via_node = d_dpid_temp
                         break
-            routing_table[d_dpid] = prev_node
+            routing_table[d_dpid] = via_node
         return routing_table
 
     @staticmethod
