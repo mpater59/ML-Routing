@@ -277,11 +277,14 @@ class RestControllerAPI(app_manager.RyuApp):
             if eth_pkt.src == '00:00:00:00:00:01' and eth_pkt.dst == 'ff:ff:ff:ff:ff:ff':
                 print('Blocked!')
                 print(f'dp.id: {dp.id}')
-                print(f'pkt: {pkt}\n')
+                print(f'pkt: {pkt}')
+                print(f'in_port: {in_port}\n')
             return
 
+        print('Correct!')
         print(f'dp.id: {dp.id}')
         print(f'pkt: {pkt}')
+        print(f'in_port: {in_port}\n')
         if dp.id in routers:
             if eth_pkt.ethertype == ether_types.ETH_TYPE_ARP and in_port == 1:
                 arp_pkt = pkt.get_protocol(arp.arp)
