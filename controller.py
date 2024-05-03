@@ -176,10 +176,6 @@ class RestController(ControllerBase):
                 if path_cost[node] < current_min_path:
                     current_min_path = path_cost[node]
                     visiting_node = node
-            print(f'path_cost: {path_cost}')
-            print(f'current_min_path: {current_min_path}')
-            print(f'visiting_node: {visiting_node}')
-            print(f'unvisited_nodes: {unvisited_nodes}\n')
             unvisited_nodes.remove(visiting_node)
 
             adj_nodes = []
@@ -187,11 +183,19 @@ class RestController(ControllerBase):
                 if self._link_cost(visiting_node, node) != math.inf:
                     adj_nodes.append(node)
 
+            print(f'adj_nodes: {adj_nodes}\n')
             for adj_node in adj_nodes:
                 new_cost = path_cost[visiting_node] + self._link_cost(visiting_node, adj_nodes)
+                print(f'new_cost: {new_cost}')
+                print(f'path_cost[adj_node]: {path_cost[adj_node]}')
                 if path_cost[adj_node] > new_cost:
                     path_cost[adj_node] = new_cost
                     prev_node[adj_node] = visiting_node
+            print()
+            print(f'path_cost: {path_cost}')
+            print(f'current_min_path: {current_min_path}')
+            print(f'visiting_node: {visiting_node}')
+            print(f'unvisited_nodes: {unvisited_nodes}\n')
         return prev_node
 
     @staticmethod
