@@ -159,6 +159,7 @@ class RestController(ControllerBase):
                         print(f'port: {port}')
                         print(f'_get_network(d_dpid): {_get_network(d_dpid)}\n')
                         self._add_flow_network(d_dpid, port, _get_network(d_dpid))
+                        exit()
 
     def _dijkstra_algorithm(self, s_dpid):
         unvisited_nodes = []
@@ -192,8 +193,6 @@ class RestController(ControllerBase):
                 if path_cost[adj_node] > new_cost:
                     path_cost[adj_node] = new_cost
                     prev_node[adj_node] = visiting_node
-            print()
-
         return prev_node
 
     @staticmethod
