@@ -36,6 +36,12 @@ curl -X POST http://127.0.0.1:8080/ospf/link -H "Accept: application/json" -d '{
 curl -X POST http://127.0.0.1:8080/ospf/link -H "Accept: application/json" -d '{"sw1": {"dpid": "0000000000000003", "port": 4}, "sw2": {"dpid": "0000000000000005", "port": 2}, "metric": 20}'
 curl -X POST http://127.0.0.1:8080/ospf/link -H "Accept: application/json" -d '{"sw1": {"dpid": "0000000000000005", "port": 3}, "sw2": {"dpid": "0000000000000004", "port": 5}, "metric": 20}'
 
+curl -X POST http://127.0.0.1:8080/ospf/network/switch/0000000000000001 -H "Accept: application/json" -d '{"network": "192.168.10.0/24"}'
+curl -X POST http://127.0.0.1:8080/ospf/network/switch/0000000000000002 -H "Accept: application/json" -d '{"network": "192.168.20.0/24"}'
+curl -X POST http://127.0.0.1:8080/ospf/network/switch/0000000000000003 -H "Accept: application/json" -d '{"network": "192.168.30.0/24"}'
+curl -X POST http://127.0.0.1:8080/ospf/network/switch/0000000000000004 -H "Accept: application/json" -d '{"network": "192.168.40.0/24"}'
+curl -X POST http://127.0.0.1:8080/ospf/network/switch/0000000000000005 -H "Accept: application/json" -d '{"network": "192.168.50.0/24"}'
+
 curl -X POST http://127.0.0.1:8080/ospf -H "Accept: application/json" -d '{"enable": true}'
 
 curl -X GET http://127.0.0.1:8080/ospf -H "Accept: application/json"
