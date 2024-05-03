@@ -202,7 +202,12 @@ class RestController(ControllerBase):
 
     @staticmethod
     def _link_cost(dpid1, dpid2):
+        print()
+        print(f'dpid1: {dpid1}')
+        print(f'dpid2: {dpid2}')
         for link in ospf['links']:
+            print(f"link['sw1']['dpid']: {link['sw1']['dpid']}")
+            print(f"link['sw2']['dpid']: {link['sw2']['dpid']}")
             if (link['sw1']['dpid'] == dpid1 and link['sw2']['dpid'] == dpid2) or (link['sw1']['dpid'] == dpid2 and
                                                                                    link['sw2']['dpid'] == dpid1):
                 return link['metric']
