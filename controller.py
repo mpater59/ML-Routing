@@ -301,6 +301,7 @@ class RestControllerAPI(app_manager.RyuApp):
         print(f'pkt: {pkt}')
         print(f'in_port: {in_port}')
         print(f'self._check_if_switch(dp.id): {self._check_if_switch(dp.id)}')
+        print(f'Is ARP?: {eth_pkt.ethertype == ether_types.ETH_TYPE_ARP}')
         print()
         if dp.id in routers:
             if eth_pkt.ethertype == ether_types.ETH_TYPE_ARP and in_port == 1:
