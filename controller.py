@@ -105,6 +105,13 @@ class RestController(ControllerBase):
                 output += f"{key}: {value}\n"
         return output
 
+    @route('get_mac_to_port', '/mac', methods=['GET'])
+    def get_mac_to_port(self, req, **kwargs):
+        output = "MAC to port info\n"
+        for key, value in ospf.items():
+            output += f"{key}: {value}\n"
+        return output
+
     @staticmethod
     def _set_ospf_link(sw1, sw2, metric):
         link_exists = False
