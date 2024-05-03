@@ -433,7 +433,7 @@ class RestControllerAPI(app_manager.RyuApp):
         if in_port is None:
             in_port = ofproto.OFPP_CONTROLLER
 
-        data = pkt.serialize()
+        data = pkt
         actions = [parser.OFPActionOutput(out_port)]
         req = parser.OFPPacketOut(datapath=dp, in_port=in_port, actions=actions, data=data,
                                   buffer_id=ofproto.OFP_NO_BUFFER)
