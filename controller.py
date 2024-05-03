@@ -120,6 +120,13 @@ class RestController(ControllerBase):
             output += f"{info}\n"
         return output
 
+    @route('get_routers_info', '/routers', methods=['GET'])
+    def get_routers_info(self, req, **kwargs):
+        output = "Routers info\n"
+        for key, value in routers.items():
+            output += f"{key}: {value}\n"
+        return output
+
     @staticmethod
     def _set_ospf_link(sw1, sw2, metric):
         link_exists = False
