@@ -151,13 +151,8 @@ class RestController(ControllerBase):
                 ospf['routing tables'][s_dpid] = self._set_routing_table(s_dpid)
                 for network in ospf['networks']:
                     d_dpid = network['dpid']
-                    print(f'd_dpid: {d_dpid}')
-                    print(f's_dpid: {s_dpid}\n')
                     if d_dpid != s_dpid:
                         port = self._get_route_port(s_dpid, ospf['routing tables'][s_dpid][d_dpid])
-                        print(f"ospf['routing tables'][s_dpid][d_dpid]: {ospf['routing tables'][s_dpid][d_dpid]}")
-                        print(f'port: {port}')
-                        print(f'_get_network(d_dpid): {_get_network(d_dpid)}\n')
                         self._add_flow_network(s_dpid, port, _get_network(d_dpid))
 
     def _dijkstra_algorithm(self, s_dpid):
@@ -278,6 +273,11 @@ class RestControllerAPI(app_manager.RyuApp):
         pkt = packet.Packet(msg.data)
         eth_pkt = pkt.get_protocols(ethernet.ethernet)[0]
 
+        if eth_pkt.ethertype != ether_types.ETH_TYPE_IP or ether_types.ETH_TYPE_ARP:
+            return
+
+        print(f'dp.id: {dp.id}')
+        print(f'pkt: {pkt}')
         if dp.id in routers:
             if eth_pkt.ethertype == ether_types.ETH_TYPE_ARP and in_port == 1:
                 arp_pkt = pkt.get_protocol(arp.arp)
@@ -351,7 +351,7 @@ class RestControllerAPI(app_manager.RyuApp):
         else:
             dp = self.dpset.get(dpid)
             ofproto = dp.ofproto
-            self._send_packet(dpid, ofproto.OFP_FLOOD, pkt)
+            self._send_packet(dpid, ofproto.OFPP_FLOOD, pkt)
 
     def _other_handler_switch(self, dpid, pkt):
         eth_pkt = pkt.get_protocol(ethernet.ethernet)
