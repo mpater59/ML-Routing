@@ -317,9 +317,9 @@ class RestControllerAPI(app_manager.RyuApp):
         elif self._check_if_switch(dp.id) is True:
             sw_mac_to_port[dp.id][eth_pkt.src] = in_port
             if eth_pkt.ethertype == ether_types.ETH_TYPE_IP:
-                self._ip_handler_switch(dp.id, pkt)
+                self._ip_handler_switch(dp.id, pkt, in_port)
             elif eth_pkt.ethertype == ether_types.ETH_TYPE_ARP:
-                self._other_handler_switch(dp.id, pkt)
+                self._other_handler_switch(dp.id, pkt, in_port)
 
     @staticmethod
     def _check_if_switch(dpid):
@@ -367,7 +367,7 @@ class RestControllerAPI(app_manager.RyuApp):
                 self._send_arp_request(dpid, ip_pkt.dst)
                 routers[dpid]['queue'].append({'ip address': ip_pkt.dst, 'packet': pkt})
 
-    def _ip_handler_switch(self, dpid, pkt):
+    def _ip_handler_switch(self, dpid, pkt, in_port):
         eth_pkt = pkt.get_protocol(ethernet.ethernet)
         if eth_pkt.dst in sw_mac_to_port[dpid]:
             ip_pkt = pkt.get_protocol(ipv4.ipv4)
@@ -376,9 +376,9 @@ class RestControllerAPI(app_manager.RyuApp):
         else:
             dp = self.dpset.get(dpid)
             ofproto = dp.ofproto
-            self._send_packet(dpid, ofproto.OFPP_FLOOD, pkt)
+            self._send_packet(dpid, ofproto.OFPP_FLOOD, pkt, in_port)
 
-    def _other_handler_switch(self, dpid, pkt):
+    def _other_handler_switch(self, dpid, pkt, in_port):
         print('Entered _other_handler_switch')
         eth_pkt = pkt.get_protocol(ethernet.ethernet)
         if eth_pkt.dst in sw_mac_to_port[dpid]:
@@ -387,7 +387,7 @@ class RestControllerAPI(app_manager.RyuApp):
             print('Sending flood packet!\n')
             dp = self.dpset.get(dpid)
             ofproto = dp.ofproto
-            self._send_packet(dpid, ofproto.OFPP_FLOOD, pkt)
+            self._send_packet(dpid, ofproto.OFPP_FLOOD, pkt, in_port)
 
     def _send_arp_request(self, dpid, ip_dst):
         dp = self.dpset.get(dpid)
@@ -423,16 +423,19 @@ class RestControllerAPI(app_manager.RyuApp):
                 self._send_packet(dpid, 1, pkt)
                 self._add_flow_router(dpid, q_packet['ip address'])
 
-    def _send_packet(self, dpid, out_port, pkt):
+    def _send_packet(self, dpid, out_port, pkt, in_port=None):
         print('Sending packet!\n')
 
         dp = self.dpset.get(dpid)
         ofproto = dp.ofproto
         parser = dp.ofproto_parser
 
+        if in_port is None:
+            in_port = ofproto.OFPP_CONTROLLER
+
         data = pkt.serialize()
-        actions = [parser.OFPActionOutput(out_port)]
-        req = parser.OFPPacketOut(datapath=dp, in_port=ofproto.OFPP_CONTROLLER, actions=actions, data=data,
+        actions = [parser.OFPActionOutput(port=out_port)]
+        req = parser.OFPPacketOut(datapath=dp, in_port=in_port, actions=actions, data=data,
                                   buffer_id=ofproto.OFP_NO_BUFFER)
         dp.send_msg(req)
 
