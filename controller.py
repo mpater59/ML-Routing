@@ -108,7 +108,7 @@ class RestController(ControllerBase):
     @route('get_mac_to_port', '/mac', methods=['GET'])
     def get_mac_to_port(self, req, **kwargs):
         output = "MAC to port info\n"
-        for key, value in ospf.items():
+        for key, value in sw_mac_to_port.items():
             output += f"{key}: {value}\n"
         return output
 
