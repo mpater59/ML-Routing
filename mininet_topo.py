@@ -72,9 +72,6 @@ if __name__ == '__main__':
             host = net.get(f's{switch_id}h{host_id}')
             host.setARP(f'192.168.{10 * switch_id}.1', f'00:aa:bb:00:00:0{switch_id}')
             host.setDefaultRoute(f'dev s{switch_id}h{host_id}-eth0 via 192.168.{10 * switch_id}.1')
-            host.cmd("sysctl -w net.ipv6.conf.all.disable_ipv6=1")
-            host.cmd("sysctl -w net.ipv6.conf.default.disable_ipv6=1")
-            host.cmd("sysctl -w net.ipv6.conf.lo.disable_ipv6=1")
 
     CLI(net)
     net.stop()
