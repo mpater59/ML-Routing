@@ -188,11 +188,11 @@ class RestController(ControllerBase):
             print(f'unvisited_nodes: {unvisited_nodes}')
             print(f'adj_nodes: {adj_nodes}\n')
             for adj_node in adj_nodes:
-                new_cost = path_cost[visiting_node] + self._link_cost(visiting_node, adj_nodes)
+                new_cost = path_cost[visiting_node] + self._link_cost(visiting_node, adj_node)
                 print(f'adj_node: {adj_node}')
                 print(f'new_cost: {new_cost}')
                 print(f'path_cost[adj_node]: {path_cost[adj_node]}')
-                print(f'self._link_cost(visiting_node, adj_nodes): {self._link_cost(visiting_node, adj_nodes)}')
+                print(f'self._link_cost(visiting_node, adj_nodes): {self._link_cost(visiting_node, adj_node)}')
                 if path_cost[adj_node] > new_cost:
                     path_cost[adj_node] = new_cost
                     prev_node[adj_node] = visiting_node
