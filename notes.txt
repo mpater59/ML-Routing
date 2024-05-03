@@ -1,5 +1,7 @@
 sudo mn -c
 
+sudo python3 mininet_topo.py
+
 ryu-manager --observe-links controller.py ../ryu/ryu/app/gui_topology/gui_topology.py
 
 curl -X POST http://127.0.0.1:8080/switch/0000000000000001 -H "Accept: application/json" -d '{"type": "router", "ip address": "192.168.10.1", "mac address": "00:aa:bb:00:00:01"}'
