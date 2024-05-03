@@ -379,10 +379,12 @@ class RestControllerAPI(app_manager.RyuApp):
             self._send_packet(dpid, ofproto.OFPP_FLOOD, pkt)
 
     def _other_handler_switch(self, dpid, pkt):
+        print('Entered _other_handler_switch')
         eth_pkt = pkt.get_protocol(ethernet.ethernet)
         if eth_pkt.dst in sw_mac_to_port[dpid]:
             self._send_packet(dpid, sw_mac_to_port[dpid][eth_pkt.dst], pkt)
         else:
+            print('Sending flood packet!\n')
             dp = self.dpset.get(dpid)
             ofproto = dp.ofproto
             self._send_packet(dpid, ofproto.OFPP_FLOOD, pkt)
@@ -422,6 +424,8 @@ class RestControllerAPI(app_manager.RyuApp):
                 self._add_flow_router(dpid, q_packet['ip address'])
 
     def _send_packet(self, dpid, out_port, pkt):
+        print('Sending packet!\n')
+
         dp = self.dpset.get(dpid)
         ofproto = dp.ofproto
         parser = dp.ofproto_parser
