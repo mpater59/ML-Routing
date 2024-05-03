@@ -182,17 +182,8 @@ class RestController(ControllerBase):
             for node in unvisited_nodes:
                 if self._link_cost(visiting_node, node) != math.inf:
                     adj_nodes.append(node)
-            print(f'path_cost: {path_cost}')
-            print(f'current_min_path: {current_min_path}')
-            print(f'visiting_node: {visiting_node}')
-            print(f'unvisited_nodes: {unvisited_nodes}')
-            print(f'adj_nodes: {adj_nodes}\n')
             for adj_node in adj_nodes:
                 new_cost = path_cost[visiting_node] + self._link_cost(visiting_node, adj_node)
-                print(f'adj_node: {adj_node}')
-                print(f'new_cost: {new_cost}')
-                print(f'path_cost[adj_node]: {path_cost[adj_node]}')
-                print(f'self._link_cost(visiting_node, adj_nodes): {self._link_cost(visiting_node, adj_node)}')
                 if path_cost[adj_node] > new_cost:
                     path_cost[adj_node] = new_cost
                     prev_node[adj_node] = visiting_node
@@ -202,12 +193,7 @@ class RestController(ControllerBase):
 
     @staticmethod
     def _link_cost(dpid1, dpid2):
-        print()
-        print(f'dpid1: {dpid1}')
-        print(f'dpid2: {dpid2}')
         for link in ospf['links']:
-            print(f"link['sw1']['dpid']: {link['sw1']['dpid']}")
-            print(f"link['sw2']['dpid']: {link['sw2']['dpid']}")
             if (link['sw1']['dpid'] == dpid1 and link['sw2']['dpid'] == dpid2) or (link['sw1']['dpid'] == dpid2 and
                                                                                    link['sw2']['dpid'] == dpid1):
                 return link['metric']
@@ -217,9 +203,15 @@ class RestController(ControllerBase):
     def _set_routing_table(dpid):
         paths = ospf['paths'][dpid]
         routing_table = {}
+        print(f'dpid: {dpid}')
+        print(f'paths: {paths}\n')
         for d_dpid, prev_node in paths.items():
+            print(f'd_dpid: {d_dpid}')
+            print(f'prev_node: {prev_node}\n')
             while prev_node != dpid:
                 for d_dpid_temp, prev_node_temp in paths.items():
+                    print(f'prev_node_temp: {prev_node_temp}')
+                    print(f'd_dpid_temp: {d_dpid_temp}')
                     if d_dpid_temp == prev_node:
                         prev_node = prev_node_temp
                         break
