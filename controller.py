@@ -437,6 +437,9 @@ class RestControllerAPI(app_manager.RyuApp):
         actions = [parser.OFPActionOutput(out_port)]
         req = parser.OFPPacketOut(datapath=dp, in_port=in_port, actions=actions, data=data,
                                   buffer_id=ofproto.OFP_NO_BUFFER)
+        print(pkt)
+        print(pkt.serialize())
+        print()
         print(dp)
         print(dp.id)
         print(data)
