@@ -45,3 +45,5 @@ curl -X POST http://127.0.0.1:8080/ospf/network/switch/0000000000000005 -H "Acce
 curl -X POST http://127.0.0.1:8080/ospf -H "Accept: application/json" -d '{"enable": true}'
 
 curl -X GET http://127.0.0.1:8080/ospf -H "Accept: application/json"
+
+curl -X GET http://127.0.0.1:8080/mac -H "Accept: application/json"
