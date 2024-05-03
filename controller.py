@@ -289,19 +289,12 @@ class RestControllerAPI(app_manager.RyuApp):
         eth_pkt = pkt.get_protocols(ethernet.ethernet)[0]
 
         if (eth_pkt.ethertype == ether_types.ETH_TYPE_LLDP) or (eth_pkt.ethertype == ether_types.ETH_TYPE_IPV6):
-            if eth_pkt.src == '00:00:00:00:00:01' and eth_pkt.dst == 'ff:ff:ff:ff:ff:ff':
-                print('Blocked!')
-                print(f'dp.id: {dp.id}')
-                print(f'pkt: {pkt}')
-                print(f'in_port: {in_port}\n')
             return
 
         print('Correct!')
         print(f'dp.id: {dp.id}')
         print(f'pkt: {pkt}')
         print(f'in_port: {in_port}')
-        print(f'self._check_if_switch(dp.id): {self._check_if_switch(dp.id)}')
-        print(f'Is ARP?: {eth_pkt.ethertype == ether_types.ETH_TYPE_ARP}')
         print()
         if dp.id in routers:
             if eth_pkt.ethertype == ether_types.ETH_TYPE_ARP and in_port == 1:
@@ -346,7 +339,11 @@ class RestControllerAPI(app_manager.RyuApp):
         replay_pkt = packet.Packet()
         replay_pkt.add_protocol(eth_replay)
         replay_pkt.add_protocol(arp_replay)
+        print('_arp_request_handler_router')
+        print(replay_pkt)
         replay_pkt.serialize()
+        print(replay_pkt)
+        print()
 
         actions = [parser.OFPActionOutput(port=1)]
         req = parser.OFPPacketOut(datapath=dp, in_port=ofproto.OFPP_CONTROLLER, actions=actions, data=replay_pkt,
@@ -359,7 +356,11 @@ class RestControllerAPI(app_manager.RyuApp):
             eth_pkt = pkt.get_protocol(ethernet.ethernet)
             eth_pkt.src = routers[dpid]['mac address']
             eth_pkt.dst = routers[dpid]['arp'][ip_pkt.dst]
+            print('_ip_handler_router')
+            print(pkt)
             pkt.serialize()
+            print(pkt)
+            print()
             self._send_packet(dpid, 1, pkt)
             self._add_flow_router(dpid, ip_pkt.dst)
         else:
@@ -379,12 +380,10 @@ class RestControllerAPI(app_manager.RyuApp):
             self._send_packet(dpid, ofproto.OFPP_FLOOD, pkt, in_port)
 
     def _other_handler_switch(self, dpid, pkt, in_port):
-        print('Entered _other_handler_switch')
         eth_pkt = pkt.get_protocol(ethernet.ethernet)
         if eth_pkt.dst in sw_mac_to_port[dpid]:
             self._send_packet(dpid, sw_mac_to_port[dpid][eth_pkt.dst], pkt)
         else:
-            print('Sending flood packet!\n')
             dp = self.dpset.get(dpid)
             ofproto = dp.ofproto
             self._send_packet(dpid, ofproto.OFPP_FLOOD, pkt, in_port)
@@ -404,7 +403,11 @@ class RestControllerAPI(app_manager.RyuApp):
         replay_pkt = packet.Packet()
         replay_pkt.add_protocol(eth_replay)
         replay_pkt.add_protocol(arp_replay)
+        print('_send_arp_request')
+        print(replay_pkt)
         replay_pkt.serialize()
+        print(replay_pkt)
+        print()
 
         actions = [parser.OFPActionOutput(port=1)]
         req = parser.OFPPacketOut(datapath=dp, in_port=ofproto.OFPP_CONTROLLER, actions=actions, data=replay_pkt,
@@ -419,13 +422,15 @@ class RestControllerAPI(app_manager.RyuApp):
                 ip_pkt = pkt.get_protocol(ipv4.ipv4)
                 eth_pkt.src = routers[dpid]['mac address']
                 eth_pkt.dst = routers[dpid]['arp'][ip_pkt.dst]
+                print('_send_packet_in_queue')
+                print(pkt)
                 pkt.serialize()
+                print(pkt)
+                print()
                 self._send_packet(dpid, 1, pkt)
                 self._add_flow_router(dpid, q_packet['ip address'])
 
     def _send_packet(self, dpid, out_port, pkt, in_port=None):
-        print('Sending packet!')
-
         dp = self.dpset.get(dpid)
         ofproto = dp.ofproto
         parser = dp.ofproto_parser
@@ -437,15 +442,6 @@ class RestControllerAPI(app_manager.RyuApp):
         actions = [parser.OFPActionOutput(out_port)]
         req = parser.OFPPacketOut(datapath=dp, in_port=in_port, actions=actions, data=data,
                                   buffer_id=ofproto.OFP_NO_BUFFER)
-        print(pkt)
-        print(pkt.serialize())
-        print()
-        print(dp)
-        print(dp.id)
-        print(data)
-        print(actions)
-        print(req)
-        print()
         dp.send_msg(req)
 
     def _add_flow_router(self, dpid, dst_ip):
