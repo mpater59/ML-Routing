@@ -424,7 +424,7 @@ class RestControllerAPI(app_manager.RyuApp):
                 self._add_flow_router(dpid, q_packet['ip address'])
 
     def _send_packet(self, dpid, out_port, pkt, in_port=None):
-        print('Sending packet!\n')
+        print('Sending packet!')
 
         dp = self.dpset.get(dpid)
         ofproto = dp.ofproto
@@ -434,9 +434,15 @@ class RestControllerAPI(app_manager.RyuApp):
             in_port = ofproto.OFPP_CONTROLLER
 
         data = pkt.serialize()
-        actions = [parser.OFPActionOutput(port=out_port)]
+        actions = [parser.OFPActionOutput(out_port)]
         req = parser.OFPPacketOut(datapath=dp, in_port=in_port, actions=actions, data=data,
                                   buffer_id=ofproto.OFP_NO_BUFFER)
+        print(dp)
+        print(dp.id)
+        print(data)
+        print(actions)
+        print(req)
+        print()
         dp.send_msg(req)
 
     def _add_flow_router(self, dpid, dst_ip):
