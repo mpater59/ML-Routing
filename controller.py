@@ -43,6 +43,7 @@ class RestController(ControllerBase):
                                  'queue': []}
             elif data['type'] == 'switch':
                 sw_info_type.append({'dpid': dpid, 'type': 'switch'})
+                sw_mac_to_port[dpid] = {}
             else:
                 return "Wrong JSON body\n"
         else:
@@ -304,7 +305,7 @@ class RestControllerAPI(app_manager.RyuApp):
                 self._ip_handler_router(dp.id, pkt)
             self._send_packet_in_queue(dp.id)
         elif self._check_if_switch(dp.id) is True:
-            sw_mac_to_port[eth_pkt.src] = in_port
+            sw_mac_to_port[dp.id][eth_pkt.src] = in_port
             if eth_pkt.ethertype == ether_types.ETH_TYPE_IP:
                 self._ip_handler_switch(dp.id, pkt)
             elif eth_pkt.ethertype == ether_types.ETH_TYPE_ARP:
@@ -358,10 +359,10 @@ class RestControllerAPI(app_manager.RyuApp):
 
     def _ip_handler_switch(self, dpid, pkt):
         eth_pkt = pkt.get_protocol(ethernet.ethernet)
-        if eth_pkt.dst in sw_mac_to_port:
+        if eth_pkt.dst in sw_mac_to_port[dpid]:
             ip_pkt = pkt.get_protocol(ipv4.ipv4)
-            self._send_packet(dpid, sw_mac_to_port[eth_pkt.dst], pkt)
-            self._add_flow_switch(dpid, ip_pkt.src, ip_pkt.dst, sw_mac_to_port[eth_pkt.dst])
+            self._send_packet(dpid, sw_mac_to_port[dpid][eth_pkt.dst], pkt)
+            self._add_flow_switch(dpid, ip_pkt.src, ip_pkt.dst, sw_mac_to_port[dpid][eth_pkt.dst])
         else:
             dp = self.dpset.get(dpid)
             ofproto = dp.ofproto
@@ -369,8 +370,8 @@ class RestControllerAPI(app_manager.RyuApp):
 
     def _other_handler_switch(self, dpid, pkt):
         eth_pkt = pkt.get_protocol(ethernet.ethernet)
-        if eth_pkt.dst in sw_mac_to_port:
-            self._send_packet(dpid, sw_mac_to_port[eth_pkt.dst], pkt)
+        if eth_pkt.dst in sw_mac_to_port[dpid]:
+            self._send_packet(dpid, sw_mac_to_port[dpid][eth_pkt.dst], pkt)
         else:
             dp = self.dpset.get(dpid)
             ofproto = dp.ofproto
