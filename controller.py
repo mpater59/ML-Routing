@@ -426,6 +426,7 @@ class RestControllerAPI(app_manager.RyuApp):
     def _send_packet_in_queue(self, dpid):
         print()
         print('_send_packet_in_queue\n')
+        del_packets = []
         for q_packet in routers[dpid]['queue']:
             print(f'q_packet: {q_packet}')
             print(f"routers[dpid]['arp']: {routers[dpid]['arp']}\n")
@@ -442,6 +443,9 @@ class RestControllerAPI(app_manager.RyuApp):
                 print()
                 self._send_packet(dpid, 1, pkt)
                 self._add_flow_router(dpid, q_packet['ip address'])
+                del_packets.append(q_packet)
+        for del_packet in del_packets:
+            routers[dpid]['queue'].remove(del_packet)
 
     def _send_packet(self, dpid, out_port, pkt, in_port=None):
         dp = self.dpset.get(dpid)
