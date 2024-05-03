@@ -113,6 +113,13 @@ class RestController(ControllerBase):
             output += f"{key}: {value}\n"
         return output
 
+    @route('get_sw_info', '/mac', methods=['GET'])
+    def get_sw_info(self, req, **kwargs):
+        output = "Switch info\n"
+        for info in sw_info_type:
+            output += f"{info}\n"
+        return output
+
     @staticmethod
     def _set_ospf_link(sw1, sw2, metric):
         link_exists = False
@@ -292,7 +299,9 @@ class RestControllerAPI(app_manager.RyuApp):
         print('Correct!')
         print(f'dp.id: {dp.id}')
         print(f'pkt: {pkt}')
-        print(f'in_port: {in_port}\n')
+        print(f'in_port: {in_port}')
+        print(f'self._check_if_switch(dp.id): {self._check_if_switch(dp.id)}')
+        print()
         if dp.id in routers:
             if eth_pkt.ethertype == ether_types.ETH_TYPE_ARP and in_port == 1:
                 arp_pkt = pkt.get_protocol(arp.arp)
