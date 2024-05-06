@@ -5,16 +5,72 @@ from mininet.cli import CLI
 from mininet.node import RemoteController, OVSSwitch
 from mininet.link import TCLink
 from mininet.topolib import Topo
+from mininet.log import info
+from os import listdir, environ
+from re import match
+from urllib.request import build_opener, HTTPHandler, Request
+from mininet.util import quietRun
+from json import dumps
 
 
 # Constants
 NUMBER_OF_ROUTERS = 5
+COLLECTOR = '127.0.0.1'
+AGENT = 'lo'
+SAMPLING_N = 64
+POLLING_SECS = 10
 
 
 def get_dpid(dpid):
     dpid = hex(dpid)[2:]
     dpid = '0' * (16 - len(dpid)) + dpid
     return dpid
+
+
+# from sflow-rt/extras/sflow.py
+def config_sflow(net, collector, ifname, sampling, polling):
+    info("*** Enabling sFlow:\n")
+    sflow = 'ovs-vsctl -- --id=@sflow create sflow agent=%s target=%s sampling=%s polling=%s --' % (ifname, collector,
+                                                                                                    sampling, polling)
+    for s in net.switches:
+        sflow += ' -- set bridge %s sflow=@sflow' % s
+    info(' '.join([s.name for s in net.switches]) + "\n")
+    quietRun(sflow)
+
+
+# from sflow-rt/extras/sflow.py
+def send_topology(net, agent, collector):
+    info("*** Sending topology\n")
+    topo = {'nodes': {}, 'links': {}}
+    for s in net.switches:
+        topo['nodes'][s.name] = {'agent': agent, 'ports': {}}
+    path = '/sys/devices/virtual/net/'
+    for child in listdir(path):
+        parts = match('(^.+)-(.+)', child)
+        if parts is None: continue
+        if parts.group(1) in topo['nodes']:
+            ifindex = open(path + child + '/ifindex').read().split('\n', 1)[0]
+            topo['nodes'][parts.group(1)]['ports'][child] = {'ifindex': ifindex}
+    i = 0
+    for s1 in net.switches:
+        j = 0
+        for s2 in net.switches:
+            if j > i:
+                intfs = s1.connectionsTo(s2)
+                for intf in intfs:
+                    s1ifIdx = topo['nodes'][s1.name]['ports'][intf[0].name]['ifindex']
+                    s2ifIdx = topo['nodes'][s2.name]['ports'][intf[1].name]['ifindex']
+                    linkName = '%s-%s' % (s1.name, s2.name)
+                    topo['links'][linkName] = {'node1': s1.name, 'port1': intf[0].name, 'node2': s2.name,
+                                               'port2': intf[1].name}
+            j += 1
+        i += 1
+
+    opener = build_opener(HTTPHandler)
+    request = Request('http://%s:8008/topology/json' % collector, data=dumps(topo).encode('utf-8'))
+    request.add_header('Content-Type', 'application/json')
+    request.get_method = lambda: 'PUT'
+    url = opener.open(request)
 
 
 class Topology(Topo):
@@ -73,5 +129,10 @@ if __name__ == '__main__':
             host.setARP(f'192.168.{10 * switch_id}.1', f'00:aa:bb:00:00:0{switch_id}')
             host.setDefaultRoute(f'dev s{switch_id}h{host_id}-eth0 via 192.168.{10 * switch_id}.1')
 
+    config_sflow(net, COLLECTOR, AGENT, SAMPLING_N, POLLING_SECS)
+    send_topology(net, COLLECTOR, COLLECTOR)
+
     CLI(net)
     net.stop()
+
+
