@@ -102,6 +102,10 @@ class RestController(ControllerBase):
                 output += "Links:\n"
                 for link in value:
                     output += f"{link}\n"
+            elif key == 'routing tables':
+                output += 'Routing tables:\n'
+                for dpid, routing_info in value.items():
+                    output += f'Switch DPID {dpid}: {routing_info}\n'
             else:
                 output += f"{key}: {value}\n"
         return output
