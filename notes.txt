@@ -1,18 +1,53 @@
+sudo mn -c
+
+sudo python3 mininet_topo.py
+
+ryu-manager --observe-links controller.py ../ryu/ryu/app/gui_topology/gui_topology.py
+
+curl -X POST http://127.0.0.1:8080/switch/0000000000000001 -H "Accept: application/json" -d '{"type": "router", "ip address": "192.168.10.1", "mac address": "00:aa:bb:00:00:01"}'
+curl -X POST http://127.0.0.1:8080/switch/0000000000000002 -H "Accept: application/json" -d '{"type": "router", "ip address": "192.168.20.1", "mac address": "00:aa:bb:00:00:02"}'
+curl -X POST http://127.0.0.1:8080/switch/0000000000000003 -H "Accept: application/json" -d '{"type": "router", "ip address": "192.168.30.1", "mac address": "00:aa:bb:00:00:03"}'
+curl -X POST http://127.0.0.1:8080/switch/0000000000000004 -H "Accept: application/json" -d '{"type": "router", "ip address": "192.168.40.1", "mac address": "00:aa:bb:00:00:04"}'
+curl -X POST http://127.0.0.1:8080/switch/0000000000000005 -H "Accept: application/json" -d '{"type": "router", "ip address": "192.168.50.1", "mac address": "00:aa:bb:00:00:05"}'
+
+curl -X POST http://127.0.0.1:8080/switch/0000000000000006 -H "Accept: application/json" -d '{"type": "switch"}'
+curl -X POST http://127.0.0.1:8080/switch/0000000000000007 -H "Accept: application/json" -d '{"type": "switch"}'
+curl -X POST http://127.0.0.1:8080/switch/0000000000000008 -H "Accept: application/json" -d '{"type": "switch"}'
+curl -X POST http://127.0.0.1:8080/switch/0000000000000009 -H "Accept: application/json" -d '{"type": "switch"}'
+curl -X POST http://127.0.0.1:8080/switch/000000000000000a -H "Accept: application/json" -d '{"type": "switch"}'
+
 curl -X GET http://127.0.0.1:8080/switch/0000000000000001 -H "Accept: application/json"
 curl -X GET http://127.0.0.1:8080/switch/0000000000000002 -H "Accept: application/json"
 curl -X GET http://127.0.0.1:8080/switch/0000000000000003 -H "Accept: application/json"
 curl -X GET http://127.0.0.1:8080/switch/0000000000000004 -H "Accept: application/json"
 curl -X GET http://127.0.0.1:8080/switch/0000000000000005 -H "Accept: application/json"
 
-curl -X POST http://127.0.0.1:8080/switch/0000000000000001 -H "Accept: application/json" -d '{"type": "spine"}'
-curl -X POST http://127.0.0.1:8080/switch/0000000000000002 -H "Accept: application/json" -d '{"type": "spine"}'
-curl -X POST http://127.0.0.1:8080/switch/0000000000000003 -H "Accept: application/json" -d '{"type": "leaf"}'
-curl -X POST http://127.0.0.1:8080/switch/0000000000000004 -H "Accept: application/json" -d '{"type": "leaf"}'
-curl -X POST http://127.0.0.1:8080/switch/0000000000000005 -H "Accept: application/json" -d '{"type": "leaf"}'
+curl -X GET http://127.0.0.1:8080/switch/0000000000000006 -H "Accept: application/json"
+curl -X GET http://127.0.0.1:8080/switch/0000000000000007 -H "Accept: application/json"
+curl -X GET http://127.0.0.1:8080/switch/0000000000000008 -H "Accept: application/json"
+curl -X GET http://127.0.0.1:8080/switch/0000000000000009 -H "Accept: application/json"
+curl -X GET http://127.0.0.1:8080/switch/000000000000000a -H "Accept: application/json"
 
-curl -X POST http://127.0.0.1:8080/switch/0000000000000003/vxlan -H "Accept: application/json" -d '{"vni": 10, "port": 3}'
-curl -X POST http://127.0.0.1:8080/switch/0000000000000003/vxlan -H "Accept: application/json" -d '{"vni": 20, "port": 4}'
-curl -X POST http://127.0.0.1:8080/switch/0000000000000004/vxlan -H "Accept: application/json" -d '{"vni": 10, "port": 3}'
-curl -X POST http://127.0.0.1:8080/switch/0000000000000004/vxlan -H "Accept: application/json" -d '{"vni": 20, "port": 4}'
-curl -X POST http://127.0.0.1:8080/switch/0000000000000005/vxlan -H "Accept: application/json" -d '{"vni": 10, "port": 3}'
-curl -X POST http://127.0.0.1:8080/switch/0000000000000005/vxlan -H "Accept: application/json" -d '{"vni": 20, "port": 4}'
+curl -X POST http://127.0.0.1:8080/ospf/link -H "Accept: application/json" -d '{"sw1": {"dpid": "0000000000000001", "port": 2}, "sw2": {"dpid": "0000000000000002", "port": 2}, "metric": 10}'
+curl -X POST http://127.0.0.1:8080/ospf/link -H "Accept: application/json" -d '{"sw1": {"dpid": "0000000000000001", "port": 3}, "sw2": {"dpid": "0000000000000003", "port": 2}, "metric": 10}'
+curl -X POST http://127.0.0.1:8080/ospf/link -H "Accept: application/json" -d '{"sw1": {"dpid": "0000000000000001", "port": 4}, "sw2": {"dpid": "0000000000000004", "port": 2}, "metric": 5}'
+curl -X POST http://127.0.0.1:8080/ospf/link -H "Accept: application/json" -d '{"sw1": {"dpid": "0000000000000003", "port": 3}, "sw2": {"dpid": "0000000000000004", "port": 3}, "metric": 5}'
+curl -X POST http://127.0.0.1:8080/ospf/link -H "Accept: application/json" -d '{"sw1": {"dpid": "0000000000000004", "port": 4}, "sw2": {"dpid": "0000000000000002", "port": 3}, "metric": 20}'
+curl -X POST http://127.0.0.1:8080/ospf/link -H "Accept: application/json" -d '{"sw1": {"dpid": "0000000000000003", "port": 4}, "sw2": {"dpid": "0000000000000005", "port": 2}, "metric": 20}'
+curl -X POST http://127.0.0.1:8080/ospf/link -H "Accept: application/json" -d '{"sw1": {"dpid": "0000000000000005", "port": 3}, "sw2": {"dpid": "0000000000000004", "port": 5}, "metric": 20}'
+
+curl -X POST http://127.0.0.1:8080/ospf/network/switch/0000000000000001 -H "Accept: application/json" -d '{"network": "192.168.10.0/24"}'
+curl -X POST http://127.0.0.1:8080/ospf/network/switch/0000000000000002 -H "Accept: application/json" -d '{"network": "192.168.20.0/24"}'
+curl -X POST http://127.0.0.1:8080/ospf/network/switch/0000000000000003 -H "Accept: application/json" -d '{"network": "192.168.30.0/24"}'
+curl -X POST http://127.0.0.1:8080/ospf/network/switch/0000000000000004 -H "Accept: application/json" -d '{"network": "192.168.40.0/24"}'
+curl -X POST http://127.0.0.1:8080/ospf/network/switch/0000000000000005 -H "Accept: application/json" -d '{"network": "192.168.50.0/24"}'
+
+curl -X POST http://127.0.0.1:8080/ospf -H "Accept: application/json" -d '{"enable": true}'
+
+curl -X GET http://127.0.0.1:8080/ospf -H "Accept: application/json"
+
+curl -X GET http://127.0.0.1:8080/mac -H "Accept: application/json"
+
+curl -X GET http://127.0.0.1:8080/switch/info -H "Accept: application/json"
+
+curl -X GET http://127.0.0.1:8080/routers -H "Accept: application/json"
