@@ -120,20 +120,6 @@ class Topology(Topo):
             delay = link['delay']
             self.addLink(a_node, b_node, bw=bw, delay=f"{delay}ms")
 
-        # r1 = routers[0]
-        # r2 = routers[1]
-        # r3 = routers[2]
-        # r4 = routers[3]
-        # r5 = routers[4]
-        #
-        # self.addLink(r1, r2, bw=10, delay='10ms')
-        # self.addLink(r1, r3, bw=10, delay='5ms')
-        # self.addLink(r1, r4, bw=15, delay='15ms')
-        # self.addLink(r3, r4, bw=15, delay='15ms')
-        # self.addLink(r4, r2, bw=5, delay='5ms')
-        # self.addLink(r3, r5, bw=5, delay='5ms')
-        # self.addLink(r5, r4, bw=5, delay='5ms')
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
