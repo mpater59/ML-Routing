@@ -84,12 +84,12 @@ class Topology(Topo):
         r_switches = {}
         for node in topo_info['nodes']:
             dpid = node['id']
-            routers[dpid] = self.addSwitch(f"{node['name']}", dpid=dpid)
+            routers[dpid] = self.addSwitch(f"{node['name']}", dpid=get_dpid(dpid))
             # dpid_id += 1
 
         for node in topo_info['nodes']:
             dpid = node['id']
-            r_switches[dpid] = self.addSwitch(f's{dpid}', dpid=dpid)
+            r_switches[dpid] = self.addSwitch(f's{dpid}', dpid=get_dpid(dpid))
             # dpid_id += 1
             self.addLink(routers[dpid], r_switches[dpid])
 
@@ -147,11 +147,11 @@ if __name__ == '__main__':
 
     net.start()
 
-    for switch_id in range(1, NUMBER_OF_ROUTERS + 1):
-        for host_id in range(1, args.hosts + 1):
-            host = net.get(f's{switch_id}h{host_id}')
-            host.setARP(f'192.168.{10 * switch_id}.1', f'00:aa:bb:00:00:0{switch_id}')
-            host.setDefaultRoute(f'dev s{switch_id}h{host_id}-eth0 via 192.168.{10 * switch_id}.1')
+    # for switch_id in range(1, NUMBER_OF_ROUTERS + 1):
+    #     for host_id in range(1, args.hosts + 1):
+    #         host = net.get(f's{switch_id}h{host_id}')
+    #         host.setARP(f'192.168.{10 * switch_id}.1', f'00:aa:bb:00:00:0{switch_id}')
+    #         host.setDefaultRoute(f'dev s{switch_id}h{host_id}-eth0 via 192.168.{10 * switch_id}.1')
 
     config_sflow(net, COLLECTOR, AGENT, SAMPLING_N, POLLING_SECS)
     send_topology(net, COLLECTOR, COLLECTOR)
