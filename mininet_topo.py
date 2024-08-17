@@ -15,6 +15,7 @@ from json import dumps
 
 # Constants
 NUMBER_OF_ROUTERS = 5
+NUMBER_OF_HOSTS = 3
 COLLECTOR = '127.0.0.1'
 AGENT = 'lo'
 SAMPLING_N = 64
@@ -92,7 +93,7 @@ class Topology(Topo):
         hosts = {}
         for switch_id in range(1, NUMBER_OF_ROUTERS + 1):
             hosts[switch_id] = []
-            for host_id in range(1, args.hosts + 1):
+            for host_id in range(1, NUMBER_OF_HOSTS + 1):
                 hosts[switch_id].append(self.addHost(f's{switch_id}h{host_id}',
                                                      ip=f'192.168.{10 * switch_id}.{10 * host_id}/24'))
                 self.addLink(r_switches[switch_id - 1], hosts[switch_id][-1])
@@ -125,7 +126,7 @@ if __name__ == '__main__':
     net.start()
 
     for switch_id in range(1, NUMBER_OF_ROUTERS + 1):
-        for host_id in range(1, args.hosts + 1):
+        for host_id in range(1, NUMBER_OF_HOSTS + 1):
             host = net.get(f's{switch_id}h{host_id}')
             host.setARP(f'192.168.{10 * switch_id}.1', f'00:aa:bb:00:00:0{switch_id}')
             host.setDefaultRoute(f'dev s{switch_id}h{host_id}-eth0 via 192.168.{10 * switch_id}.1')
