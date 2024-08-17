@@ -13,7 +13,6 @@ from urllib.request import build_opener, HTTPHandler, Request
 from mininet.util import quietRun
 from json import dumps
 
-
 # Constants
 COLLECTOR = '127.0.0.1'
 AGENT = 'lo'
@@ -92,26 +91,26 @@ def send_topology(net, agent, collector):
 class Topology(Topo):
     def build(self):
 
-        # dpid_id = 1
         routers = {}
         r_switches = {}
         for node in topo_info['nodes']:
-            dpid = node['id']
-            routers[dpid] = self.addSwitch(f"{node['name']}", dpid=get_dpid(dpid))
+            switch_id = node['id']
+            routers[switch_id] = self.addSwitch(f"{node['name']}", dpid=get_dpid(switch_id))
 
         for node in topo_info['nodes']:
-            dpid = node['id']
-            r_switches[dpid] = self.addSwitch(f's{dpid}', dpid=get_dpid(dpid))
-            self.addLink(routers[dpid], r_switches[dpid])
+            dpid = node['id'] + len(topo_info['nodes'])
+            switch_id = node['id']
+            r_switches[switch_id] = self.addSwitch(f's{switch_id}', dpid=get_dpid(dpid))
+            self.addLink(routers[switch_id], r_switches[switch_id])
 
         hosts = {}
         for node in topo_info['nodes']:
-            dpid = node['id']
-            hosts[dpid] = []
+            switch_id = node['id']
+            hosts[switch_id] = []
             for host_id in range(1, topo_info['hosts number'] + 1):
-                hosts[dpid].append(self.addHost(f's{dpid}h{host_id}',
-                                                ip=f'192.168.{10 * dpid}.{10 * host_id}/24'))
-                self.addLink(r_switches[dpid], hosts[dpid][-1])
+                hosts[switch_id].append(self.addHost(f's{switch_id}h{host_id}',
+                                                     ip=f'192.168.{10 * switch_id}.{10 * host_id}/24'))
+                self.addLink(r_switches[switch_id], hosts[switch_id][-1])
 
         for link in topo_info['links']:
             a_node = get_switch(link['node a'], routers)
@@ -140,11 +139,11 @@ if __name__ == '__main__':
     net.start()
 
     for node in topo_info['nodes']:
-        dpid = node['id']
+        switch_id = node['id']
         for host_id in range(1, topo_info['hosts number'] + 1):
-            host = net.get(f's{dpid}h{host_id}')
-            host.setARP(f'192.168.{10 * dpid}.1', f'00:aa:bb:00:00:0{dpid}')
-            host.setDefaultRoute(f'dev s{dpid}h{host_id}-eth0 via 192.168.{10 * dpid}.1')
+            host = net.get(f's{switch_id}h{host_id}')
+            host.setARP(f'192.168.{10 * switch_id}.1', f'00:aa:bb:00:00:0{switch_id}')
+            host.setDefaultRoute(f'dev s{switch_id}h{host_id}-eth0 via 192.168.{10 * switch_id}.1')
 
     config_sflow(net, COLLECTOR, AGENT, SAMPLING_N, POLLING_SECS)
     send_topology(net, COLLECTOR, COLLECTOR)
