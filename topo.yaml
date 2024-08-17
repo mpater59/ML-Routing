@@ -1,4 +1,4 @@
-number of hosts in network: 3
+hosts number: 3
 nodes:
   - name: r1
     id: 1

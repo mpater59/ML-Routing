@@ -102,7 +102,7 @@ class Topology(Topo):
         for node in topo_info['nodes']:
             dpid = node['id']
             hosts[dpid] = []
-            for host_id in range(1, args.hosts + 1):
+            for host_id in range(1, topo_info['hosts number'] + 1):
                 hosts[dpid].append(self.addHost(f's{dpid}h{host_id}',
                                                 ip=f'192.168.{10 * dpid}.{10 * host_id}/24'))
                 self.addLink(r_switches[dpid], hosts[dpid][-1])
