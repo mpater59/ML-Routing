@@ -1,4 +1,5 @@
 import argparse
+import yaml
 
 from mininet.net import Mininet
 from mininet.cli import CLI
@@ -14,11 +15,13 @@ from json import dumps
 
 
 # Constants
-NUMBER_OF_ROUTERS = 5
 COLLECTOR = '127.0.0.1'
 AGENT = 'lo'
 SAMPLING_N = 64
 POLLING_SECS = 10
+
+# Globals
+topo_info = None
 
 
 def get_dpid(dpid):
@@ -76,46 +79,67 @@ def send_topology(net, agent, collector):
 class Topology(Topo):
     def build(self):
 
-        dpid_id = 1
-        routers = []
-        r_switches = []
-        for x in range(1, NUMBER_OF_ROUTERS + 1):
-            routers.append(self.addSwitch(f'r{x}', dpid=get_dpid(dpid_id)))
-            dpid_id += 1
+        # dpid_id = 1
+        routers = {}
+        r_switches = {}
+        for node in topo_info['nodes']:
+            dpid = node['id']
+            routers[dpid] = self.addSwitch(f"{node['name']}", dpid=dpid)
+            # dpid_id += 1
 
-        for x in range(1, NUMBER_OF_ROUTERS + 1):
-            r_switches.append(self.addSwitch(f's{x}', dpid=get_dpid(dpid_id)))
-            dpid_id += 1
-            self.addLink(routers[x-1], r_switches[-1])
+        for node in topo_info['nodes']:
+            dpid = node['id']
+            r_switches[dpid] = self.addSwitch(f's{dpid}', dpid=dpid)
+            # dpid_id += 1
+            self.addLink(routers[dpid], r_switches[dpid])
+
+        # for x in range(1, NUMBER_OF_ROUTERS + 1):
+        #     r_switches.append(self.addSwitch(f's{x}', dpid=get_dpid(dpid_id)))
+        #     dpid_id += 1
+        #     self.addLink(routers[x-1], r_switches[-1])
 
         hosts = {}
-        for switch_id in range(1, NUMBER_OF_ROUTERS + 1):
-            hosts[switch_id] = []
+        for node in topo_info['nodes']:
+            dpid = node['id']
+            hosts[dpid] = []
             for host_id in range(1, args.hosts + 1):
-                hosts[switch_id].append(self.addHost(f's{switch_id}h{host_id}',
-                                                     ip=f'192.168.{10 * switch_id}.{10 * host_id}/24'))
-                self.addLink(r_switches[switch_id - 1], hosts[switch_id][-1])
+                hosts[dpid].append(self.addHost(f's{dpid}h{host_id}',
+                                                ip=f'192.168.{10 * dpid}.{10 * host_id}/24'))
+                self.addLink(r_switches[dpid], hosts[dpid][-1])
 
-        r1 = routers[0]
-        r2 = routers[1]
-        r3 = routers[2]
-        r4 = routers[3]
-        r5 = routers[4]
+        # for switch_id in range(1, NUMBER_OF_ROUTERS + 1):
+        #     hosts[switch_id] = []
+        #     for host_id in range(1, args.hosts + 1):
+        #         hosts[switch_id].append(self.addHost(f's{switch_id}h{host_id}',
+        #                                              ip=f'192.168.{10 * switch_id}.{10 * host_id}/24'))
+        #         self.addLink(r_switches[switch_id - 1], hosts[switch_id][-1])
 
-        self.addLink(r1, r2, bw=10, delay='10ms')
-        self.addLink(r1, r3, bw=10, delay='5ms')
-        self.addLink(r1, r4, bw=15, delay='15ms')
-        self.addLink(r3, r4, bw=15, delay='15ms')
-        self.addLink(r4, r2, bw=5, delay='5ms')
-        self.addLink(r3, r5, bw=5, delay='5ms')
-        self.addLink(r5, r4, bw=5, delay='5ms')
+        # r1 = routers[0]
+        # r2 = routers[1]
+        # r3 = routers[2]
+        # r4 = routers[3]
+        # r5 = routers[4]
+        #
+        # self.addLink(r1, r2, bw=10, delay='10ms')
+        # self.addLink(r1, r3, bw=10, delay='5ms')
+        # self.addLink(r1, r4, bw=15, delay='15ms')
+        # self.addLink(r3, r4, bw=15, delay='15ms')
+        # self.addLink(r4, r2, bw=5, delay='5ms')
+        # self.addLink(r3, r5, bw=5, delay='5ms')
+        # self.addLink(r5, r4, bw=5, delay='5ms')
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-hs', '--hosts', dest='hosts', default=3, type=int,
-                        help='Number of hosts for every router switch (default 3)')
+    parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
+                        help='Topology file in .yaml format')
     args = parser.parse_args()
+
+    with open(args.file) as f:
+        try:
+            topo_info = yaml.safe_load(f)
+        except yaml.YAMLError as e:
+            print(e)
 
     ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
     topo = Topology()
@@ -134,5 +158,3 @@ if __name__ == '__main__':
 
     CLI(net)
     net.stop()
-
-
