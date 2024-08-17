@@ -30,6 +30,19 @@ def get_dpid(dpid):
     return dpid
 
 
+def get_switch(switch_name, switch_list):
+    dpid = None
+    for node in topo_info['nodes']:
+        if node['name'] == switch_name:
+            dpid = node['id']
+            break
+    if dpid is None:
+        print(f"Couldn't find DPID for switch {switch_name}")
+        exit()
+
+    return switch_list[dpid]
+
+
 # from sflow-rt/extras/sflow.py
 def config_sflow(net, collector, ifname, sampling, polling):
     info("*** Enabling sFlow:\n")
@@ -85,18 +98,11 @@ class Topology(Topo):
         for node in topo_info['nodes']:
             dpid = node['id']
             routers[dpid] = self.addSwitch(f"{node['name']}", dpid=get_dpid(dpid))
-            # dpid_id += 1
 
         for node in topo_info['nodes']:
             dpid = node['id']
             r_switches[dpid] = self.addSwitch(f's{dpid}', dpid=get_dpid(dpid))
-            # dpid_id += 1
             self.addLink(routers[dpid], r_switches[dpid])
-
-        # for x in range(1, NUMBER_OF_ROUTERS + 1):
-        #     r_switches.append(self.addSwitch(f's{x}', dpid=get_dpid(dpid_id)))
-        #     dpid_id += 1
-        #     self.addLink(routers[x-1], r_switches[-1])
 
         hosts = {}
         for node in topo_info['nodes']:
@@ -107,12 +113,12 @@ class Topology(Topo):
                                                 ip=f'192.168.{10 * dpid}.{10 * host_id}/24'))
                 self.addLink(r_switches[dpid], hosts[dpid][-1])
 
-        # for switch_id in range(1, NUMBER_OF_ROUTERS + 1):
-        #     hosts[switch_id] = []
-        #     for host_id in range(1, args.hosts + 1):
-        #         hosts[switch_id].append(self.addHost(f's{switch_id}h{host_id}',
-        #                                              ip=f'192.168.{10 * switch_id}.{10 * host_id}/24'))
-        #         self.addLink(r_switches[switch_id - 1], hosts[switch_id][-1])
+        for link in topo_info['links']:
+            a_node = get_switch(link['node a'], routers)
+            b_node = get_switch(link['node b'], routers)
+            bw = link['bw']
+            delay = link['delay']
+            self.addLink(a_node, b_node, bw=bw, delay=f"{delay}ms")
 
         # r1 = routers[0]
         # r2 = routers[1]
@@ -147,11 +153,12 @@ if __name__ == '__main__':
 
     net.start()
 
-    # for switch_id in range(1, NUMBER_OF_ROUTERS + 1):
-    #     for host_id in range(1, args.hosts + 1):
-    #         host = net.get(f's{switch_id}h{host_id}')
-    #         host.setARP(f'192.168.{10 * switch_id}.1', f'00:aa:bb:00:00:0{switch_id}')
-    #         host.setDefaultRoute(f'dev s{switch_id}h{host_id}-eth0 via 192.168.{10 * switch_id}.1')
+    for node in topo_info['nodes']:
+        dpid = node['id']
+        for host_id in range(1, topo_info['hosts number'] + 1):
+            host = net.get(f's{dpid}h{host_id}')
+            host.setARP(f'192.168.{10 * dpid}.1', f'00:aa:bb:00:00:0{dpid}')
+            host.setDefaultRoute(f'dev s{dpid}h{host_id}-eth0 via 192.168.{10 * dpid}.1')
 
     config_sflow(net, COLLECTOR, AGENT, SAMPLING_N, POLLING_SECS)
     send_topology(net, COLLECTOR, COLLECTOR)
