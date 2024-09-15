@@ -51,3 +51,8 @@ curl -X GET http://127.0.0.1:8080/mac -H "Accept: application/json"
 curl -X GET http://127.0.0.1:8080/switch/info -H "Accept: application/json"
 
 curl -X GET http://127.0.0.1:8080/routers -H "Accept: application/json"
+
+
+------------------
+
+exec(open("traffic_emulation.py").read())

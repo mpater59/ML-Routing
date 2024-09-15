@@ -1,5 +1,6 @@
 import argparse
 import yaml
+import topo_init_config
 
 from mininet.net import Mininet
 from mininet.cli import CLI
@@ -148,5 +149,6 @@ if __name__ == '__main__':
     config_sflow(net, COLLECTOR, AGENT, SAMPLING_N, POLLING_SECS)
     send_topology(net, COLLECTOR, COLLECTOR)
 
+    topo_init_config.apply_init_config()
     CLI(net)
     net.stop()
