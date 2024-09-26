@@ -19,8 +19,12 @@ def random_traffic_emulation(net, topo_info):
 
     # result = net.iperf([s1h1, s2h1])
     # print(result)
-    threading.Thread(target=run_iperf_test, args=(net, s1h1, s2h1,)).start()
-    threading.Thread(target=run_iperf_test, args=(net, s3h1, s4h1,)).start()
+    t1 = threading.Thread(target=run_iperf_test, args=(net, s1h1, s2h1,))
+    t2 = threading.Thread(target=run_iperf_test, args=(net, s3h1, s4h1,))
+    t1.start()
+    t2.start()
+    t1.join()
+    t2.join()
 
 
 
@@ -38,3 +42,4 @@ def run_iperf_client(host, dest_ip_addr):
 
 def run_iperf_test(net, host1, host2):
     net.iperf([host1, host2])
+    print('Ended thread')
