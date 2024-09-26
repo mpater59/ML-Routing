@@ -11,26 +11,25 @@ def random_traffic_emulation(net, topo_info):
     s1h1.cmdPrint('echo test')
     s1h1.cmd('echo test > test.txt')
     print(s1h1.cmd('cat test.txt'))
-    # t1 = threading.Thread(target=run_iperf_server, args=(s1h1,))
+    t1 = threading.Thread(target=run_iperf_server, args=(s1h1,))
     # t1.start()
-    # time.sleep(2)
-    # t2 = threading.Thread(target=run_iperf_client, args=(s2h1, '192.168.10.10',))
+    time.sleep(2)
+    t2 = threading.Thread(target=run_iperf_client, args=(s2h1, '192.168.10.10',))
     # t2.start()
 
     # result = net.iperf([s1h1, s2h1])
     # print(result)
-    t1 = threading.Thread(target=run_iperf_test, args=(net, s1h1, s2h1,))
-    t2 = threading.Thread(target=run_iperf_test, args=(net, s3h1, s4h1,))
+    # t1 = threading.Thread(target=run_iperf_test, args=(net, s1h1, s2h1,))
+    # t2 = threading.Thread(target=run_iperf_test, args=(net, s3h1, s4h1,))
     t1.start()
     t2.start()
     t1.join()
     t2.join()
 
 
-
 def run_iperf_server(host):
     print('Starting iperf server')
-    host.cmd('iperf -s')
+    host.cmd('iperf -s -y C > test.txt')
     print('Ending iperf server')
 
 
