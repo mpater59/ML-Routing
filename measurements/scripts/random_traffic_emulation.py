@@ -1,4 +1,5 @@
 import threading
+import time
 
 
 def random_traffic_emulation(net, topo_info):
@@ -9,6 +10,7 @@ def random_traffic_emulation(net, topo_info):
     s1h1.cmd('echo test > test.txt')
     print(s1h1.cmd('cat test.txt'))
     threading.Thread(target=run_iperf_server, args=(s1h1,)).start()
+    time.sleep(2)
     threading.Thread(target=run_iperf_client, args=(s2h1, '192.168.10.10',)).start()
     print('Ended')
 
