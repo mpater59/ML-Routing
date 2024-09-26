@@ -1,7 +1,7 @@
 import argparse
 import yaml
 import topo_init_config
-import traffic_emulation
+from measurements.scripts.traffic_emulation import traffic_emulation
 
 from mininet.net import Mininet
 from mininet.cli import CLI
@@ -9,7 +9,7 @@ from mininet.node import RemoteController, OVSSwitch
 from mininet.link import TCLink
 from mininet.topolib import Topo
 from mininet.log import info
-from os import listdir, environ
+from os import listdir
 from re import match
 from urllib.request import build_opener, HTTPHandler, Request
 from mininet.util import quietRun
@@ -126,6 +126,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
                         help='Topology file in .yaml format')
+    parser.add_argument('-e', '--emulation', dest='emulation', type=int, default=None,
+                        help='Number of traffic emulation version (default: infinite random traffic emulation)')
     args = parser.parse_args()
 
     with open(args.file) as f:
@@ -151,6 +153,6 @@ if __name__ == '__main__':
     send_topology(net, COLLECTOR, COLLECTOR)
 
     topo_init_config.apply_init_config()
-    traffic_emulation.run_traffic_emulation(net)
+    traffic_emulation(net, topo_info, args.emulation)
     CLI(net)
     net.stop()

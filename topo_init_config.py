@@ -14,7 +14,6 @@ def apply_init_config():
         dpid = '0' * (16 - len(dpid)) + dpid
         return dpid
 
-
     def get_switch(switch_name):
         dpid = None
         for node in topo_info['nodes']:
@@ -23,7 +22,6 @@ def apply_init_config():
         if dpid is None:
             print(f"Couldn't find DPID for switch {switch_name}")
             exit()
-
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
