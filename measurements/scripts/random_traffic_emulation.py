@@ -18,11 +18,11 @@ def random_traffic_emulation(net, topo_info):
 
 def run_iperf_server(host):
     print('Starting iperf server')
-    host.cmd('iperf -s')
+    host.sendCmd('iperf -s')
     print('Ending iperf server')
 
 
 def run_iperf_client(host, dest_ip_addr):
     print('Starting iperf client')
-    host.cmd(f'iperf -c {dest_ip_addr}')
+    host.sendCmd(f'iperf -c {dest_ip_addr}')
     print('Ended iperf client')
