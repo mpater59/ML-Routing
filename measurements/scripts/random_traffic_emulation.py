@@ -16,7 +16,7 @@ def random_traffic_emulation(net, topo_info):
 
 def run_iperf_server(host):
     print('Starting iperf server')
-    host.cmd('iperf -s -y C > test.txt')
+    host.cmd('iperf -s')
     print('Ending iperf server')
 
 
