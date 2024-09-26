@@ -22,6 +22,6 @@ def run_iperf_server(host):
 
 def run_iperf_client(host, dest_ip_addr):
     print('Starting iperf client')
-    print(host.cmd(f'ping {dest_ip_addr}'))
+    print(host.cmd(f'ping {dest_ip_addr} -c 3'))
     host.cmd(f'iperf -c {dest_ip_addr}')
     print('Ended iperf client')
