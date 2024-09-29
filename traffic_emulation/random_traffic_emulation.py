@@ -2,10 +2,10 @@ import threading
 import time
 import random
 
-from traffic_emulation.traffic_emulation_starter import run_iperf_client_tcp
-from traffic_emulation.traffic_emulation_starter import run_iperf_client_udp
-from traffic_emulation.traffic_emulation_starter import run_iperf_server_tcp
-from traffic_emulation.traffic_emulation_starter import run_iperf_server_udp
+from traffic_emulation.iperf import run_iperf_client_tcp
+from traffic_emulation.iperf import run_iperf_client_udp
+from traffic_emulation.iperf import run_iperf_server_tcp
+from traffic_emulation.iperf import run_iperf_server_udp
 from datetime import datetime
 
 
