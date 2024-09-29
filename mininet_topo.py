@@ -1,7 +1,7 @@
 import argparse
 import yaml
 import topo_init_config
-from measurements.scripts.traffic_emulation import traffic_emulation
+from traffic_emulation.traffic_emulation_starter import run_traffic_emulation
 
 from mininet.net import Mininet
 from mininet.cli import CLI
@@ -153,6 +153,6 @@ if __name__ == '__main__':
     send_topology(net, COLLECTOR, COLLECTOR)
 
     topo_init_config.apply_init_config()
-    traffic_emulation(net, topo_info, args.emulation)
+    run_traffic_emulation(net, topo_info, args.emulation)
     CLI(net)
     net.stop()
