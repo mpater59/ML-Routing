@@ -57,6 +57,8 @@ def random_traffic_emulation(net, topo_info):
             thread_server_list.append(udp_thread_server)
             thread_client_list.append(tcp_thread_client)
             thread_client_list.append(udp_thread_client)
+            break
+        break
 
     for thread in thread_server_list:
         thread.start()
