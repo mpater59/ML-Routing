@@ -13,17 +13,17 @@ DEFAULT_TIME_INTERVAL = [60, 300]
 def run_iperf_server_tcp(server, client, port, output=None):
     print(f' {client.name} -> {server.name} flow - Starting iperf TCP server; host: {server.name}; port: {port}')
     if output is None:
-        server.cmd(f'iperf -s -p {port} &')
+        server.pexec(f'iperf -s -p {port}')
     else:
-        server.cmd(f'iperf -s -p {port} -y C > {output} &')
+        server.pexec(f'iperf -s -p {port} -y C > {output}')
 
 
 def run_iperf_server_udp(server, client, port, output=None):
     print(f'{client.name} -> {server.name} flow - Starting iperf UDP server; host: {server.name}; port: {port}')
     if output is None:
-        server.cmd(f'iperf -s -p {port} -u &')
+        server.pexec(f'iperf -s -p {port} -u')
     else:
-        server.cmd(f'iperf -s -p {port} -y C -u > {output} &')
+        server.pexec(f'iperf -s -p {port} -y C -u > {output}')
 
 
 def run_iperf_client_tcp(server, client, port, dest_ip_addr, bandwidth, flow_time):
@@ -57,10 +57,8 @@ def run_server_thread(server, client, server_id, client_id, l4_proto, output=Non
     while True:
         if l4_proto == 'tcp':
             run_iperf_server_tcp(server, client, port, output)
-            break
         elif l4_proto == 'udp':
             run_iperf_server_udp(server, client, port, output)
-            break
         else:
             print('Unknown L4 protocol!')
             exit()
