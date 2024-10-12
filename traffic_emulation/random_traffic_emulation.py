@@ -14,6 +14,8 @@ def random_traffic_emulation(net, topo_info):
 
     t1 = threading.Thread(target=run_server_thread, args=(s1h1, 1, 2, 'tcp',))
     t1.start()
+    while True:
+        time.sleep(1)
 
     #run_server_thread(1, 1, 1, 1, 1)
 
