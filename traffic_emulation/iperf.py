@@ -36,7 +36,9 @@ def _run_iperf_client_udp(host, port, dest_ip_addr, bandwidth, flow_time):
 
 
 def run_server_thread(server, client, server_id, client_id, l4_proto, output=None):
+    logging.basicConfig(format="{asctime} - {levelname} - {message}", style="{", datefmt="%Y-%m-%d %H:%M")
     print('test')
+    logging.info('test')
     print(logging.info('test'))
     exit()
     if len(str(server_id)) == 1:
