@@ -9,6 +9,7 @@ from datetime import datetime
 # Constants
 DEFAULT_BANDWIDTH_INTERVAL = [1000, 10000]
 DEFAULT_TIME_INTERVAL = [60, 300]
+logging.basicConfig(format="{asctime} - {levelname} - {message}", style="{", datefmt="%Y-%m-%d %H:%M")
 
 
 def _run_iperf_server_tcp(host, port, output=None):
