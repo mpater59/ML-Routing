@@ -79,8 +79,11 @@ def random_traffic_emulation(net, topo_info):
     for thread in thread_client_list:
         thread.start()
 
-    while True:
-        time.sleep(1)
+    try:
+        while True:
+            time.sleep(10)
+    except KeyboardInterrupt:
+        print('Interrupted!')
 
 
 def initial_hosts_information(net, topo_info):

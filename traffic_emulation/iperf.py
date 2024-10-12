@@ -31,13 +31,13 @@ def run_iperf_server_udp(server, client, port, output=None):
 def run_iperf_client_tcp(server, client, port, dest_ip_addr, bandwidth, flow_time):
     print(f'{client.name} -> {server.name} flow - Starting iperf TCP client; host: {client.name}; port: {port}; '
           f'destination IP address: {dest_ip_addr}; bandwidth: {bandwidth} Kbps; flow time: {flow_time} s')
-    print(client.pexec(f'iperf -c {dest_ip_addr} -p {port} -b {bandwidth}K -t {flow_time}'))
+    client.pexec(f'iperf -c {dest_ip_addr} -p {port} -b {bandwidth}K -t {flow_time}')
 
 
 def run_iperf_client_udp(server, client, port, dest_ip_addr, bandwidth, flow_time):
     print(f'{client.name} -> {server.name} flow - Starting iperf UDP client; host: {client.name}; port: {port}; '
           f'destination IP address: {dest_ip_addr}; bandwidth: {bandwidth} Kbps; flow time: {flow_time} s')
-    print(client.pexec(f'iperf -c {dest_ip_addr} -p {port} -u -b {bandwidth} -t {flow_time}'))
+    client.pexec(f'iperf -c {dest_ip_addr} -p {port} -u -b {bandwidth} -t {flow_time}')
 
 
 def run_server_thread(server, client, server_id, client_id, l4_proto, output=None):
