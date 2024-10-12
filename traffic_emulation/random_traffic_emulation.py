@@ -19,6 +19,8 @@ def random_traffic_emulation(net, topo_info):
     t1 = threading.Thread(target=run_iperf_server_tcp, args=(host, host, 10000,))
     t2 = threading.Thread(target=run_iperf_server_tcp, args=(host, host, 20000,))
     t1.start()
+    print(host.waiting)
+    print(host.shell)
     time.sleep(1)
     t2.start()
 
