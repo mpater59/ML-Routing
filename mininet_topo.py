@@ -156,7 +156,7 @@ if __name__ == '__main__':
 
     topo_init_config.apply_init_config()
     time.sleep(1)
-    net.pingAll()
+    # net.pingAll()
     run_traffic_emulation(net, topo_info, args.emulation)
     CLI(net)
     net.stop()
