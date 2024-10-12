@@ -40,13 +40,13 @@ def random_traffic_emulation(net, topo_info):
                                                                                  server_id,
                                                                                  client_id,
                                                                                  'tcp',
-                                                                                 '/home/user/log1.log',))
+                                                                                 output,))
             udp_thread_server = threading.Thread(target=run_server_thread, args=(source_host,
                                                                                  destination_host,
                                                                                  server_id,
                                                                                  client_id,
                                                                                  'udp',
-                                                                                 '/home/user/log2.log',))
+                                                                                 output,))
             new_seed = random.randint(0, 999999999999)
             tcp_thread_client = threading.Thread(target=run_client_thread, args=(source_host,
                                                                                  destination_host,
