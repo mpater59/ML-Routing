@@ -10,19 +10,21 @@ from datetime import datetime
 
 def random_traffic_emulation(net, topo_info):
     random.seed(datetime.now().timestamp())
-    s1h1 = net.get('s1h1')
 
-    t1 = threading.Thread(target=run_server_thread, args=(s1h1, 1, 2, 'tcp',))
-    t1.start()
-    while True:
-        time.sleep(1)
+    host_pairs = generate_host_pairs(net, topo_info)
+    print(host_pairs)
 
-    #run_server_thread(1, 1, 1, 1, 1)
+    # s1h1 = net.get('s1h1')
+    #
+    # t1 = threading.Thread(target=run_server_thread, args=(s1h1, 1, 2, 'tcp',))
+    # t1.start()
+    # while True:
+    #     time.sleep(1)
+    # run_server_thread(1, 1, 1, 1, 1)
 
     server_threads = []
     tcp_clients_threads = []
     udp_clients_threads = []
-
 
     # s1h1 = net.get('s1h1')
     # s2h1 = net.get('s2h1')
@@ -48,5 +50,17 @@ def random_traffic_emulation(net, topo_info):
     # t2.join()
 
 
-def iperf_server_tcp_thread():
-    pass
+def generate_host_pairs(net, topo_info):
+    host_pairs = {}
+    for node in topo_info['nodes']:
+        switch_id = node['id']
+        for host_id in range(1, topo_info['hosts number'] + 1):
+            host = net.get(f's{switch_id}h{host_id}')
+            host_pairs[host] = []
+            for node_ in topo_info['nodes']:
+                switch_id_ = node_['id']
+                if switch_id != switch_id_:
+                    for host_id_ in range(1, topo_info['hosts number'] + 1):
+                        host_ = net.get(f's{switch_id_}h{host_id_}')
+                        host_pairs[host].append(host_)
+    return host_pairs
