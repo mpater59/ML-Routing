@@ -36,7 +36,8 @@ def _run_iperf_client_udp(host, port, dest_ip_addr, bandwidth, flow_time):
 
 
 def run_server_thread(server, client, server_id, client_id, l4_proto, output=None):
-    logging.basicConfig(format="%(asctime)s %(levelname)s %(message)s", level=logging.INFO)
+    logging.basicConfig(format="%(asctime)s %(levelname)s %(message)s", level=logging.INFO,
+                        filename="network_emulation.log", filemode="a")
     print('test')
     logging.info('test')
     print(logging.info('test'))
