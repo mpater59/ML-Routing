@@ -57,8 +57,10 @@ def run_server_thread(server, client, server_id, client_id, l4_proto, output=Non
     while True:
         if l4_proto == 'tcp':
             run_iperf_server_tcp(server, client, port, output)
+            break
         elif l4_proto == 'udp':
             run_iperf_server_udp(server, client, port, output)
+            break
         else:
             print('Unknown L4 protocol!')
             exit()
