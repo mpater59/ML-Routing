@@ -19,6 +19,7 @@ def random_traffic_emulation(net, topo_info):
 
     thread_server_list = []
     thread_client_list = []
+    print(host_pairs)
     for source_host, destination_host_list in host_pairs:
         for destination_host in destination_host_list:
             server_id = host_id[source_host]
