@@ -15,71 +15,71 @@ def random_traffic_emulation(net, topo_info):
     host_pairs, host_id = initial_hosts_information(net, topo_info)
     output = None
 
-    host = net.get('s1h1')
-    host.pexec('iperf -s -p 10000')
-    print('test1')
-    host.pexec('iperf -s -p 20000')
-    print('test2')
+    # host = net.get('s1h1')
+    # host.pexec('iperf -s -p 10000')
+    # print('test1')
+    # host.pexec('iperf -s -p 20000')
+    # print('test2')
     # t1 = threading.Thread(target=run_iperf_server_tcp, args=(host, host, 10000,))
     # t2 = threading.Thread(target=run_iperf_server_tcp, args=(host, host, 20000,))
     # t1.start()
     # time.sleep(1)
     # t2.start()
 
-    # bandwidth_interval = topo_info['bandwidth interval']
-    # time_interval = topo_info['time interval']
-    #
-    # thread_server_list = []
-    # thread_client_list = []
-    # for source_host, destination_host_list in host_pairs.items():
-    #     for destination_host in destination_host_list:
-    #         server_id = host_id[source_host]
-    #         client_id = host_id[destination_host]
-    #         tcp_thread_server = threading.Thread(target=run_server_thread, args=(source_host,
-    #                                                                              destination_host,
-    #                                                                              server_id,
-    #                                                                              client_id,
-    #                                                                              'tcp',
-    #                                                                              output,))
-    #         udp_thread_server = threading.Thread(target=run_server_thread, args=(source_host,
-    #                                                                              destination_host,
-    #                                                                              server_id,
-    #                                                                              client_id,
-    #                                                                              'udp',
-    #                                                                              output,))
-    #         new_seed = random.randint(0, 999999999999)
-    #         tcp_thread_client = threading.Thread(target=run_client_thread, args=(source_host,
-    #                                                                              destination_host,
-    #                                                                              server_id,
-    #                                                                              client_id,
-    #                                                                              'tcp',
-    #                                                                              bandwidth_interval,
-    #                                                                              time_interval,
-    #                                                                              new_seed,))
-    #         new_seed = random.randint(0, 999999999999)
-    #         udp_thread_client = threading.Thread(target=run_client_thread, args=(source_host,
-    #                                                                              destination_host,
-    #                                                                              server_id,
-    #                                                                              client_id,
-    #                                                                              'udp',
-    #                                                                              bandwidth_interval,
-    #                                                                              time_interval,
-    #                                                                              new_seed,))
-    #         thread_server_list.append(tcp_thread_server)
-    #         thread_server_list.append(udp_thread_server)
-    #         thread_client_list.append(tcp_thread_client)
-    #         thread_client_list.append(udp_thread_client)
-    #         break
-    #     break
-    #
-    # for thread in thread_server_list:
-    #     thread.start()
-    # time.sleep(1)
-    # for thread in thread_client_list:
-    #     thread.start()
-    #
-    # while True:
-    #     time.sleep(1)
+    bandwidth_interval = topo_info['bandwidth interval']
+    time_interval = topo_info['time interval']
+
+    thread_server_list = []
+    thread_client_list = []
+    for source_host, destination_host_list in host_pairs.items():
+        for destination_host in destination_host_list:
+            server_id = host_id[source_host]
+            client_id = host_id[destination_host]
+            tcp_thread_server = threading.Thread(target=run_server_thread, args=(source_host,
+                                                                                 destination_host,
+                                                                                 server_id,
+                                                                                 client_id,
+                                                                                 'tcp',
+                                                                                 output,))
+            udp_thread_server = threading.Thread(target=run_server_thread, args=(source_host,
+                                                                                 destination_host,
+                                                                                 server_id,
+                                                                                 client_id,
+                                                                                 'udp',
+                                                                                 output,))
+            new_seed = random.randint(0, 999999999999)
+            tcp_thread_client = threading.Thread(target=run_client_thread, args=(source_host,
+                                                                                 destination_host,
+                                                                                 server_id,
+                                                                                 client_id,
+                                                                                 'tcp',
+                                                                                 bandwidth_interval,
+                                                                                 time_interval,
+                                                                                 new_seed,))
+            new_seed = random.randint(0, 999999999999)
+            udp_thread_client = threading.Thread(target=run_client_thread, args=(source_host,
+                                                                                 destination_host,
+                                                                                 server_id,
+                                                                                 client_id,
+                                                                                 'udp',
+                                                                                 bandwidth_interval,
+                                                                                 time_interval,
+                                                                                 new_seed,))
+            thread_server_list.append(tcp_thread_server)
+            thread_server_list.append(udp_thread_server)
+            thread_client_list.append(tcp_thread_client)
+            thread_client_list.append(udp_thread_client)
+            break
+        break
+
+    for thread in thread_server_list:
+        thread.start()
+    time.sleep(1)
+    for thread in thread_client_list:
+        thread.start()
+
+    while True:
+        time.sleep(1)
 
 
 def initial_hosts_information(net, topo_info):
