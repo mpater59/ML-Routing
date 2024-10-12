@@ -92,9 +92,9 @@ def run_client_thread(server, client, server_id, client_id, l4_proto, bandwidth_
         bandwidth = random.randint(bandwidth_interval[0], bandwidth_interval[1])
         flow_time = random.randint(time_interval[0], time_interval[1])
         if l4_proto == 'tcp':
-            run_iperf_client_tcp(client, port, server_ip_addr, bandwidth, flow_time)
+            run_iperf_client_tcp(server, client, port, server_ip_addr, bandwidth, flow_time)
         elif l4_proto == 'udp':
-            run_iperf_client_udp(client, port, server_ip_addr, bandwidth, flow_time)
+            run_iperf_client_udp(server, client, port, server_ip_addr, bandwidth, flow_time)
         else:
             print('Unknown L4 protocol!')
             exit()
