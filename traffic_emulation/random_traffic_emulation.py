@@ -16,13 +16,15 @@ def random_traffic_emulation(net, topo_info):
     output = None
 
     host = net.get('s1h1')
-    t1 = threading.Thread(target=run_iperf_server_tcp, args=(host, host, 10000,))
-    t2 = threading.Thread(target=run_iperf_server_tcp, args=(host, host, 20000,))
-    t1.start()
-    print(host.waiting)
-    print(host.shell)
-    time.sleep(1)
-    t2.start()
+    host.pexec('iperf -s -p 10000')
+    print('test1')
+    host.pexec('iperf -s -p 20000')
+    print('test2')
+    # t1 = threading.Thread(target=run_iperf_server_tcp, args=(host, host, 10000,))
+    # t2 = threading.Thread(target=run_iperf_server_tcp, args=(host, host, 20000,))
+    # t1.start()
+    # time.sleep(1)
+    # t2.start()
 
     # bandwidth_interval = topo_info['bandwidth interval']
     # time_interval = topo_info['time interval']
@@ -76,8 +78,8 @@ def random_traffic_emulation(net, topo_info):
     # for thread in thread_client_list:
     #     thread.start()
     #
-    while True:
-        time.sleep(1)
+    # while True:
+    #     time.sleep(1)
 
 
 def initial_hosts_information(net, topo_info):
