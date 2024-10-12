@@ -1,16 +1,21 @@
 import threading
 import time
 import random
+import logging
 
-from traffic_emulation.iperf import run_iperf_client_tcp
-from traffic_emulation.iperf import run_iperf_client_udp
-from traffic_emulation.iperf import run_iperf_server_tcp
-from traffic_emulation.iperf import run_iperf_server_udp
+
+from traffic_emulation.iperf import run_server_thread
 from datetime import datetime
+
+
+# LOGGING
+logging.basicConfig(format="{asctime} - {levelname} - {message}", style="{", datefmt="%Y-%m-%d %H:%M")
 
 
 def random_traffic_emulation(net, topo_info):
     random.seed(datetime.now().timestamp())
+
+    run_server_thread(1, 1, 1, 1, 1)
 
     server_threads = []
     tcp_clients_threads = []
