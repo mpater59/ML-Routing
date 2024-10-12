@@ -13,7 +13,7 @@ DEFAULT_TIME_INTERVAL = [60, 300]
 def run_iperf_server_tcp(server, client, port, output=None):
     print(f' {client.name} -> {server.name} flow - Starting iperf TCP server; host: {server.name}; port: {port}')
     if output is None:
-        server.cmd(f'iperf -s -p {port} &')
+        server.pexec(f'iperf -s -p {port}')
     else:
         server.cmd(f'iperf -s -p {port} -y C > {output}')
 
