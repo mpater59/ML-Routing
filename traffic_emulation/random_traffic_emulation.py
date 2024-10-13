@@ -3,9 +3,6 @@ import time
 import random
 
 
-from traffic_emulation.iperf import run_server_thread
-from traffic_emulation.iperf import run_client_thread
-from traffic_emulation.iperf import run_iperf_server_tcp
 from datetime import datetime
 
 
@@ -14,6 +11,10 @@ KILL_THREAD = False
 
 
 def random_traffic_emulation(net, topo_info):
+    from traffic_emulation.iperf import run_server_thread
+    from traffic_emulation.iperf import run_client_thread
+    from traffic_emulation.iperf import run_iperf_server_tcp
+
     random.seed(datetime.now().timestamp())
 
     host_pairs, host_id = initial_hosts_information(net, topo_info)
