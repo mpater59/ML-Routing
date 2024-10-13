@@ -72,14 +72,13 @@ def run_server_thread(server, client, server_id, client_id, l4_proto, output=Non
         from traffic_emulation.random_traffic_emulation import KILL_THREAD
         if KILL_THREAD is True:
             break
-        if server.waiting is False:
-            if l4_proto == 'tcp':
-                run_iperf_server_tcp(server, client, port, output)
-            elif l4_proto == 'udp':
-                run_iperf_server_udp(server, client, port, output)
-            else:
-                print('Unknown L4 protocol!')
-                exit()
+        if l4_proto == 'tcp':
+            run_iperf_server_tcp(server, client, port, output)
+        elif l4_proto == 'udp':
+            run_iperf_server_udp(server, client, port, output)
+        else:
+            print('Unknown L4 protocol!')
+            exit()
 
 
 def run_client_thread(server, client, server_id, client_id, l4_proto, bandwidth_interval=None,
@@ -119,4 +118,4 @@ def run_client_thread(server, client, server_id, client_id, l4_proto, bandwidth_
         else:
             print('Unknown L4 protocol!')
             exit()
-        time.sleep(1)
+        time.sleep(5)
