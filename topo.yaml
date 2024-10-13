@@ -1,6 +1,6 @@
-hosts number: 1
-bandwidth interval: [500, 5000] # bandwidth interval for network emulation in Kbps
-time interval: [10, 60] # time interval for network emulation in s
+hosts number: 3
+bandwidth interval: [300, 3000] # bandwidth interval for network emulation in Kbps
+time interval: [60, 300] # time interval for network emulation in s
 nodes:
   - name: r1
     id: 1
