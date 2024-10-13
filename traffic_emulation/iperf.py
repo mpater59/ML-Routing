@@ -19,7 +19,7 @@ def run_iperf_server_tcp(server, client, port, output=None):
         os.system(f'{MNEXEC} {server.name} iperf -s -p {port}')
         # server.cmd(f'iperf -s -p {port} &')
     else:
-        os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -y C > {output}')
+        os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -y C > {output} 2> /dev/null')
         # server.cmd(f'iperf -s -p {port} -y C > {output} &')
 
 
@@ -30,7 +30,7 @@ def run_iperf_server_udp(server, client, port, output=None):
         os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -u')
         # server.cmd(f'iperf -s -p {port} -u &')
     else:
-        os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -y C -u > {output}')
+        os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -y C -u > {output} 2> /dev/null')
         # server.cmd(f'iperf -s -p {port} -y C -u > {output} &')
 
 
@@ -39,7 +39,7 @@ def run_iperf_client_tcp(server, client, port, dest_ip_addr, bandwidth, flow_tim
           f'destination IP address: {dest_ip_addr}; bandwidth: {bandwidth} Kbps; flow time: {flow_time} s')
     # client.pexec(f'iperf -c {dest_ip_addr} -p {port} -b {bandwidth}K -t {flow_time}')
     os.system(f'{MNEXEC} {client.name} iperf -c {dest_ip_addr} -p {port} -b {bandwidth}K -t {flow_time} '
-              f'> /dev/null 2>&1')
+              f'> /dev/null')
 
 
 def run_iperf_client_udp(server, client, port, dest_ip_addr, bandwidth, flow_time):
@@ -47,7 +47,7 @@ def run_iperf_client_udp(server, client, port, dest_ip_addr, bandwidth, flow_tim
           f'destination IP address: {dest_ip_addr}; bandwidth: {bandwidth} Kbps; flow time: {flow_time} s')
     # client.pexec(f'iperf -c {dest_ip_addr} -p {port} -u -b {bandwidth} -t {flow_time}')
     os.system(f'{MNEXEC} {client.name} iperf -c {dest_ip_addr} -p {port} -u -b {bandwidth}K -t {flow_time} '
-              f'> /dev/null 2>&1')
+              f'> /dev/null')
 
 
 def run_server_thread(server, client, server_id, client_id, l4_proto, output=None):
