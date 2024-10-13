@@ -77,7 +77,8 @@ def random_traffic_emulation(net, topo_info):
             memory_usage = psutil.virtual_memory().percent
             print(memory_usage)
             # reset iperf connection
-            if memory_usage >= 90:
+            if memory_usage >= 50:
+                print('Restarting iperf connection!')
                 os.system('sudo kill -9 $(pgrep iperf)')
     except KeyboardInterrupt:
         print('Interrupted!')
