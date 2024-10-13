@@ -64,8 +64,6 @@ def random_traffic_emulation(net, topo_info):
             thread_server_list.append(udp_thread_server)
             thread_client_list.append(tcp_thread_client)
             thread_client_list.append(udp_thread_client)
-            break
-        break
 
     for thread in thread_server_list:
         thread.start()
@@ -76,8 +74,10 @@ def random_traffic_emulation(net, topo_info):
     try:
         while True:
             time.sleep(10)
+            memory_usage = psutil.virtual_memory().percent
+            print(memory_usage)
             # reset iperf connection
-            if psutil.virtual_memory().percent > 90:
+            if memory_usage >= 90:
                 os.system('sudo kill -9 $(pgrep iperf)')
     except KeyboardInterrupt:
         print('Interrupted!')
