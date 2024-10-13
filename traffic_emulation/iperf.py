@@ -13,8 +13,8 @@ MNEXEC = '/home/user/mininet/util/m'
 
 
 def run_iperf_server_tcp(server, client, port, output=None):
-    print(f'{datetime.now()}: {client.name} -> {server.name} flow (TCP) - Starting iperf TCP server; '
-          f'host: {server.name}; port: {port}; output: {output}')
+    # print(f'{datetime.now()}: {client.name} -> {server.name} flow (TCP) - Starting iperf TCP server; '
+    #       f'host: {server.name}; port: {port}; output: {output}')
     if output is None:
         os.system(f'{MNEXEC} {server.name} iperf -s -p {port} > /dev/null 2> /dev/null')
         # server.cmd(f'iperf -s -p {port} &')
@@ -24,8 +24,8 @@ def run_iperf_server_tcp(server, client, port, output=None):
 
 
 def run_iperf_server_udp(server, client, port, output=None):
-    print(f'{datetime.now()}: {client.name} -> {server.name} flow (UDP) - Starting iperf UDP server; '
-          f'host: {server.name}; port: {port}; output: {output}')
+    # print(f'{datetime.now()}: {client.name} -> {server.name} flow (UDP) - Starting iperf UDP server; '
+    #       f'host: {server.name}; port: {port}; output: {output}')
     if output is None:
         os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -u > /dev/null 2> /dev/null')
         # server.cmd(f'iperf -s -p {port} -u &')
@@ -35,18 +35,18 @@ def run_iperf_server_udp(server, client, port, output=None):
 
 
 def run_iperf_client_tcp(server, client, port, dest_ip_addr, bandwidth, flow_time):
-    print(f'{datetime.now()}: {client.name} -> {server.name} flow (TCP) - Starting iperf TCP client; '
-          f'host: {client.name}; port: {port}; destination IP address: {dest_ip_addr}; '
-          f'bandwidth: {bandwidth} Kbps; flow time: {flow_time} s')
+    # print(f'{datetime.now()}: {client.name} -> {server.name} flow (TCP) - Starting iperf TCP client; '
+    #       f'host: {client.name}; port: {port}; destination IP address: {dest_ip_addr}; '
+    #       f'bandwidth: {bandwidth} Kbps; flow time: {flow_time} s')
     # client.pexec(f'iperf -c {dest_ip_addr} -p {port} -b {bandwidth}K -t {flow_time}')
     os.system(f'{MNEXEC} {client.name} iperf -c {dest_ip_addr} -p {port} -b {bandwidth}K -t {flow_time} '
               f'> /dev/null 2> /dev/null')
 
 
 def run_iperf_client_udp(server, client, port, dest_ip_addr, bandwidth, flow_time):
-    print(f'{datetime.now()}: {client.name} -> {server.name} flow (UDP) - Starting iperf UDP client; '
-          f'host: {client.name}; port: {port}; destination IP address: {dest_ip_addr}; '
-          f'bandwidth: {bandwidth} Kbps; flow time: {flow_time} s')
+    # print(f'{datetime.now()}: {client.name} -> {server.name} flow (UDP) - Starting iperf UDP client; '
+    #       f'host: {client.name}; port: {port}; destination IP address: {dest_ip_addr}; '
+    #       f'bandwidth: {bandwidth} Kbps; flow time: {flow_time} s')
     # client.pexec(f'iperf -c {dest_ip_addr} -p {port} -u -b {bandwidth} -t {flow_time}')
     os.system(f'{MNEXEC} {client.name} iperf -c {dest_ip_addr} -p {port} -u -b {bandwidth}K -t {flow_time} '
               f'> /dev/null 2> /dev/null')
