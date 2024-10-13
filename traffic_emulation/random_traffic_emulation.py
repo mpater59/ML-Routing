@@ -2,6 +2,7 @@ import threading
 import time
 import random
 import os
+import psutil
 
 
 from datetime import datetime
@@ -72,7 +73,10 @@ def random_traffic_emulation(net, topo_info):
 
     try:
         while True:
-            time.sleep(60)
+            time.sleep(10)
+            # reset iperf connection
+            if psutil.virtual_memory().percent > 90:
+                os.system('sudo kill -9 $(pgrep iperf)')
     except KeyboardInterrupt:
         print('Interrupted!')
         kill_threads()
