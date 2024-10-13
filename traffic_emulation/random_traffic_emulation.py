@@ -3,13 +3,24 @@ import time
 import random
 import os
 import psutil
+import logging
 
 
 from datetime import datetime
 
 
+# CONSTANTS
+LOGFILE = '/home/user/traffic_emulation.log'
+
+
 # GLOBALS
 KILL_THREAD = False
+LOGGER = logging
+LOGGER.basicConfig(filename=LOGFILE,
+                   filemode='a',
+                   format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                   datefmt='%H:%M:%S',
+                   level=logging.DEBUG)
 
 
 def random_traffic_emulation(net, topo_info):
@@ -21,6 +32,9 @@ def random_traffic_emulation(net, topo_info):
     host_pairs, host_id = initial_hosts_information(net, topo_info)
     output = None
 
+    LOGGER.info('test1')
+    logging.info('test2')
+    exit()
     bandwidth_interval = topo_info['bandwidth interval']
     time_interval = topo_info['time interval']
 
@@ -74,10 +88,8 @@ def random_traffic_emulation(net, topo_info):
     try:
         while True:
             time.sleep(10)
-            memory_usage = psutil.virtual_memory().percent
-            print(memory_usage)
             # reset iperf connection
-            if memory_usage >= 50:
+            if psutil.virtual_memory().percent >= 90:
                 print('Restarting iperf connection!')
                 os.system('sudo kill -9 $(pgrep iperf)')
     except KeyboardInterrupt:
