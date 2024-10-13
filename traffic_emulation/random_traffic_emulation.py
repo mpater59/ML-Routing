@@ -37,21 +37,19 @@ def random_traffic_emulation(net, topo_info):
     thread_server_list = []
     thread_client_list = []
     for source_host, destination_host_list in host_pairs.items():
+        server_id = host_id[source_host]
+        tcp_thread_server = threading.Thread(target=run_server_thread, args=(source_host,
+                                                                             server_id,
+                                                                             'tcp',
+                                                                             output,))
+        udp_thread_server = threading.Thread(target=run_server_thread, args=(source_host,
+                                                                             server_id,
+                                                                             'udp',
+                                                                             output,))
+        thread_server_list.append(tcp_thread_server)
+        thread_server_list.append(udp_thread_server)
         for destination_host in destination_host_list:
-            server_id = host_id[source_host]
             client_id = host_id[destination_host]
-            tcp_thread_server = threading.Thread(target=run_server_thread, args=(source_host,
-                                                                                 destination_host,
-                                                                                 server_id,
-                                                                                 client_id,
-                                                                                 'tcp',
-                                                                                 output,))
-            udp_thread_server = threading.Thread(target=run_server_thread, args=(source_host,
-                                                                                 destination_host,
-                                                                                 server_id,
-                                                                                 client_id,
-                                                                                 'udp',
-                                                                                 output,))
             new_seed = random.randint(0, 999999999999)
             tcp_thread_client = threading.Thread(target=run_client_thread, args=(source_host,
                                                                                  destination_host,
@@ -70,8 +68,6 @@ def random_traffic_emulation(net, topo_info):
                                                                                  bandwidth_interval,
                                                                                  time_interval,
                                                                                  new_seed,))
-            thread_server_list.append(tcp_thread_server)
-            thread_server_list.append(udp_thread_server)
             thread_client_list.append(tcp_thread_client)
             thread_client_list.append(udp_thread_client)
 
@@ -117,6 +113,3 @@ def initial_hosts_information(net, topo_info):
                         host_ = net.get(f's{switch_id_}h{host_id_}')
                         host_pairs[host].append(host_)
     return host_pairs, host_id_dict
-
-
-
