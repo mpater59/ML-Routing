@@ -75,12 +75,17 @@ def random_traffic_emulation(net, topo_info):
 
     try:
         while True:
-            time.sleep(10)
+            time.sleep(60)
+            kill_threads()
     except KeyboardInterrupt:
-        global KILL_THREAD
-        KILL_THREAD = True
-        os.system('sudo pkill iperf')
         print('Interrupted!')
+        kill_threads()
+
+
+def kill_threads():
+    global KILL_THREAD
+    KILL_THREAD = True
+    os.system('sudo pkill iperf')
 
 
 def initial_hosts_information(net, topo_info):

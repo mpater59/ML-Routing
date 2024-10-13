@@ -16,7 +16,7 @@ def run_iperf_server_tcp(server, client, port, output=None):
     print(f' {client.name} -> {server.name} flow (TCP) - Starting iperf TCP server; host: {server.name}; port: {port}; '
           f'output: {output}')
     if output is None:
-        os.system(f'{MNEXEC} {server.name} iperf -s -p {port}')
+        os.system(f'{MNEXEC} {server.name} iperf -s -p {port} > /dev/null 2> /dev/null')
         # server.cmd(f'iperf -s -p {port} &')
     else:
         os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -y C > {output} 2> /dev/null')
@@ -27,7 +27,7 @@ def run_iperf_server_udp(server, client, port, output=None):
     print(f'{client.name} -> {server.name} flow (UDP) - Starting iperf UDP server; host: {server.name}; port: {port}; '
           f'output: {output}')
     if output is None:
-        os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -u')
+        os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -u > /dev/null 2> /dev/null')
         # server.cmd(f'iperf -s -p {port} -u &')
     else:
         os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -y C -u > {output} 2> /dev/null')
