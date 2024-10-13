@@ -9,6 +9,10 @@ from traffic_emulation.iperf import run_iperf_server_tcp
 from datetime import datetime
 
 
+# GLOBALS
+KILL_THREAD = False
+
+
 def random_traffic_emulation(net, topo_info):
     random.seed(datetime.now().timestamp())
 
@@ -79,11 +83,13 @@ def random_traffic_emulation(net, topo_info):
     for thread in thread_client_list:
         thread.start()
 
-    # try:
-    #     while True:
-    #         time.sleep(10)
-    # except KeyboardInterrupt:
-    #     print('Interrupted!')
+    try:
+        while True:
+            time.sleep(10)
+    except KeyboardInterrupt:
+        global KILL_THREAD
+        KILL_THREAD = True
+        print('Interrupted!')
 
 
 def initial_hosts_information(net, topo_info):

@@ -3,6 +3,7 @@ import time
 
 
 from datetime import datetime
+from random_traffic_emulation import KILL_THREAD
 
 
 # Constants
@@ -57,6 +58,8 @@ def run_server_thread(server, client, server_id, client_id, l4_proto, output=Non
         port = f'2{server_id}{client_id}'
 
     while True:
+        if KILL_THREAD is True:
+            break
         if server.waiting is False:
             if l4_proto == 'tcp':
                 run_iperf_server_tcp(server, client, port, output)
@@ -94,6 +97,8 @@ def run_client_thread(server, client, server_id, client_id, l4_proto, bandwidth_
 
     server_ip_addr = server.IP()
     while True:
+        if KILL_THREAD is True:
+            break
         bandwidth = random.randint(bandwidth_interval[0], bandwidth_interval[1])
         flow_time = random.randint(time_interval[0], time_interval[1])
         if l4_proto == 'tcp':
