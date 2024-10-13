@@ -73,7 +73,7 @@ def run_server_thread(server, server_id, l4_proto, output=None):
             print('Unknown L4 protocol!')
             exit()
         time.sleep(1)
-        gc.collect()
+        # gc.collect()
 
 
 def run_client_thread(server, client, server_id, client_id, l4_proto, bandwidth_interval=None,
@@ -113,4 +113,4 @@ def run_client_thread(server, client, server_id, client_id, l4_proto, bandwidth_
             print('Unknown L4 protocol!')
             exit()
         time.sleep(5)
-        gc.collect()
+        # gc.collect()
