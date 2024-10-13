@@ -81,7 +81,7 @@ def random_traffic_emulation(net, topo_info):
 def kill_threads():
     global KILL_THREAD
     KILL_THREAD = True
-    os.system('sudo pkill iperf')
+    os.system('sudo kill -9 $(pgrep iperf)')
 
 
 def initial_hosts_information(net, topo_info):
