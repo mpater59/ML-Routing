@@ -66,6 +66,7 @@ def random_traffic_emulation(net, topo_info):
             break
         break
 
+    print()
     for thread in thread_server_list:
         thread.start()
     time.sleep(1)
