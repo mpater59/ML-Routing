@@ -21,7 +21,8 @@ def random_traffic_emulation(net, topo_info):
     host_pairs, host_id = initial_hosts_information(net, topo_info)
     output = None
 
-    os.system("/home/user/mininet/util/m s1h1 ip a")
+    os.system("/home/user/mininet/util/m s1h1 iperf -s")
+    print('test exit')
     exit()
 
 
