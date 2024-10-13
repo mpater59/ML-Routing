@@ -14,7 +14,6 @@ KILL_THREAD = False
 def random_traffic_emulation(net, topo_info):
     from traffic_emulation.iperf import run_server_thread
     from traffic_emulation.iperf import run_client_thread
-    from traffic_emulation.iperf import run_iperf_server_tcp
 
     random.seed(datetime.now().timestamp())
 
@@ -35,13 +34,13 @@ def random_traffic_emulation(net, topo_info):
                                                                                  server_id,
                                                                                  client_id,
                                                                                  'tcp',
-                                                                                 '/home/user/log1.log',))
+                                                                                 output,))
             udp_thread_server = threading.Thread(target=run_server_thread, args=(source_host,
                                                                                  destination_host,
                                                                                  server_id,
                                                                                  client_id,
                                                                                  'udp',
-                                                                                 '/home/user/log2.log',))
+                                                                                 output,))
             new_seed = random.randint(0, 999999999999)
             tcp_thread_client = threading.Thread(target=run_client_thread, args=(source_host,
                                                                                  destination_host,
@@ -76,7 +75,6 @@ def random_traffic_emulation(net, topo_info):
     try:
         while True:
             time.sleep(60)
-            kill_threads()
     except KeyboardInterrupt:
         print('Interrupted!')
         kill_threads()
