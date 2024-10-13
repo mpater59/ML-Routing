@@ -1,4 +1,4 @@
-hosts number: 2
+hosts number: 1
 bandwidth interval: [300, 3000] # bandwidth interval for network emulation in Kbps
 time interval: [60, 300] # time interval for network emulation in s
 nodes:
