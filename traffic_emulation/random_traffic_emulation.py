@@ -15,12 +15,11 @@ LOGFILE = '/home/user/traffic_emulation.log'
 
 # GLOBALS
 KILL_THREAD = False
-LOGGER = logging.getLogger('traffic_emulation_log')
+LOGGER = logging
 logging.basicConfig(filename=LOGFILE,
                    filemode='a',
                    format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
-                   datefmt='%H:%M:%S',
-                   level=logging.DEBUG)
+                   level=logging.INFO)
 
 
 def random_traffic_emulation(net, topo_info):
