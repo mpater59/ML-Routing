@@ -3,7 +3,7 @@ import time
 
 
 from datetime import datetime
-from random_traffic_emulation import KILL_THREAD
+from traffic_emulation.random_traffic_emulation import KILL_THREAD
 
 
 # Constants
