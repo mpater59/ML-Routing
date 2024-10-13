@@ -92,7 +92,7 @@ def run_client_thread(server, client, server_id, client_id, l4_proto, bandwidth_
         random.seed(datetime.now().timestamp())
     else:
         random.seed(seed)
-        print(f'{client.name} -> {server.name.upper()} flow ({l4_proto}) - thread seed: {seed}')
+        print(f'{client.name} -> {server.name} flow ({l4_proto.upper()}) - thread seed: {seed}')
 
     if len(str(server_id)) == 1:
         server_id = f'0{server_id}'
