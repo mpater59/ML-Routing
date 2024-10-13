@@ -8,6 +8,8 @@ from datetime import datetime
 # Constants
 DEFAULT_BANDWIDTH_INTERVAL = [1000, 10000]
 DEFAULT_TIME_INTERVAL = [60, 300]
+BASH_PATH = '/bin/bash'
+MNEXEC_PATH = '/home/user/mininet/util/m'
 
 
 def run_iperf_server_tcp(server, client, port, output=None):

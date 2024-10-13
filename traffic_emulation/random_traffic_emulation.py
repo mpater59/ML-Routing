@@ -1,6 +1,7 @@
 import threading
 import time
 import random
+import os
 
 
 from datetime import datetime
@@ -19,6 +20,10 @@ def random_traffic_emulation(net, topo_info):
 
     host_pairs, host_id = initial_hosts_information(net, topo_info)
     output = None
+
+    os.system("/home/user/mininet/util/m s1h1 ip a")
+    exit()
+
 
     # host = net.get('s1h1')
     # host.pexec('iperf -s -p 10000')
