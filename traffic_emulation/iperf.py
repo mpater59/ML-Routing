@@ -73,10 +73,10 @@ def run_server_thread(server, server_id, l4_proto, output=None):
             print('Unknown L4 protocol!')
             exit()
         time.sleep(1)
-        # gc.collect()
+        gc.collect()
 
 
-def run_client_thread(server, client, server_id, client_id, l4_proto, bandwidth_interval=None,
+def run_client_thread(server, client, server_id, l4_proto, bandwidth_interval=None,
                       time_interval=None, seed=None):
     from traffic_emulation.random_traffic_emulation import LOGGER
 
@@ -94,9 +94,9 @@ def run_client_thread(server, client, server_id, client_id, l4_proto, bandwidth_
 
     port = None
     if l4_proto == 'tcp':
-        port = f'1{server_id}{client_id}'
+        port = f'1{server_id}'
     elif l4_proto == 'udp':
-        port = f'2{server_id}{client_id}'
+        port = f'2{server_id}'
 
     server_ip_addr = server.IP()
     while True:
@@ -113,4 +113,4 @@ def run_client_thread(server, client, server_id, client_id, l4_proto, bandwidth_
             print('Unknown L4 protocol!')
             exit()
         time.sleep(5)
-        # gc.collect()
+        gc.collect()
