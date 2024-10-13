@@ -21,22 +21,6 @@ def random_traffic_emulation(net, topo_info):
     host_pairs, host_id = initial_hosts_information(net, topo_info)
     output = None
 
-    os.system("/home/user/mininet/util/m s1h1 iperf -s")
-    print('test exit')
-    exit()
-
-
-    # host = net.get('s1h1')
-    # host.pexec('iperf -s -p 10000')
-    # print('test1')
-    # host.pexec('iperf -s -p 20000')
-    # print('test2')
-    # t1 = threading.Thread(target=run_iperf_server_tcp, args=(host, host, 10000,))
-    # t2 = threading.Thread(target=run_iperf_server_tcp, args=(host, host, 20000,))
-    # t1.start()
-    # time.sleep(1)
-    # t2.start()
-
     bandwidth_interval = topo_info['bandwidth interval']
     time_interval = topo_info['time interval']
 
@@ -96,6 +80,7 @@ def random_traffic_emulation(net, topo_info):
     except KeyboardInterrupt:
         global KILL_THREAD
         KILL_THREAD = True
+        os.system('sudo pkill iperf')
         print('Interrupted!')
 
 
