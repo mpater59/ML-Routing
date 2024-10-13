@@ -15,8 +15,8 @@ LOGFILE = '/home/user/traffic_emulation.log'
 
 # GLOBALS
 KILL_THREAD = False
-LOGGER = logging
-LOGGER.basicConfig(filename=LOGFILE,
+LOGGER = logging.getLogger('traffic_emulation_log')
+logging.basicConfig(filename=LOGFILE,
                    filemode='a',
                    format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                    datefmt='%H:%M:%S',
