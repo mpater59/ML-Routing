@@ -11,7 +11,7 @@ MNEXEC = '/home/user/mininet/util/m'
 
 
 def run_iperf_server_tcp(server, client, port, logger, output=None):
-    logger.info(f'{datetime.now()}: {client.name} -> {server.name} flow (TCP) - Starting iperf TCP server; '
+    logger.info(f'{client.name} -> {server.name} flow (TCP) - Starting iperf TCP server; '
                 f'host: {server.name}; port: {port}; output: {output}')
     if output is None:
         os.system(f'{MNEXEC} {server.name} iperf -s -p {port} > /dev/null 2> /dev/null')
@@ -20,7 +20,7 @@ def run_iperf_server_tcp(server, client, port, logger, output=None):
 
 
 def run_iperf_server_udp(server, client, port, logger, output=None):
-    logger.info(f'{datetime.now()}: {client.name} -> {server.name} flow (UDP) - Starting iperf UDP server; '
+    logger.info(f'{client.name} -> {server.name} flow (UDP) - Starting iperf UDP server; '
                 f'host: {server.name}; port: {port}; output: {output}')
     if output is None:
         os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -u > /dev/null 2> /dev/null')
@@ -29,7 +29,7 @@ def run_iperf_server_udp(server, client, port, logger, output=None):
 
 
 def run_iperf_client_tcp(server, client, port, dest_ip_addr, bandwidth, flow_time, logger):
-    logger.info(f'{datetime.now()}: {client.name} -> {server.name} flow (TCP) - Starting iperf TCP client; '
+    logger.info(f'{client.name} -> {server.name} flow (TCP) - Starting iperf TCP client; '
                 f'host: {client.name}; port: {port}; destination IP address: {dest_ip_addr}; '
                 f'bandwidth: {bandwidth} Kbps; flow time: {flow_time} s')
     os.system(f'{MNEXEC} {client.name} iperf -c {dest_ip_addr} -p {port} -b {bandwidth}K -t {flow_time} '
@@ -37,7 +37,7 @@ def run_iperf_client_tcp(server, client, port, dest_ip_addr, bandwidth, flow_tim
 
 
 def run_iperf_client_udp(server, client, port, dest_ip_addr, bandwidth, flow_time, logger):
-    logger.info(f'{datetime.now()}: {client.name} -> {server.name} flow (UDP) - Starting iperf UDP client; '
+    logger.info(f'{client.name} -> {server.name} flow (UDP) - Starting iperf UDP client; '
                 f'host: {client.name}; port: {port}; destination IP address: {dest_ip_addr}; '
                 f'bandwidth: {bandwidth} Kbps; flow time: {flow_time} s')
     os.system(f'{MNEXEC} {client.name} iperf -c {dest_ip_addr} -p {port} -u -b {bandwidth}K -t {flow_time} '
@@ -88,7 +88,7 @@ def run_client_thread(server, client, server_id, client_id, l4_proto, bandwidth_
         random.seed(datetime.now().timestamp())
     else:
         random.seed(seed)
-        LOGGER.info(f'{datetime.now()}: {client.name} -> {server.name} flow ({l4_proto.upper()}) - thread seed: {seed}')
+        LOGGER.info(f'{client.name} -> {server.name} flow ({l4_proto.upper()}) - thread seed: {seed}')
 
     if len(str(server_id)) == 1:
         server_id = f'0{server_id}'
