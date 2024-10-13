@@ -17,7 +17,7 @@ def run_iperf_server_tcp(server, port, logger, output=None):
     if output is None:
         os.system(f'{MNEXEC} {server.name} iperf -s -p {port} > /dev/null 2> /dev/null')
     else:
-        os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -y C > {output} 2> /dev/null')
+        os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -y C >> {output} 2> /dev/null')
 
 
 def run_iperf_server_udp(server, port, logger, output=None):
@@ -26,7 +26,7 @@ def run_iperf_server_udp(server, port, logger, output=None):
     if output is None:
         os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -u > /dev/null 2> /dev/null')
     else:
-        os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -y C -u > {output} 2> /dev/null')
+        os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -y C -u >> {output} 2> /dev/null')
 
 
 def run_iperf_client_tcp(server, client, port, dest_ip_addr, bandwidth, flow_time, logger):
@@ -60,20 +60,25 @@ def run_server_thread(server, server_id, l4_proto, output=None):
             pass
         port = f'2{server_id}'
 
-    while True:
-        from traffic_emulation.random_traffic_emulation import KILL_THREAD
+    try:
+        while True:
+            from traffic_emulation.random_traffic_emulation import KILL_THREAD
 
-        if KILL_THREAD is True:
-            break
-        if l4_proto == 'tcp':
-            run_iperf_server_tcp(server, port, LOGGER, output)
-        elif l4_proto == 'udp':
-            run_iperf_server_udp(server, port, LOGGER, output)
-        else:
-            print('Unknown L4 protocol!')
-            exit()
-        time.sleep(1)
-        gc.collect()
+            if KILL_THREAD is True:
+                break
+            if l4_proto == 'tcp':
+                run_iperf_server_tcp(server, port, LOGGER, output)
+            elif l4_proto == 'udp':
+                run_iperf_server_udp(server, port, LOGGER, output)
+            else:
+                print('Unknown L4 protocol!')
+                exit()
+            time.sleep(1)
+            gc.collect()
+    except KeyboardInterrupt:
+        from traffic_emulation.random_traffic_emulation import kill_threads
+        LOGGER.warning('Interrupted!')
+        kill_threads()
 
 
 def run_client_thread(server, client, server_id, l4_proto, bandwidth_interval=None,
@@ -99,18 +104,23 @@ def run_client_thread(server, client, server_id, l4_proto, bandwidth_interval=No
         port = f'2{server_id}'
 
     server_ip_addr = server.IP()
-    while True:
-        from traffic_emulation.random_traffic_emulation import KILL_THREAD
-        if KILL_THREAD is True:
-            break
-        bandwidth = random.randint(bandwidth_interval[0], bandwidth_interval[1])
-        flow_time = random.randint(time_interval[0], time_interval[1])
-        if l4_proto == 'tcp':
-            run_iperf_client_tcp(server, client, port, server_ip_addr, bandwidth, flow_time, LOGGER)
-        elif l4_proto == 'udp':
-            run_iperf_client_udp(server, client, port, server_ip_addr, bandwidth, flow_time, LOGGER)
-        else:
-            print('Unknown L4 protocol!')
-            exit()
-        time.sleep(5)
-        gc.collect()
+    try:
+        while True:
+            from traffic_emulation.random_traffic_emulation import KILL_THREAD
+            if KILL_THREAD is True:
+                break
+            bandwidth = random.randint(bandwidth_interval[0], bandwidth_interval[1])
+            flow_time = random.randint(time_interval[0], time_interval[1])
+            if l4_proto == 'tcp':
+                run_iperf_client_tcp(server, client, port, server_ip_addr, bandwidth, flow_time, LOGGER)
+            elif l4_proto == 'udp':
+                run_iperf_client_udp(server, client, port, server_ip_addr, bandwidth, flow_time, LOGGER)
+            else:
+                print('Unknown L4 protocol!')
+                exit()
+            time.sleep(5)
+            gc.collect()
+    except KeyboardInterrupt:
+        from traffic_emulation.random_traffic_emulation import kill_threads
+        LOGGER.warning('Interrupted!')
+        kill_threads()
