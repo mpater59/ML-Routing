@@ -17,9 +17,9 @@ LOGFILE = '/home/user/traffic_emulation.log'
 KILL_THREAD = False
 LOGGER = logging
 logging.basicConfig(filename=LOGFILE,
-                   filemode='a',
-                   format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
-                   level=logging.INFO)
+                    filemode='w',
+                    format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                    level=logging.INFO)
 
 
 def random_traffic_emulation(net, topo_info):
@@ -31,9 +31,6 @@ def random_traffic_emulation(net, topo_info):
     host_pairs, host_id = initial_hosts_information(net, topo_info)
     output = None
 
-    LOGGER.info('test1')
-    logging.info('test2')
-    exit()
     bandwidth_interval = topo_info['bandwidth interval']
     time_interval = topo_info['time interval']
 
@@ -77,6 +74,8 @@ def random_traffic_emulation(net, topo_info):
             thread_server_list.append(udp_thread_server)
             thread_client_list.append(tcp_thread_client)
             thread_client_list.append(udp_thread_client)
+            break
+        break
 
     for thread in thread_server_list:
         thread.start()
@@ -89,10 +88,10 @@ def random_traffic_emulation(net, topo_info):
             time.sleep(10)
             # reset iperf connection
             if psutil.virtual_memory().percent >= 90:
-                print('Restarting iperf connection!')
+                LOGGER.warning('Restarting iperf connection!')
                 os.system('sudo kill -9 $(pgrep iperf)')
     except KeyboardInterrupt:
-        print('Interrupted!')
+        LOGGER.warning('Interrupted!')
         kill_threads()
 
 
