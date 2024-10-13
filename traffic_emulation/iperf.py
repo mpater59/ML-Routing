@@ -38,14 +38,15 @@ def run_iperf_client_tcp(server, client, port, dest_ip_addr, bandwidth, flow_tim
     print(f'{client.name} -> {server.name} flow - Starting iperf TCP client; host: {client.name}; port: {port}; '
           f'destination IP address: {dest_ip_addr}; bandwidth: {bandwidth} Kbps; flow time: {flow_time} s')
     # client.pexec(f'iperf -c {dest_ip_addr} -p {port} -b {bandwidth}K -t {flow_time}')
-    os.system(f'{MNEXEC} {client.name} iperf -c {dest_ip_addr} -p {port} -b {bandwidth}K -t {flow_time} > /dev/null')
+    os.system(f'{MNEXEC} {client.name} iperf -c {dest_ip_addr} -p {port} -b {bandwidth}K -t {flow_time} &> /dev/null')
 
 
 def run_iperf_client_udp(server, client, port, dest_ip_addr, bandwidth, flow_time):
     print(f'{client.name} -> {server.name} flow - Starting iperf UDP client; host: {client.name}; port: {port}; '
           f'destination IP address: {dest_ip_addr}; bandwidth: {bandwidth} Kbps; flow time: {flow_time} s')
     # client.pexec(f'iperf -c {dest_ip_addr} -p {port} -u -b {bandwidth} -t {flow_time}')
-    os.system(f'{MNEXEC} {client.name} iperf -c {dest_ip_addr} -p {port} -u -b {bandwidth}K -t {flow_time} > /dev/null')
+    os.system(f'{MNEXEC} {client.name} iperf -c {dest_ip_addr} -p {port} -u -b {bandwidth}K -t {flow_time} '
+              f'&> /dev/null')
 
 
 def run_server_thread(server, client, server_id, client_id, l4_proto, output=None):
