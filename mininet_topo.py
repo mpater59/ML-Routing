@@ -136,12 +136,14 @@ if __name__ == '__main__':
 
     print(args)
 
+    print('test1')
     with open(args.file) as f:
         try:
             topo_info = yaml.safe_load(f)
         except yaml.YAMLError as e:
             print(e)
 
+    print('test2')
     ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
     topo = Topology()
     net = Mininet(switch=OVSSwitch, link=TCLink, topo=topo, controller=ryu_controller, autoSetMacs=True)
