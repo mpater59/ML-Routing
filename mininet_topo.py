@@ -128,11 +128,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
                         help='Topology file in .yaml format')
-    parser.add_argument('-en', '--emulation', dest='emulation', type=str, default=None,
+    parser.add_argument('-e', '--emulation', dest='emulation', type=str, default=None,
                         help='Name of traffic emulation for saving results (default: None)')
     parser.add_argument('-et', '--time', dest='time', type=int, default=None,
                         help='Time of traffic emulation in minutes (default: infinite time)')
-    args = parser.parse_args()
+    args, unknown = parser.parse_known_args()
 
     with open(args.file) as f:
         try:
