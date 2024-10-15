@@ -92,18 +92,6 @@ def send_topology(net, agent, collector):
     url = opener.open(request)
 
 
-def arg_parser():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
-                        help='Topology file in .yaml format')
-    parser.add_argument('-e', '--emulation', dest='emulation', type=str, default=None,
-                        help='Name of traffic emulation for saving results (default: None)')
-    parser.add_argument('-t', '--time', dest='time', type=int, default=None,
-                        help='Time of traffic emulation in minutes (default: infinite time)')
-    args = parser.parse_args()
-    return args
-
-
 class Topology(Topo):
     def build(self):
 
@@ -137,7 +125,15 @@ class Topology(Topo):
 
 
 if __name__ == '__main__':
-    args = arg_parser()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-t', '--time', dest='time', type=int, default=None,
+                        help='Time of traffic emulation in minutes (default: infinite time)')
+    parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
+                        help='Topology file in .yaml format')
+    parser.add_argument('-e', '--emulation', dest='emulation', type=str, default=None,
+                        help='Name of traffic emulation for saving results (default: None)')
+
+    args, unknown = parser.parse_known_args()
 
     with open(args.file) as f:
         try:
