@@ -98,7 +98,7 @@ def arg_parser():
                         help='Topology file in .yaml format')
     parser.add_argument('-e', '--emulation', dest='emulation', type=str, default=None,
                         help='Name of traffic emulation for saving results (default: None)')
-    parser.add_argument('-et', '--time', dest='time', type=int, default=None,
+    parser.add_argument('-t', '--time', dest='time', type=int, default=None,
                         help='Time of traffic emulation in minutes (default: infinite time)')
     args = parser.parse_args()
     return args
