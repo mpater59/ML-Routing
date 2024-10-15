@@ -2,13 +2,21 @@ import random
 import time
 import os
 import gc
+import yaml
 
 from datetime import datetime
+
+
+with open('env.yaml') as f:
+    try:
+        env_file = yaml.safe_load(f)
+    except yaml.YAMLError as e:
+        print(e)
 
 # Constants
 DEFAULT_BANDWIDTH_INTERVAL = [1000, 10000]
 DEFAULT_TIME_INTERVAL = [60, 300]
-MNEXEC = '/home/user/mininet/util/m'
+MNEXEC = f"{env_file['mininet path']}/util/m"
 
 
 def run_iperf_server_tcp(server, port, logger, output=None):
@@ -46,7 +54,7 @@ def run_iperf_client_udp(server, client, port, dest_ip_addr, bandwidth, flow_tim
 
 
 def run_server_thread(server, server_id, l4_proto, output=None):
-    from traffic_emulation.random_traffic_emulation import LOGGER
+    from traffic_emulation.traffic_emulation_starter import LOGGER
 
     server_id = '0' * (4 - len(str(server_id))) + str(server_id)
 
@@ -62,7 +70,7 @@ def run_server_thread(server, server_id, l4_proto, output=None):
 
     try:
         while True:
-            from traffic_emulation.random_traffic_emulation import KILL_THREAD
+            from traffic_emulation.traffic_emulation_starter import KILL_THREAD
 
             if KILL_THREAD is True:
                 break
@@ -76,14 +84,14 @@ def run_server_thread(server, server_id, l4_proto, output=None):
             time.sleep(1)
             gc.collect()
     except KeyboardInterrupt:
-        from traffic_emulation.random_traffic_emulation import kill_threads
+        from traffic_emulation.traffic_emulation_starter import kill_threads
         LOGGER.warning('Interrupted!')
         kill_threads()
 
 
 def run_client_thread(server, client, server_id, l4_proto, bandwidth_interval=None,
                       time_interval=None, seed=None):
-    from traffic_emulation.random_traffic_emulation import LOGGER
+    from traffic_emulation.traffic_emulation_starter import LOGGER
 
     if bandwidth_interval is None:
         bandwidth_interval = DEFAULT_BANDWIDTH_INTERVAL
@@ -106,7 +114,7 @@ def run_client_thread(server, client, server_id, l4_proto, bandwidth_interval=No
     server_ip_addr = server.IP()
     try:
         while True:
-            from traffic_emulation.random_traffic_emulation import KILL_THREAD
+            from traffic_emulation.traffic_emulation_starter import KILL_THREAD
             if KILL_THREAD is True:
                 break
             bandwidth = random.randint(bandwidth_interval[0], bandwidth_interval[1])
@@ -121,6 +129,6 @@ def run_client_thread(server, client, server_id, l4_proto, bandwidth_interval=No
             time.sleep(5)
             gc.collect()
     except KeyboardInterrupt:
-        from traffic_emulation.random_traffic_emulation import kill_threads
+        from traffic_emulation.traffic_emulation_starter import kill_threads
         LOGGER.warning('Interrupted!')
         kill_threads()

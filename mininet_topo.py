@@ -4,7 +4,7 @@ import topo_init_config
 import time
 
 
-from traffic_emulation.traffic_emulation_starter import run_traffic_emulation
+from traffic_emulation.traffic_emulation_starter import start_traffic_emulation
 from mininet.net import Mininet
 from mininet.cli import CLI
 from mininet.node import RemoteController, OVSSwitch
@@ -129,7 +129,9 @@ if __name__ == '__main__':
     parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
                         help='Topology file in .yaml format')
     parser.add_argument('-e', '--emulation', dest='emulation', type=int, default=None,
-                        help='Number of traffic emulation version (default: infinite random traffic emulation)')
+                        help='Name of traffic emulation for saving results (default: None)')
+    parser.add_argument('-t', '--time', dest='time', type=int, default=None,
+                        help='Time of traffic emulation in minutes (default: infinite time)')
     args = parser.parse_args()
 
     with open(args.file) as f:
@@ -157,6 +159,6 @@ if __name__ == '__main__':
     topo_init_config.apply_init_config()
     time.sleep(1)
     # net.pingAll()
-    run_traffic_emulation(net, topo_info, args.emulation)
+    start_traffic_emulation(net, topo_info, args.emulation, args.time)
     CLI(net)
     net.stop()
