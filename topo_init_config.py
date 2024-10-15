@@ -8,7 +8,7 @@ IPV4_ADDRESS = '127.0.0.1'  # SDN controller IPv4 address
 PORT = 8080
 
 
-def apply_init_config():
+def apply_init_config(topo_info):
     def get_dpid(dpid):
         dpid = hex(dpid)[2:]
         dpid = '0' * (16 - len(dpid)) + dpid
@@ -22,18 +22,6 @@ def apply_init_config():
         if dpid is None:
             print(f"Couldn't find DPID for switch {switch_name}")
             exit()
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
-                        help='Topology file in .yaml format')
-    args = parser.parse_args()
-
-    topo_info = {}
-    with open(args.file) as f:
-        try:
-            topo_info = yaml.safe_load(f)
-        except yaml.YAMLError as e:
-            print(e)
 
     # setting up switches
     for node in topo_info['nodes']:
@@ -68,4 +56,15 @@ def apply_init_config():
 
 
 if __name__ == '__main__':
-    apply_init_config()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
+                        help='Topology file in .yaml format')
+    args = parser.parse_args()
+
+    topo_info = {}
+    with open(args.file) as f:
+        try:
+            topo_info = yaml.safe_load(f)
+        except yaml.YAMLError as e:
+            print(e)
+    apply_init_config(topo_info)

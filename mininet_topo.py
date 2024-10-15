@@ -134,23 +134,18 @@ if __name__ == '__main__':
                         help='Time of traffic emulation in minutes (default: infinite time)')
     args = parser.parse_args()
 
-    print(args)
-
-    print('test1')
     with open(args.file) as f:
         try:
             topo_info = yaml.safe_load(f)
         except yaml.YAMLError as e:
             print(e)
 
-    print('test2')
     ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
     topo = Topology()
     net = Mininet(switch=OVSSwitch, link=TCLink, topo=topo, controller=ryu_controller, autoSetMacs=True)
 
     net.start()
 
-    print('test3')
     for node in topo_info['nodes']:
         switch_id = node['id']
         for host_id in range(1, topo_info['hosts number'] + 1):
@@ -158,16 +153,12 @@ if __name__ == '__main__':
             host.setARP(f'192.168.{10 * switch_id}.1', f'00:aa:bb:00:00:0{switch_id}')
             host.setDefaultRoute(f'dev s{switch_id}h{host_id}-eth0 via 192.168.{10 * switch_id}.1')
 
-    print('test4')
     config_sflow(net, COLLECTOR, AGENT, SAMPLING_N, POLLING_SECS)
-    print('test5')
     send_topology(net, COLLECTOR, COLLECTOR)
 
-    print('test6')
-    topo_init_config.apply_init_config()
+    topo_init_config.apply_init_config(topo_info)
     time.sleep(1)
     # net.pingAll()
-    print('test7')
     start_traffic_emulation(net, topo_info, args.emulation, args.time)
     CLI(net)
     net.stop()
