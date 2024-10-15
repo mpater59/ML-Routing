@@ -126,15 +126,15 @@ class Topology(Topo):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    # parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
-    #                     help='Topology file in .yaml format')
-    # parser.add_argument('-e', '--emulation', dest='emulation', default=None,
-    #                     help='Name of traffic emulation for saving results (default: None)')
+    parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
+                        help='Topology file in .yaml format')
+    parser.add_argument('-e', '--emulation', dest='emulation', default=None,
+                        help='Name of traffic emulation for saving results (default: None)')
     parser.add_argument('-t', '--time', dest='time', default=None,
                         help='Time of traffic emulation in minutes (default: infinite time)')
     args = parser.parse_args()
 
-    with open('topo.yaml') as f:
+    with open(args.file) as f:
         try:
             topo_info = yaml.safe_load(f)
         except yaml.YAMLError as e:
@@ -159,6 +159,6 @@ if __name__ == '__main__':
     topo_init_config.apply_init_config()
     time.sleep(1)
     # net.pingAll()
-    start_traffic_emulation(net, topo_info, None, int(args.time))
+    start_traffic_emulation(net, topo_info, args.emulation, int(args.time))
     CLI(net)
     net.stop()
