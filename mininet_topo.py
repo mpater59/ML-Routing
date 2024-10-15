@@ -124,41 +124,41 @@ class Topology(Topo):
             self.addLink(a_node, b_node, bw=bw, delay=f"{delay}ms")
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
-                        help='Topology file in .yaml format')
-    parser.add_argument('-e', '--emulation', dest='emulation', type=str, default=None,
-                        help='Name of traffic emulation for saving results (default: None)')
-    parser.add_argument('-t', '--time', dest='time', type=str, default=None,
-                        help='Time of traffic emulation in minutes (default: infinite time)')
-    args = parser.parse_args()
+# if __name__ == '__main__':
+parser = argparse.ArgumentParser()
+parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
+                    help='Topology file in .yaml format')
+parser.add_argument('-e', '--emulation', dest='emulation', type=str, default=None,
+                    help='Name of traffic emulation for saving results (default: None)')
+parser.add_argument('-t', '--time', dest='time', type=int, default=None,
+                    help='Time of traffic emulation in minutes (default: infinite time)')
+args = parser.parse_args()
 
-    with open(args.file) as f:
-        try:
-            topo_info = yaml.safe_load(f)
-        except yaml.YAMLError as e:
-            print(e)
+with open(args.file) as f:
+    try:
+        topo_info = yaml.safe_load(f)
+    except yaml.YAMLError as e:
+        print(e)
 
-    ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
-    topo = Topology()
-    net = Mininet(switch=OVSSwitch, link=TCLink, topo=topo, controller=ryu_controller, autoSetMacs=True)
+ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
+topo = Topology()
+net = Mininet(switch=OVSSwitch, link=TCLink, topo=topo, controller=ryu_controller, autoSetMacs=True)
 
-    net.start()
+net.start()
 
-    for node in topo_info['nodes']:
-        switch_id = node['id']
-        for host_id in range(1, topo_info['hosts number'] + 1):
-            host = net.get(f's{switch_id}h{host_id}')
-            host.setARP(f'192.168.{10 * switch_id}.1', f'00:aa:bb:00:00:0{switch_id}')
-            host.setDefaultRoute(f'dev s{switch_id}h{host_id}-eth0 via 192.168.{10 * switch_id}.1')
+for node in topo_info['nodes']:
+    switch_id = node['id']
+    for host_id in range(1, topo_info['hosts number'] + 1):
+        host = net.get(f's{switch_id}h{host_id}')
+        host.setARP(f'192.168.{10 * switch_id}.1', f'00:aa:bb:00:00:0{switch_id}')
+        host.setDefaultRoute(f'dev s{switch_id}h{host_id}-eth0 via 192.168.{10 * switch_id}.1')
 
-    config_sflow(net, COLLECTOR, AGENT, SAMPLING_N, POLLING_SECS)
-    send_topology(net, COLLECTOR, COLLECTOR)
+config_sflow(net, COLLECTOR, AGENT, SAMPLING_N, POLLING_SECS)
+send_topology(net, COLLECTOR, COLLECTOR)
 
-    topo_init_config.apply_init_config()
-    time.sleep(1)
-    # net.pingAll()
-    start_traffic_emulation(net, topo_info, args.emulation, int(args.time))
-    CLI(net)
-    net.stop()
+topo_init_config.apply_init_config()
+time.sleep(1)
+# net.pingAll()
+start_traffic_emulation(net, topo_info, args.emulation, args.time)
+CLI(net)
+net.stop()
