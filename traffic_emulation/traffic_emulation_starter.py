@@ -104,6 +104,8 @@ def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=
     except KeyboardInterrupt:
         LOGGER.warning('Interrupted!')
         kill_threads()
+        if output is not None:
+            os.system(f"sudo cp {LOGFILE} {env_file['repository path']}/measurements/results/{emulation_name}")
 
 
 def kill_threads():
