@@ -37,6 +37,9 @@ def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=
 
     host_pairs, host_id = initial_hosts_information(net, topo_info)
     output = None
+    if emulation_name is not None:
+        prepare_result_dir(emulation_name)
+        output = f"{env_file['repository path']}/measurements/results/{emulation_name}/hosts"
 
     bandwidth_interval = topo_info['bandwidth interval']
     time_interval = topo_info['time interval']
@@ -75,13 +78,14 @@ def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=
             thread_client_list.append(tcp_thread_client)
             thread_client_list.append(udp_thread_client)
 
+    start_time = time.time()
+    LOGGER.info('Starting emulation!')
     for thread in thread_server_list:
         thread.start()
     time.sleep(1)
     for thread in thread_client_list:
         thread.start()
 
-    start_time = time.time()
     if emulation_time is not None:
         emulation_time = emulation_time * 60
     try:
@@ -126,3 +130,11 @@ def initial_hosts_information(net, topo_info):
                         host_ = net.get(f's{switch_id_}h{host_id_}')
                         host_pairs[host].append(host_)
     return host_pairs, host_id_dict
+
+
+def prepare_result_dir(emulation_name):
+    os.system(f"sudo rm -rf {env_file['repository path']}/measurements/results/{emulation_name}")
+    os.system(f"sudo mkdir -p {env_file['repository path']}/measurements/results/{emulation_name}")
+    os.system(f"sudo mkdir -p {env_file['repository path']}/measurements/results/{emulation_name}/hosts")
+    os.system(f"sudo mkdir -p {env_file['repository path']}/measurements/results/{emulation_name}/switches")
+    os.system(f"sudo mkdir -p {env_file['repository path']}/measurements/results/{emulation_name}/final")

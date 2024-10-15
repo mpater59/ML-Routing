@@ -61,11 +61,11 @@ def run_server_thread(server, server_id, l4_proto, output=None):
     port = None
     if l4_proto == 'tcp':
         if output is not None:
-            pass
+            output = f"{output}/{server.name}_tcp_server.log"
         port = f'1{server_id}'
     elif l4_proto == 'udp':
         if output is not None:
-            pass
+            output = f"{output}/{server.name}_udp_server.log"
         port = f'2{server_id}'
 
     try:
