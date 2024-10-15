@@ -126,11 +126,11 @@ class Topology(Topo):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-t', '--time', dest='time', type=int, default=None,
+    parser.add_argument('-t', '--time', dest='time', default=None,
                         help='Time of traffic emulation in minutes (default: infinite time)')
     parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
                         help='Topology file in .yaml format')
-    parser.add_argument('-e', '--emulation', dest='emulation', type=str, default=None,
+    parser.add_argument('-e', '--emulation', dest='emulation', default=None,
                         help='Name of traffic emulation for saving results (default: None)')
 
     args, unknown = parser.parse_known_args()
@@ -160,6 +160,6 @@ if __name__ == '__main__':
     topo_init_config.apply_init_config()
     time.sleep(1)
     # net.pingAll()
-    start_traffic_emulation(net, topo_info, args.emulation, args.time)
+    start_traffic_emulation(net, topo_info, args.emulation, int(args.time))
     CLI(net)
     net.stop()
