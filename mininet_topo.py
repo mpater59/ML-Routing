@@ -134,6 +134,8 @@ if __name__ == '__main__':
                         help='Time of traffic emulation in minutes (default: infinite time)')
     args = parser.parse_args()
 
+    print(args)
+
     with open(args.file) as f:
         try:
             topo_info = yaml.safe_load(f)
