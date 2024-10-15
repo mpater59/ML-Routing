@@ -19,22 +19,22 @@ DEFAULT_TIME_INTERVAL = [60, 300]
 MNEXEC = f"{env_file['mininet path']}/util/m"
 
 
-def run_iperf_server_tcp(server, port, logger, output=None):
-    logger.info(f'{server.name} (TCP) - Starting iperf TCP server; '
+def run_iperf_server_tcp(server, client, port, logger, output=None):
+    logger.info(f'{client.name} -> {server.name} flow (TCP) - Starting iperf TCP server; '
                 f'host: {server.name}; port: {port}; output: {output}')
     if output is None:
         os.system(f'{MNEXEC} {server.name} iperf -s -p {port} > /dev/null 2> /dev/null')
     else:
-        os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -y C >> {output} 2> /dev/null')
+        os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -y C > {output} 2> /dev/null')
 
 
-def run_iperf_server_udp(server, port, logger, output=None):
-    logger.info(f'{server.name} (UDP) - Starting iperf UDP server; '
+def run_iperf_server_udp(server, client, port, logger, output=None):
+    logger.info(f'{client.name} -> {server.name} flow (UDP) - Starting iperf UDP server; '
                 f'host: {server.name}; port: {port}; output: {output}')
     if output is None:
         os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -u > /dev/null 2> /dev/null')
     else:
-        os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -y C -u >> {output} 2> /dev/null')
+        os.system(f'{MNEXEC} {server.name} iperf -s -p {port} -y C -u > {output} 2> /dev/null')
 
 
 def run_iperf_client_tcp(server, client, port, dest_ip_addr, bandwidth, flow_time, logger):
@@ -53,20 +53,23 @@ def run_iperf_client_udp(server, client, port, dest_ip_addr, bandwidth, flow_tim
               f'> /dev/null 2> /dev/null')
 
 
-def run_server_thread(server, server_id, l4_proto, output=None):
+def run_server_thread(server, client, server_id, client_id, l4_proto, output=None):
     from traffic_emulation.traffic_emulation_starter import LOGGER
 
-    server_id = '0' * (4 - len(str(server_id))) + str(server_id)
+    if len(str(server_id)) == 1:
+        server_id = f'0{server_id}'
+    if len(str(client_id)) == 1:
+        client_id = f'0{client_id}'
 
     port = None
     if l4_proto == 'tcp':
         if output is not None:
             output = f"{output}/{server.name}_tcp_server.log"
-        port = f'1{server_id}'
+        port = f'1{server_id}{client_id}'
     elif l4_proto == 'udp':
         if output is not None:
             output = f"{output}/{server.name}_udp_server.log"
-        port = f'2{server_id}'
+        port = f'2{server_id}{client_id}'
 
     try:
         while True:
@@ -75,11 +78,11 @@ def run_server_thread(server, server_id, l4_proto, output=None):
             if KILL_THREAD is True:
                 break
             if l4_proto == 'tcp':
-                run_iperf_server_tcp(server, port, LOGGER, output)
+                run_iperf_server_tcp(server, client, port, LOGGER, output)
             elif l4_proto == 'udp':
-                run_iperf_server_udp(server, port, LOGGER, output)
+                run_iperf_server_udp(server, client, port, LOGGER, output)
             else:
-                print('Unknown L4 protocol!')
+                LOGGER.critical('Unknown L4 protocol!')
                 exit()
             time.sleep(1)
             gc.collect()
@@ -89,7 +92,7 @@ def run_server_thread(server, server_id, l4_proto, output=None):
         kill_threads()
 
 
-def run_client_thread(server, client, server_id, l4_proto, bandwidth_interval=None,
+def run_client_thread(server, client, server_id, client_id, l4_proto, bandwidth_interval=None,
                       time_interval=None, seed=None):
     from traffic_emulation.traffic_emulation_starter import LOGGER
 
@@ -103,13 +106,16 @@ def run_client_thread(server, client, server_id, l4_proto, bandwidth_interval=No
         random.seed(seed)
         LOGGER.info(f'{client.name} -> {server.name} flow ({l4_proto.upper()}) - thread seed: {seed}')
 
-    server_id = '0' * (4 - len(str(server_id))) + str(server_id)
+    if len(str(server_id)) == 1:
+        server_id = f'0{server_id}'
+    if len(str(client_id)) == 1:
+        client_id = f'0{client_id}'
 
     port = None
     if l4_proto == 'tcp':
-        port = f'1{server_id}'
+        port = f'1{server_id}{client_id}'
     elif l4_proto == 'udp':
-        port = f'2{server_id}'
+        port = f'2{server_id}{client_id}'
 
     server_ip_addr = server.IP()
     try:
@@ -124,7 +130,7 @@ def run_client_thread(server, client, server_id, l4_proto, bandwidth_interval=No
             elif l4_proto == 'udp':
                 run_iperf_client_udp(server, client, port, server_ip_addr, bandwidth, flow_time, LOGGER)
             else:
-                print('Unknown L4 protocol!')
+                LOGGER.critical('Unknown L4 protocol!')
                 exit()
             time.sleep(5)
             gc.collect()
