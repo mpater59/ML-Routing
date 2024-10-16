@@ -64,11 +64,11 @@ def run_server_thread(server, client, server_id, client_id, l4_proto, output=Non
     port = None
     if l4_proto == 'tcp':
         if output is not None:
-            output = f"{output}/{server.name}_{client.name}_tcp_server.log"
+            output = f"{output}/{server.name}_{client.name}_tcp_server.csv"
         port = f'1{server_id}{client_id}'
     elif l4_proto == 'udp':
         if output is not None:
-            output = f"{output}/{server.name}_{client.name}_udp_server.log"
+            output = f"{output}/{server.name}_{client.name}_udp_server.csv"
         port = f'2{server_id}{client_id}'
 
     try:

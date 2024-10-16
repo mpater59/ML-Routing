@@ -132,6 +132,8 @@ if __name__ == '__main__':
                         help='Name of traffic emulation for saving results (default: None)')
     parser.add_argument('-t', '--time', dest='time', type=int, default=None,
                         help='Time of traffic emulation in minutes (default: infinite time)')
+    parser.add_argument('-s', '--seed', dest='seed', type=int, default=None,
+                        help='Seed for random function in traffic emulation (default: current timestamp)')
     args = parser.parse_args()
 
     with open(args.file) as f:
@@ -158,7 +160,7 @@ if __name__ == '__main__':
 
     topo_init_config.apply_init_config(topo_info)
     time.sleep(1)
-    # net.pingAll()
-    start_traffic_emulation(net, topo_info, args.emulation, args.time)
+    net.pingAll()
+    start_traffic_emulation(net, topo_info, args.emulation, args.time, args.seed)
     CLI(net)
     net.stop()

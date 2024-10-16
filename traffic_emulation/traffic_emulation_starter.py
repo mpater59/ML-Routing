@@ -29,11 +29,14 @@ logging.basicConfig(filename=LOGFILE,
                     level=logging.INFO)
 
 
-def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=None):
+def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=None, seed=None):
     from traffic_emulation.iperf import run_server_thread
     from traffic_emulation.iperf import run_client_thread
 
-    random.seed(datetime.now().timestamp())
+    if seed is None:
+        random.seed(datetime.now().timestamp())
+    else:
+        random.seed(seed)
 
     host_pairs, host_id = initial_hosts_information(net, topo_info)
     output = None
@@ -50,27 +53,27 @@ def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=
         for destination_host in destination_host_list:
             server_id = host_id[source_host]
             client_id = host_id[destination_host]
-            tcp_thread_server = threading.Thread(target=run_server_thread, args=(source_host,
-                                                                                 destination_host,
-                                                                                 server_id,
-                                                                                 client_id,
-                                                                                 'tcp',
-                                                                                 output,))
+            # tcp_thread_server = threading.Thread(target=run_server_thread, args=(source_host,
+            #                                                                      destination_host,
+            #                                                                      server_id,
+            #                                                                      client_id,
+            #                                                                      'tcp',
+            #                                                                      output,))
             udp_thread_server = threading.Thread(target=run_server_thread, args=(source_host,
                                                                                  destination_host,
                                                                                  server_id,
                                                                                  client_id,
                                                                                  'udp',
                                                                                  output,))
-            new_seed = random.randint(0, 999999999999)
-            tcp_thread_client = threading.Thread(target=run_client_thread, args=(source_host,
-                                                                                 destination_host,
-                                                                                 server_id,
-                                                                                 client_id,
-                                                                                 'tcp',
-                                                                                 bandwidth_interval,
-                                                                                 time_interval,
-                                                                                 new_seed,))
+            # new_seed = random.randint(0, 999999999999)
+            # tcp_thread_client = threading.Thread(target=run_client_thread, args=(source_host,
+            #                                                                      destination_host,
+            #                                                                      server_id,
+            #                                                                      client_id,
+            #                                                                      'tcp',
+            #                                                                      bandwidth_interval,
+            #                                                                      time_interval,
+            #                                                                      new_seed,))
             new_seed = random.randint(0, 999999999999)
             udp_thread_client = threading.Thread(target=run_client_thread, args=(source_host,
                                                                                  destination_host,
@@ -80,9 +83,9 @@ def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=
                                                                                  bandwidth_interval,
                                                                                  time_interval,
                                                                                  new_seed,))
-            thread_server_list.append(tcp_thread_server)
+            # thread_server_list.append(tcp_thread_server)
             thread_server_list.append(udp_thread_server)
-            thread_client_list.append(tcp_thread_client)
+            # thread_client_list.append(tcp_thread_client)
             thread_client_list.append(udp_thread_client)
 
     start_time = time.time()
@@ -103,6 +106,9 @@ def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=
                 if current_time - start_time >= emulation_time:
                     LOGGER.info('Ending emulation!')
                     kill_threads()
+                    if output is not None:
+                        os.system(
+                            f"sudo cp {LOGFILE} {env_file['repository path']}/measurements/results/{emulation_name}")
                     break
             # reset iperf connection
             if psutil.virtual_memory().percent >= 90:
