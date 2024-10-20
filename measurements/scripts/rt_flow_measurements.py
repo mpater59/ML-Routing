@@ -73,22 +73,22 @@ def get_stats(timestamp, emulation_name, if_index_datasource, rt_flow_address, r
     print(if_out_bytes)
     print(mn_flow_bytes)
 
-    os.system(f'sudo touch {repository_path}/measurements/{emulation_name}/switches/if_in_bytes.csv')
-    with open(f'{repository_path}/measurements/{emulation_name}/switches/if_in_bytes.csv', 'a') as file:
+    os.system(f'sudo touch {repository_path}/measurements/results/{emulation_name}/switches/if_in_bytes.csv')
+    with open(f'{repository_path}/measurements/results/{emulation_name}/switches/if_in_bytes.csv', 'a') as file:
         for stats in if_in_bytes:
             if stats['dataSource'] in if_index_datasource:
                 csv_line = f"{timestamp},{if_index_datasource[stats['dataSource']]},{int(stats['metricValue'])}\n"
                 file.write(csv_line)
 
-    os.system(f'sudo touch {repository_path}/measurements/{emulation_name}/switches/if_out_bytes.csv')
-    with open(f'{repository_path}/measurements/{emulation_name}/switches/if_out_bytes.csv', 'a') as file:
+    os.system(f'sudo touch {repository_path}/measurements/results/{emulation_name}/switches/if_out_bytes.csv')
+    with open(f'{repository_path}/measurements/results/{emulation_name}/switches/if_out_bytes.csv', 'a') as file:
         for stats in if_out_bytes:
             if stats['dataSource'] in if_index_datasource:
                 csv_line = f"{timestamp},{if_index_datasource[stats['dataSource']]},{int(stats['metricValue'])}\n"
                 file.write(csv_line)
 
-    os.system(f'sudo touch {repository_path}/measurements/{emulation_name}/switches/mn_flow_bytes.csv')
-    with open(f'{repository_path}/measurements/{emulation_name}/switches/mn_flow_bytes.csv', 'a') as file:
+    os.system(f'sudo touch {repository_path}/measurements/results/{emulation_name}/switches/mn_flow_bytes.csv')
+    with open(f'{repository_path}/measurements/results/{emulation_name}/switches/mn_flow_bytes.csv', 'a') as file:
         for stats in mn_flow_bytes:
             csv_line = f"{timestamp},{stats['key']},{int(stats['value'])}\n"
             file.write(csv_line)
