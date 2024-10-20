@@ -89,7 +89,7 @@ def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=
             # thread_client_list.append(tcp_thread_client)
             thread_client_list.append(udp_thread_client)
 
-    start_time = time.time()
+
     LOGGER.info('Starting emulation!')
     for thread in thread_server_list:
         thread.start()
@@ -105,6 +105,7 @@ def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=
                                                                                 emulation_time,))
         measurements_thread.start()
     try:
+        start_time = time.time()
         while True:
             time.sleep(10)
             if emulation_time is not None:
