@@ -156,4 +156,3 @@ def prepare_result_dir(emulation_name):
     os.system(f"sudo mkdir -p {env_file['repository path']}/measurements/results/{emulation_name}")
     os.system(f"sudo mkdir -p {env_file['repository path']}/measurements/results/{emulation_name}/hosts")
     os.system(f"sudo mkdir -p {env_file['repository path']}/measurements/results/{emulation_name}/switches")
-    os.system(f"sudo mkdir -p {env_file['repository path']}/measurements/results/{emulation_name}/final")
