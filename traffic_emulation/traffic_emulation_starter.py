@@ -100,6 +100,7 @@ def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=
     if emulation_time is not None:
         emulation_time = emulation_time * 60
     if output is not None:
+        time.sleep(20)
         measurements_thread = threading.Thread(target=start_measurements, args=(topo_info, emulation_name,
                                                                                 emulation_time,))
         measurements_thread.start()
