@@ -100,10 +100,11 @@ def run_client_thread(server, client, server_id, client_id, l4_proto, bandwidth_
         bandwidth_interval = DEFAULT_BANDWIDTH_INTERVAL
     if time_interval is None:
         time_interval = DEFAULT_TIME_INTERVAL
+    local_random = random.Random()
     if seed is None:
-        random.seed(datetime.now().timestamp())
+        local_random.seed(datetime.now().timestamp())
     else:
-        random.seed(seed)
+        local_random.seed(seed)
         LOGGER.info(f'{client.name} -> {server.name} flow ({l4_proto.upper()}) - thread seed: {seed}')
 
     if len(str(server_id)) == 1:
