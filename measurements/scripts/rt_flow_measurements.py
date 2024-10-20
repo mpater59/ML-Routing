@@ -27,6 +27,7 @@ def start_measurements(topo_file, emulation_name=None, max_time=300):
             if_index_datasource[rt_flow_topo['nodes'][node['name']]['ports'][node_port]['ifindex']] = node_port
 
     timestamp = 0
+    LOGGER.info('Starting measurements!')
     while True:
         from traffic_emulation.traffic_emulation_starter import KILL_THREAD
         if KILL_THREAD is True:
@@ -39,6 +40,7 @@ def start_measurements(topo_file, emulation_name=None, max_time=300):
         time.sleep(5)
         timestamp += 5
         break
+    LOGGER.info('Ending measurements!')
 
 
 def get_current_flows(rt_flow_address):
