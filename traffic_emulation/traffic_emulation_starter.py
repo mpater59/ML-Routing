@@ -8,6 +8,7 @@ import yaml
 
 
 from datetime import datetime
+from measurements.scripts.rt_flow_measurements import start_measurements
 
 
 with open('env.yaml') as f:
@@ -98,6 +99,9 @@ def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=
 
     if emulation_time is not None:
         emulation_time = emulation_time * 60
+    if output is not None:
+        measurements_thread = threading.Thread(target=start_measurements, args=(topo_info, emulation_name,
+                                                                                emulation_time,))
     try:
         while True:
             time.sleep(10)
