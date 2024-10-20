@@ -40,7 +40,6 @@ def start_measurements(topo_file, emulation_name=None, max_time=300):
         thread.start()
         time.sleep(5)
         timestamp += 5
-        break
     LOGGER.info('Ending measurements!')
 
 
@@ -68,10 +67,6 @@ def get_stats(timestamp, emulation_name, if_index_datasource, rt_flow_address, r
     if_in_bytes = get_if_in_bytes(rt_flow_address)
     if_out_bytes = get_if_out_bytes(rt_flow_address)
     mn_flow_bytes = get_current_flows(rt_flow_address)
-
-    print(if_in_bytes)
-    print(if_out_bytes)
-    print(mn_flow_bytes)
 
     os.system(f'sudo touch {repository_path}/measurements/results/{emulation_name}/switches/if_in_bytes.csv')
     with open(f'{repository_path}/measurements/results/{emulation_name}/switches/if_in_bytes.csv', 'a') as file:
