@@ -102,6 +102,7 @@ def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=
     if output is not None:
         measurements_thread = threading.Thread(target=start_measurements, args=(topo_info, emulation_name,
                                                                                 emulation_time,))
+        measurements_thread.start()
     try:
         while True:
             time.sleep(10)
