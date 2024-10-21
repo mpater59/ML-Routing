@@ -3,7 +3,7 @@ import argparse
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-e', '--emulation', dest='emulation', default='test_5_42_v2',
+parser.add_argument('-e', '--emulation', dest='emulation', default='test_5_42_v1',
                     help='Traffic emulation name')
 args = parser.parse_args()
 
