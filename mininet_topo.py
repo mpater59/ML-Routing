@@ -1,17 +1,21 @@
 import argparse
+import yaml
+import topo_init_config
+import time
 
+
+from traffic_emulation.traffic_emulation_starter import start_traffic_emulation
 from mininet.net import Mininet
 from mininet.cli import CLI
 from mininet.node import RemoteController, OVSSwitch
 from mininet.link import TCLink
 from mininet.topolib import Topo
 from mininet.log import info
-from os import listdir, environ
+from os import listdir
 from re import match
 from urllib.request import build_opener, HTTPHandler, Request
 from mininet.util import quietRun
 from json import dumps
-
 
 # Constants
 NUMBER_OF_ROUTERS = 5
@@ -26,6 +30,19 @@ def get_dpid(dpid):
     dpid = hex(dpid)[2:]
     dpid = '0' * (16 - len(dpid)) + dpid
     return dpid
+
+
+def get_switch(switch_name, switch_list):
+    dpid = None
+    for node in topo_info['nodes']:
+        if node['name'] == switch_name:
+            dpid = node['id']
+            break
+    if dpid is None:
+        print(f"Couldn't find DPID for switch {switch_name}")
+        exit()
+
+    return switch_list[dpid]
 
 
 # from sflow-rt/extras/sflow.py
@@ -77,46 +94,45 @@ def send_topology(net, agent, collector):
 class Topology(Topo):
     def build(self):
 
+        routers = {}
+        r_switches = {}
+        for node in topo_info['nodes']:
+            switch_id = node['id']
+            routers[switch_id] = self.addSwitch(f"{node['name']}", dpid=get_dpid(switch_id))
 
-        dpid_id = 1
-        routers = []
-        r_switches = []
-        for x in range(1, NUMBER_OF_ROUTERS + 1):
-            routers.append(self.addSwitch(f'r{x}', dpid=get_dpid(dpid_id)))
-            dpid_id += 1
-
-        for x in range(1, NUMBER_OF_ROUTERS + 1):
-            r_switches.append(self.addSwitch(f's{x}', dpid=get_dpid(dpid_id)))
-            dpid_id += 1
-            self.addLink(routers[x-1], r_switches[-1])
+        for node in topo_info['nodes']:
+            dpid = node['id'] + len(topo_info['nodes'])
+            switch_id = node['id']
+            r_switches[switch_id] = self.addSwitch(f's{switch_id}', dpid=get_dpid(dpid))
+            self.addLink(routers[switch_id], r_switches[switch_id])
 
         hosts = {}
-        for switch_id in range(1, NUMBER_OF_ROUTERS + 1):
+        for node in topo_info['nodes']:
+            switch_id = node['id']
             hosts[switch_id] = []
-            for host_id in range(1, NUMBER_OF_HOSTS + 1):
+            for host_id in range(1, topo_info['hosts number'] + 1):
                 hosts[switch_id].append(self.addHost(f's{switch_id}h{host_id}',
                                                      ip=f'192.168.{10 * switch_id}.{10 * host_id}/24'))
-                self.addLink(r_switches[switch_id - 1], hosts[switch_id][-1])
+                self.addLink(r_switches[switch_id], hosts[switch_id][-1])
 
-        r1 = routers[0]
-        r2 = routers[1]
-        r3 = routers[2]
-        r4 = routers[3]
-        r5 = routers[4]
-
-        self.addLink(r1, r2, bw=10, delay='10ms')
-        self.addLink(r1, r3, bw=10, delay='5ms')
-        self.addLink(r1, r4, bw=15, delay='15ms')
-        self.addLink(r3, r4, bw=15, delay='15ms')
-        self.addLink(r4, r2, bw=5, delay='5ms')
-        self.addLink(r3, r5, bw=5, delay='5ms')
-        self.addLink(r5, r4, bw=5, delay='5ms')
+        for link in topo_info['links']:
+            a_node = get_switch(link['node a'], routers)
+            b_node = get_switch(link['node b'], routers)
+            bw = link['bw']
+            delay = link['delay']
+            self.addLink(a_node, b_node, bw=bw, delay=f"{delay}ms")
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
                         help='Topology file in .yaml format')
+    parser.add_argument('-e', '--emulation', dest='emulation', default=None,
+                        help='Name of traffic emulation for saving results (default: None)')
+    parser.add_argument('-t', '--time', dest='time', type=int, default=None,
+                        help='Time of traffic emulation in minutes (default: infinite time)')
+    parser.add_argument('-s', '--seed', dest='seed', type=int, default=None,
+                        help='Seed for random function in traffic emulation (default: current timestamp)')
     args = parser.parse_args()
 
     ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
@@ -125,8 +141,9 @@ if __name__ == '__main__':
 
     net.start()
 
-    for switch_id in range(1, NUMBER_OF_ROUTERS + 1):
-        for host_id in range(1, NUMBER_OF_HOSTS + 1):
+    for node in topo_info['nodes']:
+        switch_id = node['id']
+        for host_id in range(1, topo_info['hosts number'] + 1):
             host = net.get(f's{switch_id}h{host_id}')
             host.setARP(f'192.168.{10 * switch_id}.1', f'00:aa:bb:00:00:0{switch_id}')
             host.setDefaultRoute(f'dev s{switch_id}h{host_id}-eth0 via 192.168.{10 * switch_id}.1')
@@ -134,5 +151,9 @@ if __name__ == '__main__':
     config_sflow(net, COLLECTOR, AGENT, SAMPLING_N, POLLING_SECS)
     send_topology(net, COLLECTOR, COLLECTOR)
 
+    topo_init_config.apply_init_config(topo_info)
+    time.sleep(1)
+    net.pingAll()
+    start_traffic_emulation(net, topo_info, args.emulation, args.time, args.seed)
     CLI(net)
     net.stop()

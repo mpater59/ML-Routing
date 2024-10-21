@@ -1,4 +1,6 @@
-number of hosts in network: 3
+hosts number: 1
+bandwidth interval: [100, 500] # bandwidth interval for network emulation in Kbps
+time interval: [60, 120] # time interval for network emulation in s
 nodes:
   - name: r1
     id: 1
@@ -13,36 +15,50 @@ nodes:
 links:
   - node a: r1
     node b: r2
-    bw: 10
+    port a: 2
+    port b: 2
+    bw: 10 # in Mbps
     delay: 10  # in ms
     metric: 10
   - node a: r1
     node b: r3
-    bw: 10
+    port a: 3
+    port b: 2
+    bw: 10 # in Mbps
     delay: 5  # in ms
     metric: 10
   - node a: r1
     node b: r4
-    bw: 15
+    port a: 4
+    port b: 2
+    bw: 15 # in Mbps
     delay: 15  # in ms
     metric: 5
   - node a: r3
     node b: r4
-    bw: 15
+    port a: 3
+    port b: 3
+    bw: 15 # in Mbps
     delay: 15  # in ms
     metric: 5
   - node a: r4
     node b: r2
-    bw: 5
+    port a: 4
+    port b: 3
+    bw: 5 # in Mbps
     delay: 5  # in ms
     metric: 20
   - node a: r3
     node b: r5
-    bw: 5
+    port a: 4
+    port b: 2
+    bw: 5 # in Mbps
     delay: 5  # in ms
     metric: 20
   - node a: r5
     node b: r4
-    bw: 5
+    port a: 3
+    port b: 5
+    bw: 5 # in Mbps
     delay: 5  # in ms
     metric: 20
