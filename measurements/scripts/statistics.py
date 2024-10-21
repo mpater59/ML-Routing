@@ -1,7 +1,6 @@
 import csv
 import argparse
 import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
 
 
 parser = argparse.ArgumentParser()
