@@ -23,8 +23,6 @@ def start_measurements(topo_file, emulation_name=None, max_time=300):
     if_index_datasource = {}
     for node in topo_file['nodes']:
         for node_port in rt_flow_topo['nodes'][node['name']]['ports']:
-            if node_port.split('-')[1] == 'eth1':
-                continue
             if_index_datasource[rt_flow_topo['nodes'][node['name']]['ports'][node_port]['ifindex']] = node_port
 
     timestamp = 0
