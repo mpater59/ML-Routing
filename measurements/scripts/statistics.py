@@ -1,5 +1,7 @@
 import csv
 import argparse
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 
 
 parser = argparse.ArgumentParser()
@@ -31,8 +33,8 @@ for row in if_in_bytes_csv:
         if_in_results[row[1]] = {}
         if_in_results[row[1]]['mean'] = 0
         if_in_results[row[1]]['timestamp values'] = []
-    if_in_results[row[1]]['mean'] += int(row[2])
-    if_in_results[row[1]]['timestamp values'].append(int(row[2]))
+    if_in_results[row[1]]['mean'] += int(row[2]) * 8
+    if_in_results[row[1]]['timestamp values'].append(int(row[2]) * 8)
 
 for _, if_in_result in if_in_results.items():
     if_in_result['mean'] = if_in_result['mean'] / len(timestamps)
@@ -45,8 +47,8 @@ for row in if_out_bytes_csv:
         if_out_results[row[1]] = {}
         if_out_results[row[1]]['mean'] = 0
         if_out_results[row[1]]['timestamp values'] = []
-    if_out_results[row[1]]['mean'] += int(row[2])
-    if_out_results[row[1]]['timestamp values'].append(int(row[2]))
+    if_out_results[row[1]]['mean'] += int(row[2]) * 8
+    if_out_results[row[1]]['timestamp values'].append(int(row[2]) * 8)
 
 for _, if_in_result in if_out_results.items():
     if_in_result['mean'] = if_in_result['mean'] / len(timestamps)
@@ -83,8 +85,39 @@ switches_results = dict(sorted(switches_results.items()))
 print('Printing average throughput:\n')
 for switch_name, values in switches_results.items():
     print(f"Switch {switch_name}:")
-    print(f"Total average throughput: {round(values['mean'] * 8 / 1000, 3)} Kbps")
+    print(f"Total average throughput: {round(values['mean'] / 1000, 3)} Kbps")
     for interface in values['interfaces']:
         print(f"Interface {interface} average throughput: "
-              f"{round(if_combine_results[interface]['mean'] * 8 / 1000, 3)} Kbps")
+              f"{round(if_combine_results[interface]['mean'] / 1000, 3)} Kbps")
     print()
+
+# plotting average throughput of switches
+plt.figure(1)
+for switch_name, values in switches_results.items():
+    format_values = []
+    for value in values['timestamp values']:
+        format_values.append(round(value / 1000, 3))
+    plt.plot(timestamps, format_values, label=f'{switch_name}')
+plt.legend()
+plt.grid()
+plt.gca().ticklabel_format(axis='y', style='plain')
+plt.xlabel("Time [s]")
+plt.ylabel("Switch load [Kbps]")
+plt.title("Switch load over time")
+
+# plotting selected interfaces
+selected_interfaces = ['r1-eth2', 'r1-eth3', 'r1-eth4']
+plt.figure(2)
+for interface in selected_interfaces:
+    format_values = []
+    for value in if_combine_results[interface]['timestamp values']:
+        format_values.append(round(value / 1000, 3))
+    plt.plot(timestamps, format_values, label=f'{interface}')
+plt.legend()
+plt.grid()
+plt.gca().ticklabel_format(axis='y', style='plain')
+plt.xlabel("Time [s]")
+plt.ylabel("Interface load [Kbps]")
+plt.title("Interfaces load over time")
+
+plt.show()
