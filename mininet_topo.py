@@ -18,13 +18,12 @@ from mininet.util import quietRun
 from json import dumps
 
 # Constants
+NUMBER_OF_ROUTERS = 5
+NUMBER_OF_HOSTS = 3
 COLLECTOR = '127.0.0.1'
 AGENT = 'lo'
 SAMPLING_N = 64
 POLLING_SECS = 10
-
-# Globals
-topo_info = None
 
 
 def get_dpid(dpid):
@@ -135,12 +134,6 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--seed', dest='seed', type=int, default=None,
                         help='Seed for random function in traffic emulation (default: current timestamp)')
     args = parser.parse_args()
-
-    with open(args.file) as f:
-        try:
-            topo_info = yaml.safe_load(f)
-        except yaml.YAMLError as e:
-            print(e)
 
     ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
     topo = Topology()
