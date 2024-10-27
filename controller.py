@@ -94,6 +94,18 @@ class RestController(ControllerBase):
         else:
             return f"Wrong JSON body\n"
 
+    @route('set_temp_route', '/route/{dpid}', methods=['POST'],
+           requirements={'dpid': dpid_lib.DPID_PATTERN})
+    def set_temp_route(self, req, **kwargs):
+        data = json.loads(req.body)
+        dpid = dpid_lib.str_to_dpid(kwargs['dpid'])
+        if 'IP src' in data and 'IP dst' in data and 'L4 proto' in data and 'Port src' in data and 'Port dst' in data\
+                and 'Output port' in data:
+            self._add_temp_flow(dpid, data['Output port'], data['L4 proto'], data['IP src'], int(data['Port src']),
+                                data['IP dst'], int(data['Port dst']))
+        else:
+            return f"Wrong JSON body\n"
+
     @route('get_ospf', '/ospf', methods=['GET'])
     def get_ospf(self, req, **kwargs):
         output = "OSPF info\n"
@@ -259,6 +271,24 @@ class RestController(ControllerBase):
         inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
         mod = parser.OFPFlowMod(datapath=dp, priority=priority, match=match, command=ofproto.OFPFC_ADD,
                                 instructions=inst)
+        dp.send_msg(mod)
+
+    def _add_temp_flow(self, dpid, output_port, l4_proto, src_ip, src_port, dst_ip, dst_port):
+        dp = self.dpset.get(dpid)
+        ofproto = dp.ofproto
+        parser = dp.ofproto_parser
+
+        if l4_proto == 'tcp':
+            match = parser.OFPMatch(eth_type=0x0800, ipv4_src=src_ip, tcp_src=src_port,
+                                    ipv4_dst=dst_ip, tcp_dst=dst_port, ip_proto=6)
+        else:
+            match = parser.OFPMatch(eth_type=0x0800, ipv4_src=src_ip, udp_src=src_port,
+                                    ipv4_dst=dst_ip, udp_dst=dst_port, ip_proto=17)
+        priority = 200
+        actions = [parser.OFPActionOutput(port=output_port)]
+        inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
+        mod = parser.OFPFlowMod(datapath=dp, priority=priority, match=match, command=ofproto.OFPFC_ADD,
+                                instructions=inst, idle_timeout=30)
         dp.send_msg(mod)
 
 
