@@ -25,6 +25,9 @@ AGENT = 'lo'
 SAMPLING_N = 64
 POLLING_SECS = 10
 
+# Globals
+topo_info = None
+
 
 def get_dpid(dpid):
     dpid = hex(dpid)[2:]
