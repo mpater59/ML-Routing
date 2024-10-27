@@ -141,6 +141,12 @@ if __name__ == '__main__':
 
     net.start()
 
+    with open(args.file) as f:
+        try:
+            topo_info = yaml.safe_load(f)
+        except yaml.YAMLError as e:
+            print(e)
+
     for node in topo_info['nodes']:
         switch_id = node['id']
         for host_id in range(1, topo_info['hosts number'] + 1):
