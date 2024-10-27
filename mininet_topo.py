@@ -138,17 +138,17 @@ if __name__ == '__main__':
                         help='Seed for random function in traffic emulation (default: current timestamp)')
     args = parser.parse_args()
 
-    ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
-    topo = Topology()
-    net = Mininet(switch=OVSSwitch, link=TCLink, topo=topo, controller=ryu_controller, autoSetMacs=True)
-
-    net.start()
-
     with open(args.file) as f:
         try:
             topo_info = yaml.safe_load(f)
         except yaml.YAMLError as e:
             print(e)
+
+    ryu_controller = RemoteController('ryu', ip='127.0.0.1', port=6633)
+    topo = Topology()
+    net = Mininet(switch=OVSSwitch, link=TCLink, topo=topo, controller=ryu_controller, autoSetMacs=True)
+
+    net.start()
 
     for node in topo_info['nodes']:
         switch_id = node['id']
