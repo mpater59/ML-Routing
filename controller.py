@@ -122,8 +122,8 @@ class RestController(ControllerBase):
                 output += f"{key}: {value}\n"
         return output
 
-    @route('get_ospf', '/ospf/json', methods=['GET'])
-    def get_ospf(self, req, **kwargs):
+    @route('get_ospf_json', '/ospf/json', methods=['GET'])
+    def get_ospf_json(self, req, **kwargs):
         return f"{ospf}"
 
     @route('get_mac_to_port', '/mac', methods=['GET'])
