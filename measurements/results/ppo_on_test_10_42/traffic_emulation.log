@@ -180,4 +180,3 @@
 2024-12-02 18:13:31,064 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20203; destination IP address: 192.168.30.10; bandwidth: 670 Kbps; flow time: 102 s
 2024-12-02 18:13:33,809 root INFO s3h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20302; destination IP address: 192.168.40.10; bandwidth: 1094 Kbps; flow time: 73 s
 2024-12-02 18:13:35,422 root INFO Ending emulation!
-2024-12-02 18:13:37,499 root INFO Ending measurements!
