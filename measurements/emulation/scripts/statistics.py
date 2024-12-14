@@ -10,7 +10,17 @@ parser = argparse.ArgumentParser()
 # ppo_off_test_10_42
 # ppo_on_test_10_42
 # ppo_on_test_10_42_v2
-parser.add_argument('-e', '--emulation', dest='emulation', default='ppo_off_test_10_42',
+# ppo_on_test_10_42_v3
+
+# 5-node topo
+# test_v1_reference
+# test_v1_ppo
+# test_v2_reference
+# test_v2_ppo
+# test_v3_reference
+# test_v3_ppo
+
+parser.add_argument('-e', '--emulation', dest='emulation', default='test_v1_ppo',
                     help='Traffic emulation name')
 parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
                     help='Topology file in .yaml format')

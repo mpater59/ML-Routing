@@ -1,4 +1,4 @@
-hosts number: 1
+hosts number: 2
 bandwidth interval: [100, 2000] # bandwidth interval for network emulation in Kbps
 max topo bandwidth: 2000 # in Kbps
 time interval: [60, 120] # time interval for network emulation in s
