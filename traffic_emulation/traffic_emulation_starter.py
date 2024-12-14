@@ -114,7 +114,7 @@ def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=
                     kill_threads()
                     if output is not None:
                         os.system(
-                            f"sudo cp {LOGFILE} {env_file['repository path']}/measurements/results/{emulation_name}")
+                            f"sudo cp {LOGFILE} {env_file['repository path']}/measurements/emulation/results/{emulation_name}")
                     break
             # reset iperf connection
             if psutil.virtual_memory().percent >= 90:
@@ -124,7 +124,7 @@ def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=
         LOGGER.warning('Interrupted!')
         kill_threads()
         if output is not None:
-            os.system(f"sudo cp {LOGFILE} {env_file['repository path']}/measurements/results/{emulation_name}")
+            os.system(f"sudo cp {LOGFILE} {env_file['repository path']}/measurements/emulation/results/{emulation_name}")
 
 
 def kill_threads():
