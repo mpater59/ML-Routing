@@ -43,7 +43,7 @@ def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=
     output = None
     if emulation_name is not None:
         prepare_result_dir(emulation_name)
-        output = f"{env_file['repository path']}/measurements/results/{emulation_name}/hosts"
+        output = f"{env_file['repository path']}/measurements/emulation/results/{emulation_name}/hosts"
 
     bandwidth_interval = topo_info['bandwidth interval']
     time_interval = topo_info['time interval']
