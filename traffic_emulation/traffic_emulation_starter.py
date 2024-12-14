@@ -8,7 +8,7 @@ import yaml
 
 
 from datetime import datetime
-from measurements.scripts.rt_flow_measurements import start_measurements
+from measurements.emulation.scripts.rt_flow_measurements import start_measurements
 
 
 with open('env.yaml') as f:

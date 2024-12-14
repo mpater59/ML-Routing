@@ -42,7 +42,7 @@ def start_measurements(topo_file, emulation_name=None, max_time=300):
 
 
 def get_current_flows(rt_flow_address):
-    request_path = '/activeflows/ALL/mn_flow/json?minValue=100'
+    request_path = '/activeflows/ALL/mn_flow/json?minValue=1000&aggMode=avg'
     return requests.get(f'http://{rt_flow_address}{request_path}').json()
 
 
@@ -66,22 +66,22 @@ def get_stats(timestamp, emulation_name, if_index_datasource, rt_flow_address, r
     if_out_bytes = get_if_out_bytes(rt_flow_address)
     mn_flow_bytes = get_current_flows(rt_flow_address)
 
-    os.system(f'sudo touch {repository_path}/measurements/results/{emulation_name}/switches/if_in_bytes.csv')
-    with open(f'{repository_path}/measurements/results/{emulation_name}/switches/if_in_bytes.csv', 'a') as file:
+    os.system(f'sudo touch {repository_path}/measurements/emulation/results/{emulation_name}/switches/if_in_bytes.csv')
+    with open(f'{repository_path}/measurements/emulation/results/{emulation_name}/switches/if_in_bytes.csv', 'a') as file:
         for stats in if_in_bytes:
             if stats['dataSource'] in if_index_datasource:
                 csv_line = f"{timestamp},{if_index_datasource[stats['dataSource']]},{int(stats['metricValue'])}\n"
                 file.write(csv_line)
 
-    os.system(f'sudo touch {repository_path}/measurements/results/{emulation_name}/switches/if_out_bytes.csv')
-    with open(f'{repository_path}/measurements/results/{emulation_name}/switches/if_out_bytes.csv', 'a') as file:
+    os.system(f'sudo touch {repository_path}/measurements/emulation/results/{emulation_name}/switches/if_out_bytes.csv')
+    with open(f'{repository_path}/measurements/emulation/results/{emulation_name}/switches/if_out_bytes.csv', 'a') as file:
         for stats in if_out_bytes:
             if stats['dataSource'] in if_index_datasource:
                 csv_line = f"{timestamp},{if_index_datasource[stats['dataSource']]},{int(stats['metricValue'])}\n"
                 file.write(csv_line)
 
-    os.system(f'sudo touch {repository_path}/measurements/results/{emulation_name}/switches/mn_flow_bytes.csv')
-    with open(f'{repository_path}/measurements/results/{emulation_name}/switches/mn_flow_bytes.csv', 'a') as file:
+    os.system(f'sudo touch {repository_path}/measurements/emulation/results/{emulation_name}/switches/mn_flow_bytes.csv')
+    with open(f'{repository_path}/measurements/emulation/results/{emulation_name}/switches/mn_flow_bytes.csv', 'a') as file:
         for stats in mn_flow_bytes:
             csv_line = f"{timestamp},{stats['key']},{int(stats['value'])}\n"
             file.write(csv_line)
