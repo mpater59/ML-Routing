@@ -37,7 +37,7 @@ def get_stats(topo_file, env_file, if_index_datasource, rt_flow_topo):
         port_b_load = port_loads[f"{link['node b']}-eth{link['port b']}"]
         link_load_value = max(port_a_load, port_b_load)
         link_max_load = link['bw'] * 10**6 * 2
-        link_loads.append(min(1.0, link_load_value / link_max_load))
+        link_loads.append(min(2.0, link_load_value / link_max_load))
 
     # stats = {'switch loads': switch_loads, 'link loads': link_loads}
     stats = {'link loads': link_loads}

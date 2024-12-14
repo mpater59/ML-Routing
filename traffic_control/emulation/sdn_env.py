@@ -59,7 +59,7 @@ class SDN_env(gym.Env):
         self.action_space = spaces.MultiDiscrete([num_paths for num_paths in self.flow_paths])
         self.observation_space = spaces.Dict({
             # "switch loads": spaces.Box(low=0, high=1, shape=(self.num_switches,), dtype=np.float32),
-            "link loads": spaces.Box(low=0, high=1, shape=(self.num_links,), dtype=np.float32),
+            "link loads": spaces.Box(low=0, high=2, shape=(self.num_links,), dtype=np.float32),
             "connection throughputs": spaces.Box(low=0, high=1, shape=(self.max_connections,), dtype=np.float32),
             "connection paths": spaces.MultiDiscrete(self.flow_paths)
         })
