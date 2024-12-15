@@ -52,6 +52,8 @@ curl -X GET http://127.0.0.1:8080/switch/info -H "Accept: application/json"
 
 curl -X GET http://127.0.0.1:8080/routers -H "Accept: application/json"
 
+curl -X POST http://127.0.0.1:8080/route/0000000000000001 -H "Accept: application/json" -d '{"IP src": "192.168.10.10", "Port src": 34290, "IP dst": "192.168.20.10", "Port dst": 5001, "L4 proto": "udp", "Output port": 3}'
+
 
 ------------------
 

@@ -8,7 +8,7 @@ import yaml
 
 
 from datetime import datetime
-from measurements.scripts.rt_flow_measurements import start_measurements
+from measurements.emulation.scripts.rt_flow_measurements import start_measurements
 
 
 with open('env.yaml') as f:
@@ -43,7 +43,7 @@ def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=
     output = None
     if emulation_name is not None:
         prepare_result_dir(emulation_name)
-        output = f"{env_file['repository path']}/measurements/results/{emulation_name}/hosts"
+        output = f"{env_file['repository path']}/measurements/emulation/results/{emulation_name}/hosts"
 
     bandwidth_interval = topo_info['bandwidth interval']
     time_interval = topo_info['time interval']
@@ -89,7 +89,6 @@ def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=
             # thread_client_list.append(tcp_thread_client)
             thread_client_list.append(udp_thread_client)
 
-
     LOGGER.info('Starting emulation!')
     for thread in thread_server_list:
         thread.start()
@@ -115,7 +114,7 @@ def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=
                     kill_threads()
                     if output is not None:
                         os.system(
-                            f"sudo cp {LOGFILE} {env_file['repository path']}/measurements/results/{emulation_name}")
+                            f"sudo cp {LOGFILE} {env_file['repository path']}/measurements/emulation/results/{emulation_name}")
                     break
             # reset iperf connection
             if psutil.virtual_memory().percent >= 90:
@@ -125,7 +124,7 @@ def start_traffic_emulation(net, topo_info, emulation_name=None, emulation_time=
         LOGGER.warning('Interrupted!')
         kill_threads()
         if output is not None:
-            os.system(f"sudo cp {LOGFILE} {env_file['repository path']}/measurements/results/{emulation_name}")
+            os.system(f"sudo cp {LOGFILE} {env_file['repository path']}/measurements/emulation/results/{emulation_name}")
 
 
 def kill_threads():
@@ -138,24 +137,23 @@ def initial_hosts_information(net, topo_info):
     host_pairs = {}
     host_id_dict = {}
     current_index = 0
-    for node in topo_info['nodes']:
-        switch_id = node['id']
+    for src_node in topo_info['nodes']:
+        src_switch_id = src_node['id']
         for host_id in range(1, topo_info['hosts number'] + 1):
-            host = net.get(f's{switch_id}h{host_id}')
-            host_pairs[host] = []
-            host_id_dict[host] = current_index
+            src_host = net.get(f's{src_switch_id}h{host_id}')
+            host_pairs[src_host] = []
+            host_id_dict[src_host] = current_index
             current_index += 1
-            for node_ in topo_info['nodes']:
-                switch_id_ = node_['id']
-                if switch_id != switch_id_:
-                    for host_id_ in range(1, topo_info['hosts number'] + 1):
-                        host_ = net.get(f's{switch_id_}h{host_id_}')
-                        host_pairs[host].append(host_)
+            for dst_node in topo_info['nodes']:
+                dst_switch_id = dst_node['id']
+                if src_switch_id != dst_switch_id:
+                    dst_host = net.get(f's{dst_switch_id}h{host_id}')
+                    host_pairs[src_host].append(dst_host)
     return host_pairs, host_id_dict
 
 
 def prepare_result_dir(emulation_name):
-    os.system(f"sudo rm -rf {env_file['repository path']}/measurements/results/{emulation_name}")
-    os.system(f"sudo mkdir -p {env_file['repository path']}/measurements/results/{emulation_name}")
-    os.system(f"sudo mkdir -p {env_file['repository path']}/measurements/results/{emulation_name}/hosts")
-    os.system(f"sudo mkdir -p {env_file['repository path']}/measurements/results/{emulation_name}/switches")
+    os.system(f"sudo rm -rf {env_file['repository path']}/measurements/emulation/results/{emulation_name}")
+    os.system(f"sudo mkdir -p {env_file['repository path']}/measurements/emulation/results/{emulation_name}")
+    os.system(f"sudo mkdir -p {env_file['repository path']}/measurements/emulation/results/{emulation_name}/hosts")
+    os.system(f"sudo mkdir -p {env_file['repository path']}/measurements/emulation/results/{emulation_name}/switches")
