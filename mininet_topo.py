@@ -18,8 +18,6 @@ from mininet.util import quietRun
 from json import dumps
 
 # Constants
-NUMBER_OF_ROUTERS = 5
-NUMBER_OF_HOSTS = 3
 COLLECTOR = '127.0.0.1'
 AGENT = 'lo'
 SAMPLING_N = 64
