@@ -3,6 +3,7 @@ import os
 import shutil
 
 from traffic_control.simulation.sdn_env import SDN_env
+from traffic_control.simulation.sdn_env_2 import SDN_env as SDN_env_2
 from stable_baselines3 import PPO
 from stable_baselines3.common.logger import configure
 from stable_baselines3.common.env_util import make_vec_env
@@ -20,11 +21,13 @@ def traffic_control_main(topo_info, env_file, model_name, save_model, disable_le
     tensor_log_file = f"traffic_control/simulation/logs/{model_name}_tensor.log"
     model_log_file = f"traffic_control/simulation/logs/{model_name}_model_logs"
     model_file = f"traffic_control/saved_models/{model_name}.zip"
-    result_path = f"measurements/simulation/results/{model_name}/"
-    if os.path.exists(result_path) and save_results is True:
-        shutil.rmtree(result_path)
-    if save_results is True:
+    if save_results is not None:
+        result_path = f"measurements/simulation/results/{save_results}/"
+        if os.path.exists(result_path):
+            shutil.rmtree(result_path)
         os.makedirs(result_path)
+    else:
+        result_path = None
     LOGGER.basicConfig(
         filename=log_file,
         filemode='a',
@@ -33,7 +36,8 @@ def traffic_control_main(topo_info, env_file, model_name, save_model, disable_le
     )
 
     logging.info("Initializing the SDN environment")
-    env = SDN_env(topo_info, env_file, disable_action_reward, seed, result_path, save_results)
+    # env = SDN_env(topo_info, env_file, disable_action_reward, seed, result_path, save_results)
+    env = SDN_env_2(topo_info, env_file, disable_action_reward, seed, result_path, save_results)
 
     # print(env.state)
     # print(env.ospf_paths)
@@ -51,6 +55,10 @@ def traffic_control_main(topo_info, env_file, model_name, save_model, disable_le
     logging.info("Initializing the DQN model")
     if os.path.isfile(model_file):
         model = PPO.load(model_file, env=vec_env)
+        # model.learning_rate = 0.0003
+        # model.n_steps = 1024
+        # model.batch_size = 512
+        # model.ent_coef = 0.01
         logging.info(f"Model loaded successfully from {model_file}. Continuing training")
     else:
         model = PPO(
@@ -58,13 +66,13 @@ def traffic_control_main(topo_info, env_file, model_name, save_model, disable_le
             vec_env,
             verbose=2,
             learning_rate=0.0003,
-            n_steps=2048,
-            batch_size=1024,
+            n_steps=512,  # 2048
+            batch_size=256,  # 1024
             n_epochs=10,
-            gamma=0.7,
-            gae_lambda=0.95,
+            gamma=0.1,
+            gae_lambda=0.5,
             clip_range=0.2,
-            ent_coef=0.01,
+            ent_coef=0.01,  # 0.05
             vf_coef=0.5,
             max_grad_norm=0.5,
             tensorboard_log=tensor_log_file,

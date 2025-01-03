@@ -14,7 +14,29 @@ parser = argparse.ArgumentParser()
 # Simulation_test_ppo_v2.1
 # Simulation_test_v3
 # Simulation_test_ppo_v3
-parser.add_argument('-e', '--emulation', dest='emulation', default='Simulation_test_ppo_v3',
+
+# 10-node topo
+# Topo_10_test_v1
+# Topo_10_test_ppo_v1
+# Topo_10_test_v2
+# Topo_10_test_ppo_v2
+# Topo_10_test_v3
+# Topo_10_test_ppo_v3
+# Topo_10_test_ppo_v3.1
+
+# final tests
+# Sim_topo_5_test_ppo_off_v1
+# Sim_topo_5_test_ppo_on_v1
+# Sim_topo_5_test_ppo_off_v2
+# Sim_topo_5_test_ppo_on_v2
+# Sim_topo_5_test_ppo_off_v3
+# Sim_topo_5_test_ppo_on_v3
+
+# Sim_topo_10_test_ppo_off_v1
+# Sim_topo_10_test_ppo_on_v1
+# Sim_topo_10_test_ppo_off_v2
+# Sim_topo_10_test_ppo_on_v2
+parser.add_argument('-e', '--emulation', dest='emulation', default='Sim_topo_10_test_ppo_on_v2',
                     help='Traffic emulation name')
 parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
                     help='Topology file in .yaml format')
@@ -39,8 +61,12 @@ with open(f'measurements/simulation/results/{args.emulation}/link_loads.csv') as
     for row in csv_result:
         link_loads_csv.append(row)
 
+rows_limit = 2000
+
 timestamps = []
 for row in switch_loads_csv:
+    if len(timestamps) > rows_limit:
+        break
     if int(row[0]) not in timestamps:
         timestamps.append(int(row[0]))
 
@@ -79,9 +105,6 @@ print('Printing switch average throughput:\n')
 for switch_name, values in switch_loads.items():
     print(f"Switch {switch_name}:")
     print(f"Total average throughput: {round(values['mean'] / 1000, 3)} Kbps")
-    # for interface in values['interfaces']:
-    #     print(f"Interface {interface} average throughput: "
-    #           f"{round(if_combine_results[interface]['mean'] / 1000, 3)} Kbps")
     print()
 
 print()
@@ -99,6 +122,8 @@ plt.figure(1)
 for switch_name, values in switch_loads.items():
     format_values = []
     for value in values['timestamp values']:
+        if len(format_values) > rows_limit:
+            break
         format_values.append(round(value / 1000, 3))
     plt.plot(timestamps, format_values, label=f'{switch_name}')
 plt.legend()
@@ -108,7 +133,7 @@ plt.xlabel("Time [s]")
 plt.ylabel("Switch load [Kbps]")
 plt.title("Switch load over time")
 
-num_ticks = 20
+num_ticks = 21
 tick_positions = np.linspace(timestamps[0], timestamps[-1], num_ticks)
 plt.xticks(tick_positions)
 
@@ -118,6 +143,8 @@ plt.figure(2)
 for link_name, values in link_loads.items():
     format_values = []
     for value in values['timestamp values']:
+        if len(format_values) > rows_limit:
+            break
         format_values.append(round(value / 1000, 3))
     plt.plot(timestamps, format_values, label=f'{link_name}')
 plt.legend()
@@ -127,7 +154,7 @@ plt.xlabel("Time [s]")
 plt.ylabel("Link load [Kbps]")
 plt.title("Link load over time")
 
-num_ticks = 20
+num_ticks = 21
 tick_positions = np.linspace(timestamps[0], timestamps[-1], num_ticks)
 plt.xticks(tick_positions)
 
@@ -135,6 +162,8 @@ plt.figure(3)
 for link_name, values in link_loads.items():
     format_values = []
     for value in values['normalized values']:
+        if len(format_values) > rows_limit:
+            break
         format_values.append(round(value, 3))
     plt.plot(timestamps, format_values, label=f'{link_name}')
 plt.legend()
@@ -144,7 +173,7 @@ plt.xlabel("Time [s]")
 plt.ylabel("Link load")
 plt.title("Link load over time")
 
-num_ticks = 20
+num_ticks = 21
 tick_positions = np.linspace(timestamps[0], timestamps[-1], num_ticks)
 plt.xticks(tick_positions)
 

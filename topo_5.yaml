@@ -1,5 +1,5 @@
-hosts number: 1
-bandwidth interval: [100, 2000] # bandwidth interval for network emulation in Kbps
+hosts number: 2
+bandwidth interval: [100, 1500] # bandwidth interval for network emulation in Kbps
 max topo bandwidth: 2000 # in Kbps
 time interval: [60, 120] # time interval for network emulation in s
 nodes:
@@ -35,6 +35,13 @@ links:
     bw: 15 # in Mbps
     delay: 15  # in ms
     metric: 5
+  - node a: r2
+    node b: r4
+    port a: 3
+    port b: 4
+    bw: 5 # in Mbps
+    delay: 5  # in ms
+    metric: 20
   - node a: r3
     node b: r4
     port a: 3
@@ -42,13 +49,6 @@ links:
     bw: 15 # in Mbps
     delay: 15  # in ms
     metric: 5
-  - node a: r4
-    node b: r2
-    port a: 4
-    port b: 3
-    bw: 5 # in Mbps
-    delay: 5  # in ms
-    metric: 20
   - node a: r3
     node b: r5
     port a: 4
@@ -56,10 +56,10 @@ links:
     bw: 5 # in Mbps
     delay: 5  # in ms
     metric: 20
-  - node a: r5
-    node b: r4
-    port a: 3
-    port b: 5
+  - node a: r4
+    node b: r5
+    port a: 5
+    port b: 3
     bw: 5 # in Mbps
     delay: 5  # in ms
     metric: 20

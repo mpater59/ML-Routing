@@ -20,7 +20,7 @@ parser = argparse.ArgumentParser()
 # test_v3_reference
 # test_v3_ppo
 
-parser.add_argument('-e', '--emulation', dest='emulation', default='test_v2_ppo',
+parser.add_argument('-e', '--emulation', dest='emulation', default='test_v3_ppo',
                     help='Traffic emulation name')
 parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
                     help='Topology file in .yaml format')
