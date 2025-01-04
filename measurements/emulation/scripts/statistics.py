@@ -20,7 +20,19 @@ parser = argparse.ArgumentParser()
 # test_v3_reference
 # test_v3_ppo
 
-parser.add_argument('-e', '--emulation', dest='emulation', default='test_v3_ppo',
+# final tests
+# Emu_topo_5_test_ppo_off_v1
+# Emu_topo_5_test_ppo_on_v1
+# Emu_topo_5_test_ppo_off_v2
+# Emu_topo_5_test_ppo_on_v2
+# Emu_topo_5_test_ppo_off_v3
+# Emu_topo_5_test_ppo_on_v3
+
+# Emu_topo_10_test_ppo_off_v1
+# Emu_topo_10_test_ppo_on_v1
+# Emu_topo_10_test_ppo_off_v2
+# Emu_topo_10_test_ppo_on_v2
+parser.add_argument('-e', '--emulation', dest='emulation', default='Emu_topo_5_test_ppo_on_v3',
                     help='Traffic emulation name')
 parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
                     help='Topology file in .yaml format')
@@ -165,8 +177,9 @@ plt.xlabel("Time [s]")
 plt.ylabel("Switch load [Kbps]")
 plt.title("Switch load over time")
 
-num_ticks = 20
-tick_positions = np.linspace(timestamps[0], timestamps[-1], num_ticks)
+num_ticks = 21
+tick_positions = np.linspace(timestamps[0], timestamps[-1] + 5, num_ticks)
+tick_positions[-1] = timestamps[-1]
 plt.xticks(tick_positions)
 
 
@@ -184,8 +197,9 @@ plt.xlabel("Time [s]")
 plt.ylabel("Link load [Kbps]")
 plt.title("Link load over time")
 
-num_ticks = 20
-tick_positions = np.linspace(timestamps[0], timestamps[-1], num_ticks)
+num_ticks = 21
+tick_positions = np.linspace(timestamps[0], timestamps[-1] + 5, num_ticks)
+tick_positions[-1] = timestamps[-1]
 plt.xticks(tick_positions)
 
 plt.figure(3)
@@ -201,8 +215,9 @@ plt.xlabel("Time [s]")
 plt.ylabel("Link load")
 plt.title("Link load over time")
 
-num_ticks = 20
-tick_positions = np.linspace(timestamps[0], timestamps[-1], num_ticks)
+num_ticks = 21
+tick_positions = np.linspace(timestamps[0], timestamps[-1] + 5, num_ticks)
+tick_positions[-1] = timestamps[-1]
 plt.xticks(tick_positions)
 
 # # plotting selected interfaces

@@ -158,9 +158,9 @@ if __name__ == '__main__':
     config_sflow(net, COLLECTOR, AGENT, SAMPLING_N, POLLING_SECS)
     send_topology(net, COLLECTOR, COLLECTOR)
 
-    topo_init_config.apply_init_config(topo_info)
-    time.sleep(1)
+    # topo_init_config.apply_init_config(topo_info)
+    # time.sleep(1)
     net.pingAll()
-    start_traffic_emulation(net, topo_info, args.emulation, args.time, args.seed)
+    # start_traffic_emulation(net, topo_info, args.emulation, args.time, args.seed)
     CLI(net)
     net.stop()
