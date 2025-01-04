@@ -29,7 +29,7 @@ def apply_init_config(topo_info):
         dpid_s = get_dpid(node['id'] + len(topo_info['nodes']))
 
         data = {"type": "router", "ip address": f"192.168.{node['id'] * 10}.1",
-                "mac address": f"00:aa:bb:00:00:0{node['id']}"}
+                "mac address": f"00:aa:bb:00:00:{int(node['id']):02x}"}
         requests.post(f'http://{IPV4_ADDRESS}:{PORT}/switch/{dpid_r}', json=data)
 
         data = {"type": "switch"}
