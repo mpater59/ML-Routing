@@ -1,5 +1,5 @@
 hosts number: 1
-bandwidth interval: [500, 2500] # bandwidth interval for network emulation in Kbps
+bandwidth interval: [500, 3000] # bandwidth interval for network emulation in Kbps
 max topo bandwidth: 3000 # in Kbps
 time interval: [60, 120] # time interval for network emulation in s
 nodes:
