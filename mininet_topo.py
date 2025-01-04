@@ -152,7 +152,7 @@ if __name__ == '__main__':
         switch_id = node['id']
         for host_id in range(1, topo_info['hosts number'] + 1):
             host = net.get(f's{switch_id}h{host_id}')
-            host.setARP(f'192.168.{10 * switch_id}.1', f'00:aa:bb:00:00:{switch_id:02x}')
+            host.setARP(f'192.168.{10 * switch_id}.1', f'00:aa:bb:00:00:{int(switch_id):02x}')
             host.setDefaultRoute(f'dev s{switch_id}h{host_id}-eth0 via 192.168.{10 * switch_id}.1')
 
     config_sflow(net, COLLECTOR, AGENT, SAMPLING_N, POLLING_SECS)
