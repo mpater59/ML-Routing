@@ -20,8 +20,8 @@ from json import dumps
 # Constants
 COLLECTOR = '127.0.0.1'
 AGENT = 'lo'
-SAMPLING_N = 32  # 64
-POLLING_SECS = 1  # 10
+SAMPLING_N = 64
+POLLING_SECS = 10
 
 # Globals
 topo_info = None
