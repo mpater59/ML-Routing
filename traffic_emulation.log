@@ -1,200 +1,200 @@
-2025-01-18 19:49:34,959 root INFO Starting emulation!
-2025-01-18 19:49:34,959 root INFO s2h1 -> s1h1 flow (UDP) - Starting iperf UDP server; host: s1h1; port: 20001; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s1h1_s2h1_udp_server.csv
-2025-01-18 19:49:34,959 root INFO s3h1 -> s1h1 flow (UDP) - Starting iperf UDP server; host: s1h1; port: 20002; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s1h1_s3h1_udp_server.csv
-2025-01-18 19:49:34,960 root INFO s4h1 -> s1h1 flow (UDP) - Starting iperf UDP server; host: s1h1; port: 20003; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s1h1_s4h1_udp_server.csv
-2025-01-18 19:49:34,963 root INFO s5h1 -> s1h1 flow (UDP) - Starting iperf UDP server; host: s1h1; port: 20004; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s1h1_s5h1_udp_server.csv
-2025-01-18 19:49:34,978 root INFO s1h1 -> s2h1 flow (UDP) - Starting iperf UDP server; host: s2h1; port: 20100; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s2h1_s1h1_udp_server.csv
-2025-01-18 19:49:34,983 root INFO s3h1 -> s2h1 flow (UDP) - Starting iperf UDP server; host: s2h1; port: 20102; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s2h1_s3h1_udp_server.csv
-2025-01-18 19:49:34,988 root INFO s4h1 -> s2h1 flow (UDP) - Starting iperf UDP server; host: s2h1; port: 20103; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s2h1_s4h1_udp_server.csv
-2025-01-18 19:49:34,989 root INFO s5h1 -> s2h1 flow (UDP) - Starting iperf UDP server; host: s2h1; port: 20104; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s2h1_s5h1_udp_server.csv
-2025-01-18 19:49:34,989 root INFO s1h1 -> s3h1 flow (UDP) - Starting iperf UDP server; host: s3h1; port: 20200; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s3h1_s1h1_udp_server.csv
-2025-01-18 19:49:34,989 root INFO s2h1 -> s3h1 flow (UDP) - Starting iperf UDP server; host: s3h1; port: 20201; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s3h1_s2h1_udp_server.csv
-2025-01-18 19:49:34,990 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP server; host: s3h1; port: 20203; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s3h1_s4h1_udp_server.csv
-2025-01-18 19:49:34,990 root INFO s5h1 -> s3h1 flow (UDP) - Starting iperf UDP server; host: s3h1; port: 20204; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s3h1_s5h1_udp_server.csv
-2025-01-18 19:49:34,991 root INFO s1h1 -> s4h1 flow (UDP) - Starting iperf UDP server; host: s4h1; port: 20300; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s4h1_s1h1_udp_server.csv
-2025-01-18 19:49:34,993 root INFO s2h1 -> s4h1 flow (UDP) - Starting iperf UDP server; host: s4h1; port: 20301; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s4h1_s2h1_udp_server.csv
-2025-01-18 19:49:34,994 root INFO s3h1 -> s4h1 flow (UDP) - Starting iperf UDP server; host: s4h1; port: 20302; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s4h1_s3h1_udp_server.csv
-2025-01-18 19:49:34,994 root INFO s5h1 -> s4h1 flow (UDP) - Starting iperf UDP server; host: s4h1; port: 20304; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s4h1_s5h1_udp_server.csv
-2025-01-18 19:49:34,995 root INFO s1h1 -> s5h1 flow (UDP) - Starting iperf UDP server; host: s5h1; port: 20400; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s5h1_s1h1_udp_server.csv
-2025-01-18 19:49:34,998 root INFO s2h1 -> s5h1 flow (UDP) - Starting iperf UDP server; host: s5h1; port: 20401; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s5h1_s2h1_udp_server.csv
-2025-01-18 19:49:34,999 root INFO s3h1 -> s5h1 flow (UDP) - Starting iperf UDP server; host: s5h1; port: 20402; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s5h1_s3h1_udp_server.csv
-2025-01-18 19:49:35,000 root INFO s4h1 -> s5h1 flow (UDP) - Starting iperf UDP server; host: s5h1; port: 20403; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s5h1_s4h1_udp_server.csv
-2025-01-18 19:49:36,001 root INFO s2h1 -> s1h1 flow (UDP) - thread seed: 123005401501
-2025-01-18 19:49:36,001 root INFO s2h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20001; destination IP address: 192.168.10.10; bandwidth: 50 Kbps; flow time: 104 s
-2025-01-18 19:49:36,001 root INFO s3h1 -> s1h1 flow (UDP) - thread seed: 811856239313
-2025-01-18 19:49:36,001 root INFO s3h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20002; destination IP address: 192.168.10.10; bandwidth: 118 Kbps; flow time: 81 s
-2025-01-18 19:49:36,002 root INFO s4h1 -> s1h1 flow (UDP) - thread seed: 267469214295
-2025-01-18 19:49:36,002 root INFO s4h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20003; destination IP address: 192.168.10.10; bandwidth: 81 Kbps; flow time: 69 s
-2025-01-18 19:49:36,004 root INFO s5h1 -> s1h1 flow (UDP) - thread seed: 151282538206
-2025-01-18 19:49:36,005 root INFO s5h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20004; destination IP address: 192.168.10.10; bandwidth: 65 Kbps; flow time: 108 s
-2025-01-18 19:49:36,007 root INFO s1h1 -> s2h1 flow (UDP) - thread seed: 114832269481
-2025-01-18 19:49:36,007 root INFO s1h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20100; destination IP address: 192.168.20.10; bandwidth: 96 Kbps; flow time: 66 s
-2025-01-18 19:49:36,007 root INFO s3h1 -> s2h1 flow (UDP) - thread seed: 814655221101
-2025-01-18 19:49:36,007 root INFO s3h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20102; destination IP address: 192.168.20.10; bandwidth: 33 Kbps; flow time: 84 s
-2025-01-18 19:49:36,012 root INFO s4h1 -> s2h1 flow (UDP) - thread seed: 600832336208
-2025-01-18 19:49:36,012 root INFO s4h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20103; destination IP address: 192.168.20.10; bandwidth: 34 Kbps; flow time: 82 s
-2025-01-18 19:49:36,012 root INFO s5h1 -> s2h1 flow (UDP) - thread seed: 648913461122
-2025-01-18 19:49:36,012 root INFO s5h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20104; destination IP address: 192.168.20.10; bandwidth: 98 Kbps; flow time: 98 s
-2025-01-18 19:49:36,013 root INFO s1h1 -> s3h1 flow (UDP) - thread seed: 36171878809
-2025-01-18 19:49:36,013 root INFO s1h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20200; destination IP address: 192.168.30.10; bandwidth: 77 Kbps; flow time: 111 s
-2025-01-18 19:49:36,014 root INFO s2h1 -> s3h1 flow (UDP) - thread seed: 98912225902
-2025-01-18 19:49:36,014 root INFO s2h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20201; destination IP address: 192.168.30.10; bandwidth: 21 Kbps; flow time: 106 s
-2025-01-18 19:49:36,014 root INFO s4h1 -> s3h1 flow (UDP) - thread seed: 254342113419
-2025-01-18 19:49:36,014 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20203; destination IP address: 192.168.30.10; bandwidth: 127 Kbps; flow time: 94 s
-2025-01-18 19:49:36,019 root INFO s5h1 -> s3h1 flow (UDP) - thread seed: 663595448017
-2025-01-18 19:49:36,019 root INFO s5h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20204; destination IP address: 192.168.30.10; bandwidth: 41 Kbps; flow time: 119 s
-2025-01-18 19:49:36,020 root INFO s1h1 -> s4h1 flow (UDP) - thread seed: 614294294451
-2025-01-18 19:49:36,020 root INFO s1h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20300; destination IP address: 192.168.40.10; bandwidth: 106 Kbps; flow time: 65 s
-2025-01-18 19:49:36,029 root INFO s2h1 -> s4h1 flow (UDP) - thread seed: 786833016361
-2025-01-18 19:49:36,029 root INFO s2h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20301; destination IP address: 192.168.40.10; bandwidth: 151 Kbps; flow time: 78 s
-2025-01-18 19:49:36,034 root INFO s3h1 -> s4h1 flow (UDP) - thread seed: 771590378377
-2025-01-18 19:49:36,034 root INFO s3h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20302; destination IP address: 192.168.40.10; bandwidth: 170 Kbps; flow time: 99 s
-2025-01-18 19:49:36,036 root INFO s5h1 -> s4h1 flow (UDP) - thread seed: 461902006518
-2025-01-18 19:49:36,037 root INFO s5h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20304; destination IP address: 192.168.40.10; bandwidth: 102 Kbps; flow time: 96 s
-2025-01-18 19:49:36,038 root INFO s1h1 -> s5h1 flow (UDP) - thread seed: 490573056992
-2025-01-18 19:49:36,038 root INFO s1h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20400; destination IP address: 192.168.50.10; bandwidth: 59 Kbps; flow time: 105 s
-2025-01-18 19:49:36,044 root INFO s2h1 -> s5h1 flow (UDP) - thread seed: 307473554860
-2025-01-18 19:49:36,044 root INFO s2h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20401; destination IP address: 192.168.50.10; bandwidth: 27 Kbps; flow time: 62 s
-2025-01-18 19:49:36,053 root INFO s3h1 -> s5h1 flow (UDP) - thread seed: 956959217035
-2025-01-18 19:49:36,053 root INFO s3h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20402; destination IP address: 192.168.50.10; bandwidth: 179 Kbps; flow time: 74 s
-2025-01-18 19:49:36,057 root INFO s4h1 -> s5h1 flow (UDP) - thread seed: 833251567391
-2025-01-18 19:49:36,057 root INFO s4h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20403; destination IP address: 192.168.50.10; bandwidth: 84 Kbps; flow time: 65 s
-2025-01-18 19:49:56,091 root INFO Starting measurements!
-2025-01-18 19:50:43,383 root INFO s2h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20401; destination IP address: 192.168.50.10; bandwidth: 69 Kbps; flow time: 115 s
-2025-01-18 19:50:46,314 root INFO s4h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20403; destination IP address: 192.168.50.10; bandwidth: 35 Kbps; flow time: 84 s
-2025-01-18 19:50:46,347 root INFO s1h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20300; destination IP address: 192.168.40.10; bandwidth: 81 Kbps; flow time: 89 s
-2025-01-18 19:50:47,256 root INFO s1h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20100; destination IP address: 192.168.20.10; bandwidth: 172 Kbps; flow time: 113 s
-2025-01-18 19:50:50,255 root INFO s4h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20003; destination IP address: 192.168.10.10; bandwidth: 103 Kbps; flow time: 70 s
-2025-01-18 19:50:55,242 root INFO s3h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20402; destination IP address: 192.168.50.10; bandwidth: 104 Kbps; flow time: 82 s
-2025-01-18 19:50:59,304 root INFO s2h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20301; destination IP address: 192.168.40.10; bandwidth: 63 Kbps; flow time: 102 s
-2025-01-18 19:51:02,255 root INFO s3h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20002; destination IP address: 192.168.10.10; bandwidth: 78 Kbps; flow time: 104 s
-2025-01-18 19:51:03,379 root INFO s4h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20103; destination IP address: 192.168.20.10; bandwidth: 184 Kbps; flow time: 101 s
-2025-01-18 19:51:05,431 root INFO s3h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20102; destination IP address: 192.168.20.10; bandwidth: 28 Kbps; flow time: 98 s
-2025-01-18 19:51:15,316 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20203; destination IP address: 192.168.30.10; bandwidth: 172 Kbps; flow time: 70 s
-2025-01-18 19:51:17,230 root INFO s5h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20304; destination IP address: 192.168.40.10; bandwidth: 146 Kbps; flow time: 106 s
-2025-01-18 19:51:19,678 root INFO s5h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20104; destination IP address: 192.168.20.10; bandwidth: 72 Kbps; flow time: 70 s
-2025-01-18 19:51:20,310 root INFO s3h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20302; destination IP address: 192.168.40.10; bandwidth: 128 Kbps; flow time: 84 s
-2025-01-18 19:51:25,272 root INFO s2h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20001; destination IP address: 192.168.10.10; bandwidth: 79 Kbps; flow time: 119 s
-2025-01-18 19:51:26,381 root INFO s1h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20400; destination IP address: 192.168.50.10; bandwidth: 173 Kbps; flow time: 104 s
-2025-01-18 19:51:27,331 root INFO s2h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20201; destination IP address: 192.168.30.10; bandwidth: 152 Kbps; flow time: 74 s
-2025-01-18 19:51:29,388 root INFO s5h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20004; destination IP address: 192.168.10.10; bandwidth: 185 Kbps; flow time: 80 s
-2025-01-18 19:51:32,380 root INFO s1h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20200; destination IP address: 192.168.30.10; bandwidth: 24 Kbps; flow time: 74 s
-2025-01-18 19:51:40,199 root INFO s5h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20204; destination IP address: 192.168.30.10; bandwidth: 18 Kbps; flow time: 111 s
-2025-01-18 19:52:05,541 root INFO s4h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20003; destination IP address: 192.168.10.10; bandwidth: 90 Kbps; flow time: 85 s
-2025-01-18 19:52:16,595 root INFO s4h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20403; destination IP address: 192.168.50.10; bandwidth: 78 Kbps; flow time: 64 s
-2025-01-18 19:52:20,608 root INFO s1h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20300; destination IP address: 192.168.40.10; bandwidth: 64 Kbps; flow time: 118 s
-2025-01-18 19:52:22,467 root INFO s3h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20402; destination IP address: 192.168.50.10; bandwidth: 155 Kbps; flow time: 116 s
-2025-01-18 19:52:30,579 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20203; destination IP address: 192.168.30.10; bandwidth: 193 Kbps; flow time: 80 s
-2025-01-18 19:52:35,010 root INFO s5h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20104; destination IP address: 192.168.20.10; bandwidth: 64 Kbps; flow time: 101 s
-2025-01-18 19:52:43,762 root INFO s2h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20401; destination IP address: 192.168.50.10; bandwidth: 137 Kbps; flow time: 85 s
-2025-01-18 19:52:45,622 root INFO s1h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20100; destination IP address: 192.168.20.10; bandwidth: 174 Kbps; flow time: 89 s
-2025-01-18 19:52:46,876 root INFO s2h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20201; destination IP address: 192.168.30.10; bandwidth: 46 Kbps; flow time: 76 s
-2025-01-18 19:52:46,996 root INFO s2h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20301; destination IP address: 192.168.40.10; bandwidth: 45 Kbps; flow time: 75 s
-2025-01-18 19:52:48,698 root INFO s3h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20102; destination IP address: 192.168.20.10; bandwidth: 200 Kbps; flow time: 95 s
-2025-01-18 19:52:49,621 root INFO s3h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20302; destination IP address: 192.168.40.10; bandwidth: 147 Kbps; flow time: 76 s
-2025-01-18 19:52:49,713 root INFO s4h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20103; destination IP address: 192.168.20.10; bandwidth: 159 Kbps; flow time: 87 s
-2025-01-18 19:52:51,566 root INFO s3h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20002; destination IP address: 192.168.10.10; bandwidth: 159 Kbps; flow time: 85 s
-2025-01-18 19:52:51,763 root INFO s1h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20200; destination IP address: 192.168.30.10; bandwidth: 102 Kbps; flow time: 74 s
-2025-01-18 19:52:54,759 root INFO s5h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20004; destination IP address: 192.168.10.10; bandwidth: 45 Kbps; flow time: 92 s
-2025-01-18 19:53:09,031 root INFO s5h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20304; destination IP address: 192.168.40.10; bandwidth: 136 Kbps; flow time: 65 s
-2025-01-18 19:53:15,756 root INFO s1h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20400; destination IP address: 192.168.50.10; bandwidth: 22 Kbps; flow time: 115 s
-2025-01-18 19:53:25,867 root INFO s4h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20403; destination IP address: 192.168.50.10; bandwidth: 38 Kbps; flow time: 69 s
-2025-01-18 19:53:29,656 root INFO s2h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20001; destination IP address: 192.168.10.10; bandwidth: 170 Kbps; flow time: 70 s
-2025-01-18 19:53:35,887 root INFO s4h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20003; destination IP address: 192.168.10.10; bandwidth: 184 Kbps; flow time: 87 s
-2025-01-18 19:53:36,669 root INFO s5h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20204; destination IP address: 192.168.30.10; bandwidth: 162 Kbps; flow time: 64 s
-2025-01-18 19:53:55,867 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20203; destination IP address: 192.168.30.10; bandwidth: 108 Kbps; flow time: 84 s
-2025-01-18 19:54:07,444 root INFO s2h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20301; destination IP address: 192.168.40.10; bandwidth: 162 Kbps; flow time: 89 s
-2025-01-18 19:54:08,230 root INFO s2h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20201; destination IP address: 192.168.30.10; bandwidth: 145 Kbps; flow time: 76 s
-2025-01-18 19:54:10,861 root INFO s3h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20302; destination IP address: 192.168.40.10; bandwidth: 151 Kbps; flow time: 115 s
-2025-01-18 19:54:11,630 root INFO s1h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20200; destination IP address: 192.168.30.10; bandwidth: 12 Kbps; flow time: 103 s
-2025-01-18 19:54:14,087 root INFO s2h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20401; destination IP address: 192.168.50.10; bandwidth: 194 Kbps; flow time: 67 s
-2025-01-18 19:54:19,616 root INFO s5h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20304; destination IP address: 192.168.40.10; bandwidth: 184 Kbps; flow time: 116 s
-2025-01-18 19:54:20,230 root INFO s1h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20100; destination IP address: 192.168.20.10; bandwidth: 147 Kbps; flow time: 108 s
-2025-01-18 19:54:21,323 root INFO s5h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20104; destination IP address: 192.168.20.10; bandwidth: 78 Kbps; flow time: 109 s
-2025-01-18 19:54:21,775 root INFO s3h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20002; destination IP address: 192.168.10.10; bandwidth: 174 Kbps; flow time: 81 s
-2025-01-18 19:54:21,996 root INFO s4h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20103; destination IP address: 192.168.20.10; bandwidth: 38 Kbps; flow time: 78 s
-2025-01-18 19:54:24,827 root INFO s1h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20300; destination IP address: 192.168.40.10; bandwidth: 121 Kbps; flow time: 70 s
-2025-01-18 19:54:24,980 root INFO s3h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20402; destination IP address: 192.168.50.10; bandwidth: 126 Kbps; flow time: 60 s
-2025-01-18 19:54:29,024 root INFO s3h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20102; destination IP address: 192.168.20.10; bandwidth: 194 Kbps; flow time: 116 s
-2025-01-18 19:54:32,162 root INFO s5h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20004; destination IP address: 192.168.10.10; bandwidth: 194 Kbps; flow time: 76 s
-2025-01-18 19:54:40,461 root INFO s4h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20403; destination IP address: 192.168.50.10; bandwidth: 138 Kbps; flow time: 108 s
-2025-01-18 19:54:44,870 root INFO s2h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20001; destination IP address: 192.168.10.10; bandwidth: 55 Kbps; flow time: 92 s
-2025-01-18 19:54:46,055 root INFO s5h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20204; destination IP address: 192.168.30.10; bandwidth: 37 Kbps; flow time: 115 s
-2025-01-18 19:55:08,311 root INFO s4h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20003; destination IP address: 192.168.10.10; bandwidth: 170 Kbps; flow time: 79 s
-2025-01-18 19:55:16,380 root INFO s1h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20400; destination IP address: 192.168.50.10; bandwidth: 173 Kbps; flow time: 92 s
-2025-01-18 19:55:25,180 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20203; destination IP address: 192.168.30.10; bandwidth: 165 Kbps; flow time: 72 s
-2025-01-18 19:55:26,910 root INFO s2h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20401; destination IP address: 192.168.50.10; bandwidth: 49 Kbps; flow time: 83 s
-2025-01-18 19:55:29,591 root INFO s2h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20201; destination IP address: 192.168.30.10; bandwidth: 51 Kbps; flow time: 94 s
-2025-01-18 19:55:30,235 root INFO s3h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20402; destination IP address: 192.168.50.10; bandwidth: 145 Kbps; flow time: 118 s
-2025-01-18 19:55:40,699 root INFO s1h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20300; destination IP address: 192.168.40.10; bandwidth: 10 Kbps; flow time: 98 s
-2025-01-18 19:55:41,791 root INFO s2h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20301; destination IP address: 192.168.40.10; bandwidth: 92 Kbps; flow time: 91 s
-2025-01-18 19:55:45,496 root INFO s4h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20103; destination IP address: 192.168.20.10; bandwidth: 14 Kbps; flow time: 67 s
-2025-01-18 19:55:48,054 root INFO s3h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20002; destination IP address: 192.168.10.10; bandwidth: 102 Kbps; flow time: 116 s
-2025-01-18 19:55:53,507 root INFO s5h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20004; destination IP address: 192.168.10.10; bandwidth: 88 Kbps; flow time: 75 s
-2025-01-18 19:56:00,241 root INFO s1h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20200; destination IP address: 192.168.30.10; bandwidth: 24 Kbps; flow time: 75 s
-2025-01-18 19:56:11,183 root INFO s3h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20302; destination IP address: 192.168.40.10; bandwidth: 155 Kbps; flow time: 120 s
-2025-01-18 19:56:13,479 root INFO s1h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20100; destination IP address: 192.168.20.10; bandwidth: 30 Kbps; flow time: 65 s
-2025-01-18 19:56:15,751 root INFO s5h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20104; destination IP address: 192.168.20.10; bandwidth: 197 Kbps; flow time: 91 s
-2025-01-18 19:56:20,998 root INFO s5h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20304; destination IP address: 192.168.40.10; bandwidth: 27 Kbps; flow time: 108 s
-2025-01-18 19:56:22,178 root INFO s2h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20001; destination IP address: 192.168.10.10; bandwidth: 146 Kbps; flow time: 109 s
-2025-01-18 19:56:30,355 root INFO s3h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20102; destination IP address: 192.168.20.10; bandwidth: 42 Kbps; flow time: 68 s
-2025-01-18 19:56:32,623 root INFO s4h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20003; destination IP address: 192.168.10.10; bandwidth: 178 Kbps; flow time: 90 s
-2025-01-18 19:56:34,654 root INFO s4h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20403; destination IP address: 192.168.50.10; bandwidth: 150 Kbps; flow time: 70 s
-2025-01-18 19:56:42,491 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20203; destination IP address: 192.168.30.10; bandwidth: 77 Kbps; flow time: 93 s
-2025-01-18 19:56:46,502 root INFO s5h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20204; destination IP address: 192.168.30.10; bandwidth: 165 Kbps; flow time: 87 s
-2025-01-18 19:56:53,598 root INFO s1h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20400; destination IP address: 192.168.50.10; bandwidth: 64 Kbps; flow time: 119 s
-2025-01-18 19:56:55,367 root INFO s2h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20401; destination IP address: 192.168.50.10; bandwidth: 148 Kbps; flow time: 108 s
-2025-01-18 19:56:58,027 root INFO s4h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20103; destination IP address: 192.168.20.10; bandwidth: 196 Kbps; flow time: 104 s
-2025-01-18 19:57:08,999 root INFO s2h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20201; destination IP address: 192.168.30.10; bandwidth: 61 Kbps; flow time: 105 s
-2025-01-18 19:57:13,745 root INFO s5h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20004; destination IP address: 192.168.10.10; bandwidth: 89 Kbps; flow time: 85 s
-2025-01-18 19:57:18,147 root INFO s2h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20301; destination IP address: 192.168.40.10; bandwidth: 181 Kbps; flow time: 101 s
-2025-01-18 19:57:20,568 root INFO s1h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20200; destination IP address: 192.168.30.10; bandwidth: 105 Kbps; flow time: 88 s
-2025-01-18 19:57:23,832 root INFO s1h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20100; destination IP address: 192.168.20.10; bandwidth: 142 Kbps; flow time: 88 s
-2025-01-18 19:57:24,949 root INFO s1h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20300; destination IP address: 192.168.40.10; bandwidth: 40 Kbps; flow time: 75 s
-2025-01-18 19:57:33,528 root INFO s3h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20402; destination IP address: 192.168.50.10; bandwidth: 67 Kbps; flow time: 64 s
-2025-01-18 19:57:43,705 root INFO s3h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20102; destination IP address: 192.168.20.10; bandwidth: 96 Kbps; flow time: 61 s
-2025-01-18 19:57:49,328 root INFO s3h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20002; destination IP address: 192.168.10.10; bandwidth: 160 Kbps; flow time: 95 s
-2025-01-18 19:57:49,962 root INFO s4h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20403; destination IP address: 192.168.50.10; bandwidth: 68 Kbps; flow time: 97 s
-2025-01-18 19:57:52,051 root INFO s5h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20104; destination IP address: 192.168.20.10; bandwidth: 66 Kbps; flow time: 60 s
-2025-01-18 19:58:08,640 root INFO s4h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20003; destination IP address: 192.168.10.10; bandwidth: 28 Kbps; flow time: 105 s
-2025-01-18 19:58:14,198 root INFO s5h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20304; destination IP address: 192.168.40.10; bandwidth: 171 Kbps; flow time: 63 s
-2025-01-18 19:58:16,396 root INFO s3h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20302; destination IP address: 192.168.40.10; bandwidth: 68 Kbps; flow time: 64 s
-2025-01-18 19:58:16,456 root INFO s2h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20001; destination IP address: 192.168.10.10; bandwidth: 18 Kbps; flow time: 115 s
-2025-01-18 19:58:18,770 root INFO s5h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20204; destination IP address: 192.168.30.10; bandwidth: 94 Kbps; flow time: 64 s
-2025-01-18 19:58:20,888 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20203; destination IP address: 192.168.30.10; bandwidth: 141 Kbps; flow time: 75 s
-2025-01-18 19:58:42,908 root INFO s3h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20402; destination IP address: 192.168.50.10; bandwidth: 81 Kbps; flow time: 102 s
-2025-01-18 19:58:44,011 root INFO s5h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20004; destination IP address: 192.168.10.10; bandwidth: 134 Kbps; flow time: 73 s
-2025-01-18 19:58:45,393 root INFO s1h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20300; destination IP address: 192.168.40.10; bandwidth: 148 Kbps; flow time: 68 s
-2025-01-18 19:58:47,316 root INFO s4h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20103; destination IP address: 192.168.20.10; bandwidth: 195 Kbps; flow time: 119 s
-2025-01-18 19:58:48,676 root INFO s2h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20401; destination IP address: 192.168.50.10; bandwidth: 156 Kbps; flow time: 96 s
-2025-01-18 19:58:50,144 root INFO s3h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20102; destination IP address: 192.168.20.10; bandwidth: 131 Kbps; flow time: 75 s
-2025-01-18 19:58:53,872 root INFO s1h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20200; destination IP address: 192.168.30.10; bandwidth: 131 Kbps; flow time: 111 s
-2025-01-18 19:58:57,238 root INFO s1h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20100; destination IP address: 192.168.20.10; bandwidth: 114 Kbps; flow time: 72 s
-2025-01-18 19:58:57,330 root INFO s5h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20104; destination IP address: 192.168.20.10; bandwidth: 34 Kbps; flow time: 66 s
-2025-01-18 19:58:58,074 root INFO s1h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20400; destination IP address: 192.168.50.10; bandwidth: 178 Kbps; flow time: 87 s
-2025-01-18 19:58:59,268 root INFO s2h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20201; destination IP address: 192.168.30.10; bandwidth: 100 Kbps; flow time: 87 s
-2025-01-18 19:59:04,453 root INFO s2h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20301; destination IP address: 192.168.40.10; bandwidth: 115 Kbps; flow time: 89 s
-2025-01-18 19:59:22,506 root INFO s5h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20304; destination IP address: 192.168.40.10; bandwidth: 196 Kbps; flow time: 63 s
-2025-01-18 19:59:25,643 root INFO s3h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20302; destination IP address: 192.168.40.10; bandwidth: 182 Kbps; flow time: 101 s
-2025-01-18 19:59:28,023 root INFO s5h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20204; destination IP address: 192.168.30.10; bandwidth: 175 Kbps; flow time: 66 s
-2025-01-18 19:59:29,563 root INFO s3h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20002; destination IP address: 192.168.10.10; bandwidth: 25 Kbps; flow time: 85 s
-2025-01-18 19:59:32,274 root INFO s4h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20403; destination IP address: 192.168.50.10; bandwidth: 196 Kbps; flow time: 81 s
-2025-01-18 19:59:41,164 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20203; destination IP address: 192.168.30.10; bandwidth: 37 Kbps; flow time: 75 s
-2025-01-18 19:59:58,649 root INFO s1h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20300; destination IP address: 192.168.40.10; bandwidth: 59 Kbps; flow time: 72 s
-2025-01-18 19:59:58,867 root INFO s4h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20003; destination IP address: 192.168.10.10; bandwidth: 147 Kbps; flow time: 88 s
-2025-01-18 20:00:04,776 root INFO s5h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20004; destination IP address: 192.168.10.10; bandwidth: 45 Kbps; flow time: 87 s
-2025-01-18 20:00:10,472 root INFO s3h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20102; destination IP address: 192.168.20.10; bandwidth: 56 Kbps; flow time: 77 s
-2025-01-18 20:00:11,311 root INFO s5h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20104; destination IP address: 192.168.20.10; bandwidth: 128 Kbps; flow time: 75 s
-2025-01-18 20:00:14,529 root INFO s1h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20100; destination IP address: 192.168.20.10; bandwidth: 29 Kbps; flow time: 88 s
-2025-01-18 20:00:17,118 root INFO s2h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20001; destination IP address: 192.168.10.10; bandwidth: 150 Kbps; flow time: 66 s
-2025-01-18 20:00:30,228 root INFO s3h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20402; destination IP address: 192.168.50.10; bandwidth: 22 Kbps; flow time: 101 s
-2025-01-18 20:00:31,580 root INFO s2h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20201; destination IP address: 192.168.30.10; bandwidth: 148 Kbps; flow time: 113 s
-2025-01-18 20:00:32,552 root INFO s2h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20401; destination IP address: 192.168.50.10; bandwidth: 13 Kbps; flow time: 65 s
-2025-01-18 20:00:32,932 root INFO s1h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20400; destination IP address: 192.168.50.10; bandwidth: 70 Kbps; flow time: 70 s
-2025-01-18 20:00:33,347 root INFO s5h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20304; destination IP address: 192.168.40.10; bandwidth: 114 Kbps; flow time: 91 s
-2025-01-18 20:00:38,860 root INFO s2h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20301; destination IP address: 192.168.40.10; bandwidth: 133 Kbps; flow time: 73 s
-2025-01-18 20:00:39,291 root INFO s5h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20204; destination IP address: 192.168.30.10; bandwidth: 112 Kbps; flow time: 117 s
-2025-01-18 20:00:50,164 root INFO s1h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20200; destination IP address: 192.168.30.10; bandwidth: 25 Kbps; flow time: 70 s
-2025-01-18 20:00:51,763 root INFO s4h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20103; destination IP address: 192.168.20.10; bandwidth: 107 Kbps; flow time: 60 s
-2025-01-18 20:00:56,976 root INFO Ending emulation!
-2025-01-18 20:00:58,460 root INFO Ending measurements!
+2025-01-18 20:24:15,952 root INFO Starting emulation!
+2025-01-18 20:24:15,953 root INFO s2h1 -> s1h1 flow (UDP) - Starting iperf UDP server; host: s1h1; port: 20001; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s1h1_s2h1_udp_server.csv
+2025-01-18 20:24:15,953 root INFO s3h1 -> s1h1 flow (UDP) - Starting iperf UDP server; host: s1h1; port: 20002; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s1h1_s3h1_udp_server.csv
+2025-01-18 20:24:15,954 root INFO s4h1 -> s1h1 flow (UDP) - Starting iperf UDP server; host: s1h1; port: 20003; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s1h1_s4h1_udp_server.csv
+2025-01-18 20:24:15,954 root INFO s5h1 -> s1h1 flow (UDP) - Starting iperf UDP server; host: s1h1; port: 20004; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s1h1_s5h1_udp_server.csv
+2025-01-18 20:24:15,964 root INFO s1h1 -> s2h1 flow (UDP) - Starting iperf UDP server; host: s2h1; port: 20100; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s2h1_s1h1_udp_server.csv
+2025-01-18 20:24:15,966 root INFO s3h1 -> s2h1 flow (UDP) - Starting iperf UDP server; host: s2h1; port: 20102; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s2h1_s3h1_udp_server.csv
+2025-01-18 20:24:15,967 root INFO s4h1 -> s2h1 flow (UDP) - Starting iperf UDP server; host: s2h1; port: 20103; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s2h1_s4h1_udp_server.csv
+2025-01-18 20:24:15,968 root INFO s5h1 -> s2h1 flow (UDP) - Starting iperf UDP server; host: s2h1; port: 20104; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s2h1_s5h1_udp_server.csv
+2025-01-18 20:24:15,969 root INFO s1h1 -> s3h1 flow (UDP) - Starting iperf UDP server; host: s3h1; port: 20200; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s3h1_s1h1_udp_server.csv
+2025-01-18 20:24:15,969 root INFO s2h1 -> s3h1 flow (UDP) - Starting iperf UDP server; host: s3h1; port: 20201; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s3h1_s2h1_udp_server.csv
+2025-01-18 20:24:15,970 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP server; host: s3h1; port: 20203; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s3h1_s4h1_udp_server.csv
+2025-01-18 20:24:15,971 root INFO s5h1 -> s3h1 flow (UDP) - Starting iperf UDP server; host: s3h1; port: 20204; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s3h1_s5h1_udp_server.csv
+2025-01-18 20:24:15,972 root INFO s1h1 -> s4h1 flow (UDP) - Starting iperf UDP server; host: s4h1; port: 20300; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s4h1_s1h1_udp_server.csv
+2025-01-18 20:24:15,983 root INFO s2h1 -> s4h1 flow (UDP) - Starting iperf UDP server; host: s4h1; port: 20301; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s4h1_s2h1_udp_server.csv
+2025-01-18 20:24:15,990 root INFO s3h1 -> s4h1 flow (UDP) - Starting iperf UDP server; host: s4h1; port: 20302; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s4h1_s3h1_udp_server.csv
+2025-01-18 20:24:15,996 root INFO s5h1 -> s4h1 flow (UDP) - Starting iperf UDP server; host: s4h1; port: 20304; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s4h1_s5h1_udp_server.csv
+2025-01-18 20:24:15,998 root INFO s1h1 -> s5h1 flow (UDP) - Starting iperf UDP server; host: s5h1; port: 20400; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s5h1_s1h1_udp_server.csv
+2025-01-18 20:24:16,010 root INFO s2h1 -> s5h1 flow (UDP) - Starting iperf UDP server; host: s5h1; port: 20401; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s5h1_s2h1_udp_server.csv
+2025-01-18 20:24:16,011 root INFO s3h1 -> s5h1 flow (UDP) - Starting iperf UDP server; host: s5h1; port: 20402; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s5h1_s3h1_udp_server.csv
+2025-01-18 20:24:16,014 root INFO s4h1 -> s5h1 flow (UDP) - Starting iperf UDP server; host: s5h1; port: 20403; output: /home/user/ML-Routing/measurements/emulation/results/Emu_topo_5_test_ppo_off_v1.2/hosts/s5h1_s4h1_udp_server.csv
+2025-01-18 20:24:17,020 root INFO s2h1 -> s1h1 flow (UDP) - thread seed: 123005401501
+2025-01-18 20:24:17,021 root INFO s2h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20001; destination IP address: 192.168.10.10; bandwidth: 50 Kbps; flow time: 104 s
+2025-01-18 20:24:17,021 root INFO s3h1 -> s1h1 flow (UDP) - thread seed: 811856239313
+2025-01-18 20:24:17,021 root INFO s3h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20002; destination IP address: 192.168.10.10; bandwidth: 118 Kbps; flow time: 81 s
+2025-01-18 20:24:17,022 root INFO s4h1 -> s1h1 flow (UDP) - thread seed: 267469214295
+2025-01-18 20:24:17,022 root INFO s4h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20003; destination IP address: 192.168.10.10; bandwidth: 81 Kbps; flow time: 69 s
+2025-01-18 20:24:17,022 root INFO s5h1 -> s1h1 flow (UDP) - thread seed: 151282538206
+2025-01-18 20:24:17,022 root INFO s5h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20004; destination IP address: 192.168.10.10; bandwidth: 65 Kbps; flow time: 108 s
+2025-01-18 20:24:17,023 root INFO s1h1 -> s2h1 flow (UDP) - thread seed: 114832269481
+2025-01-18 20:24:17,023 root INFO s1h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20100; destination IP address: 192.168.20.10; bandwidth: 96 Kbps; flow time: 66 s
+2025-01-18 20:24:17,023 root INFO s3h1 -> s2h1 flow (UDP) - thread seed: 814655221101
+2025-01-18 20:24:17,024 root INFO s3h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20102; destination IP address: 192.168.20.10; bandwidth: 33 Kbps; flow time: 84 s
+2025-01-18 20:24:17,024 root INFO s4h1 -> s2h1 flow (UDP) - thread seed: 600832336208
+2025-01-18 20:24:17,024 root INFO s4h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20103; destination IP address: 192.168.20.10; bandwidth: 34 Kbps; flow time: 82 s
+2025-01-18 20:24:17,026 root INFO s5h1 -> s2h1 flow (UDP) - thread seed: 648913461122
+2025-01-18 20:24:17,026 root INFO s5h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20104; destination IP address: 192.168.20.10; bandwidth: 98 Kbps; flow time: 98 s
+2025-01-18 20:24:17,026 root INFO s1h1 -> s3h1 flow (UDP) - thread seed: 36171878809
+2025-01-18 20:24:17,026 root INFO s1h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20200; destination IP address: 192.168.30.10; bandwidth: 77 Kbps; flow time: 111 s
+2025-01-18 20:24:17,027 root INFO s2h1 -> s3h1 flow (UDP) - thread seed: 98912225902
+2025-01-18 20:24:17,028 root INFO s2h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20201; destination IP address: 192.168.30.10; bandwidth: 21 Kbps; flow time: 106 s
+2025-01-18 20:24:17,028 root INFO s4h1 -> s3h1 flow (UDP) - thread seed: 254342113419
+2025-01-18 20:24:17,028 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20203; destination IP address: 192.168.30.10; bandwidth: 127 Kbps; flow time: 94 s
+2025-01-18 20:24:17,029 root INFO s5h1 -> s3h1 flow (UDP) - thread seed: 663595448017
+2025-01-18 20:24:17,029 root INFO s5h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20204; destination IP address: 192.168.30.10; bandwidth: 41 Kbps; flow time: 119 s
+2025-01-18 20:24:17,031 root INFO s1h1 -> s4h1 flow (UDP) - thread seed: 614294294451
+2025-01-18 20:24:17,031 root INFO s1h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20300; destination IP address: 192.168.40.10; bandwidth: 106 Kbps; flow time: 65 s
+2025-01-18 20:24:17,046 root INFO s2h1 -> s4h1 flow (UDP) - thread seed: 786833016361
+2025-01-18 20:24:17,046 root INFO s2h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20301; destination IP address: 192.168.40.10; bandwidth: 151 Kbps; flow time: 78 s
+2025-01-18 20:24:17,050 root INFO s3h1 -> s4h1 flow (UDP) - thread seed: 771590378377
+2025-01-18 20:24:17,050 root INFO s3h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20302; destination IP address: 192.168.40.10; bandwidth: 170 Kbps; flow time: 99 s
+2025-01-18 20:24:17,056 root INFO s5h1 -> s4h1 flow (UDP) - thread seed: 461902006518
+2025-01-18 20:24:17,058 root INFO s5h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20304; destination IP address: 192.168.40.10; bandwidth: 102 Kbps; flow time: 96 s
+2025-01-18 20:24:17,057 root INFO s1h1 -> s5h1 flow (UDP) - thread seed: 490573056992
+2025-01-18 20:24:17,058 root INFO s1h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20400; destination IP address: 192.168.50.10; bandwidth: 59 Kbps; flow time: 105 s
+2025-01-18 20:24:17,059 root INFO s2h1 -> s5h1 flow (UDP) - thread seed: 307473554860
+2025-01-18 20:24:17,059 root INFO s2h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20401; destination IP address: 192.168.50.10; bandwidth: 27 Kbps; flow time: 62 s
+2025-01-18 20:24:17,060 root INFO s3h1 -> s5h1 flow (UDP) - thread seed: 956959217035
+2025-01-18 20:24:17,060 root INFO s3h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20402; destination IP address: 192.168.50.10; bandwidth: 179 Kbps; flow time: 74 s
+2025-01-18 20:24:17,061 root INFO s4h1 -> s5h1 flow (UDP) - thread seed: 833251567391
+2025-01-18 20:24:17,062 root INFO s4h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20403; destination IP address: 192.168.50.10; bandwidth: 84 Kbps; flow time: 65 s
+2025-01-18 20:24:37,132 root INFO Starting measurements!
+2025-01-18 20:25:24,448 root INFO s2h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20401; destination IP address: 192.168.50.10; bandwidth: 69 Kbps; flow time: 115 s
+2025-01-18 20:25:27,257 root INFO s1h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20300; destination IP address: 192.168.40.10; bandwidth: 35 Kbps; flow time: 84 s
+2025-01-18 20:25:27,360 root INFO s4h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20403; destination IP address: 192.168.50.10; bandwidth: 81 Kbps; flow time: 89 s
+2025-01-18 20:25:28,263 root INFO s1h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20100; destination IP address: 192.168.20.10; bandwidth: 172 Kbps; flow time: 113 s
+2025-01-18 20:25:31,299 root INFO s4h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20003; destination IP address: 192.168.10.10; bandwidth: 103 Kbps; flow time: 70 s
+2025-01-18 20:25:36,313 root INFO s3h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20402; destination IP address: 192.168.50.10; bandwidth: 104 Kbps; flow time: 82 s
+2025-01-18 20:25:40,332 root INFO s2h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20301; destination IP address: 192.168.40.10; bandwidth: 63 Kbps; flow time: 102 s
+2025-01-18 20:25:43,733 root INFO s3h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20002; destination IP address: 192.168.10.10; bandwidth: 78 Kbps; flow time: 104 s
+2025-01-18 20:25:44,386 root INFO s4h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20103; destination IP address: 192.168.20.10; bandwidth: 184 Kbps; flow time: 101 s
+2025-01-18 20:25:46,642 root INFO s3h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20102; destination IP address: 192.168.20.10; bandwidth: 28 Kbps; flow time: 98 s
+2025-01-18 20:25:56,292 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20203; destination IP address: 192.168.30.10; bandwidth: 172 Kbps; flow time: 70 s
+2025-01-18 20:25:58,298 root INFO s5h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20304; destination IP address: 192.168.40.10; bandwidth: 146 Kbps; flow time: 106 s
+2025-01-18 20:26:00,378 root INFO s5h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20104; destination IP address: 192.168.20.10; bandwidth: 72 Kbps; flow time: 70 s
+2025-01-18 20:26:01,375 root INFO s3h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20302; destination IP address: 192.168.40.10; bandwidth: 128 Kbps; flow time: 84 s
+2025-01-18 20:26:06,315 root INFO s2h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20001; destination IP address: 192.168.10.10; bandwidth: 79 Kbps; flow time: 119 s
+2025-01-18 20:26:07,406 root INFO s1h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20400; destination IP address: 192.168.50.10; bandwidth: 173 Kbps; flow time: 104 s
+2025-01-18 20:26:08,395 root INFO s2h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20201; destination IP address: 192.168.30.10; bandwidth: 152 Kbps; flow time: 74 s
+2025-01-18 20:26:10,427 root INFO s5h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20004; destination IP address: 192.168.10.10; bandwidth: 185 Kbps; flow time: 80 s
+2025-01-18 20:26:13,363 root INFO s1h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20200; destination IP address: 192.168.30.10; bandwidth: 24 Kbps; flow time: 74 s
+2025-01-18 20:26:21,273 root INFO s5h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20204; destination IP address: 192.168.30.10; bandwidth: 18 Kbps; flow time: 111 s
+2025-01-18 20:26:46,599 root INFO s4h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20003; destination IP address: 192.168.10.10; bandwidth: 90 Kbps; flow time: 85 s
+2025-01-18 20:26:56,795 root INFO s1h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20300; destination IP address: 192.168.40.10; bandwidth: 78 Kbps; flow time: 64 s
+2025-01-18 20:27:01,554 root INFO s4h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20403; destination IP address: 192.168.50.10; bandwidth: 64 Kbps; flow time: 118 s
+2025-01-18 20:27:03,615 root INFO s3h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20402; destination IP address: 192.168.50.10; bandwidth: 155 Kbps; flow time: 116 s
+2025-01-18 20:27:11,604 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20203; destination IP address: 192.168.30.10; bandwidth: 193 Kbps; flow time: 80 s
+2025-01-18 20:27:15,651 root INFO s5h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20104; destination IP address: 192.168.20.10; bandwidth: 64 Kbps; flow time: 101 s
+2025-01-18 20:27:24,898 root INFO s2h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20401; destination IP address: 192.168.50.10; bandwidth: 137 Kbps; flow time: 85 s
+2025-01-18 20:27:26,577 root INFO s1h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20100; destination IP address: 192.168.20.10; bandwidth: 174 Kbps; flow time: 89 s
+2025-01-18 20:27:27,685 root INFO s2h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20301; destination IP address: 192.168.40.10; bandwidth: 46 Kbps; flow time: 76 s
+2025-01-18 20:27:27,791 root INFO s2h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20201; destination IP address: 192.168.30.10; bandwidth: 45 Kbps; flow time: 75 s
+2025-01-18 20:27:29,962 root INFO s3h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20102; destination IP address: 192.168.20.10; bandwidth: 200 Kbps; flow time: 95 s
+2025-01-18 20:27:30,685 root INFO s3h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20302; destination IP address: 192.168.40.10; bandwidth: 147 Kbps; flow time: 76 s
+2025-01-18 20:27:30,724 root INFO s4h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20103; destination IP address: 192.168.20.10; bandwidth: 159 Kbps; flow time: 87 s
+2025-01-18 20:27:32,851 root INFO s1h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20200; destination IP address: 192.168.30.10; bandwidth: 159 Kbps; flow time: 85 s
+2025-01-18 20:27:33,064 root INFO s3h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20002; destination IP address: 192.168.10.10; bandwidth: 102 Kbps; flow time: 74 s
+2025-01-18 20:27:35,762 root INFO s5h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20004; destination IP address: 192.168.10.10; bandwidth: 45 Kbps; flow time: 92 s
+2025-01-18 20:27:49,622 root INFO s5h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20304; destination IP address: 192.168.40.10; bandwidth: 136 Kbps; flow time: 65 s
+2025-01-18 20:27:56,711 root INFO s1h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20400; destination IP address: 192.168.50.10; bandwidth: 22 Kbps; flow time: 115 s
+2025-01-18 20:28:06,617 root INFO s1h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20300; destination IP address: 192.168.40.10; bandwidth: 38 Kbps; flow time: 69 s
+2025-01-18 20:28:10,752 root INFO s2h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20001; destination IP address: 192.168.10.10; bandwidth: 170 Kbps; flow time: 70 s
+2025-01-18 20:28:16,936 root INFO s4h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20003; destination IP address: 192.168.10.10; bandwidth: 184 Kbps; flow time: 87 s
+2025-01-18 20:28:17,461 root INFO s5h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20204; destination IP address: 192.168.30.10; bandwidth: 162 Kbps; flow time: 64 s
+2025-01-18 20:28:36,930 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20203; destination IP address: 192.168.30.10; bandwidth: 108 Kbps; flow time: 84 s
+2025-01-18 20:28:48,106 root INFO s2h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20201; destination IP address: 192.168.30.10; bandwidth: 162 Kbps; flow time: 89 s
+2025-01-18 20:28:49,109 root INFO s2h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20301; destination IP address: 192.168.40.10; bandwidth: 145 Kbps; flow time: 76 s
+2025-01-18 20:28:51,923 root INFO s3h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20302; destination IP address: 192.168.40.10; bandwidth: 151 Kbps; flow time: 115 s
+2025-01-18 20:28:52,420 root INFO s3h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20002; destination IP address: 192.168.10.10; bandwidth: 12 Kbps; flow time: 103 s
+2025-01-18 20:28:55,274 root INFO s2h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20401; destination IP address: 192.168.50.10; bandwidth: 194 Kbps; flow time: 67 s
+2025-01-18 20:28:59,909 root INFO s5h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20304; destination IP address: 192.168.40.10; bandwidth: 184 Kbps; flow time: 116 s
+2025-01-18 20:29:00,784 root INFO s1h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20100; destination IP address: 192.168.20.10; bandwidth: 147 Kbps; flow time: 108 s
+2025-01-18 20:29:01,974 root INFO s5h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20104; destination IP address: 192.168.20.10; bandwidth: 78 Kbps; flow time: 109 s
+2025-01-18 20:29:03,031 root INFO s4h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20103; destination IP address: 192.168.20.10; bandwidth: 174 Kbps; flow time: 81 s
+2025-01-18 20:29:03,116 root INFO s1h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20200; destination IP address: 192.168.30.10; bandwidth: 38 Kbps; flow time: 78 s
+2025-01-18 20:29:04,804 root INFO s3h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20402; destination IP address: 192.168.50.10; bandwidth: 121 Kbps; flow time: 70 s
+2025-01-18 20:29:04,817 root INFO s4h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20403; destination IP address: 192.168.50.10; bandwidth: 126 Kbps; flow time: 60 s
+2025-01-18 20:29:10,210 root INFO s3h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20102; destination IP address: 192.168.20.10; bandwidth: 194 Kbps; flow time: 116 s
+2025-01-18 20:29:13,235 root INFO s5h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20004; destination IP address: 192.168.10.10; bandwidth: 194 Kbps; flow time: 76 s
+2025-01-18 20:29:21,078 root INFO s1h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20300; destination IP address: 192.168.40.10; bandwidth: 138 Kbps; flow time: 108 s
+2025-01-18 20:29:26,078 root INFO s2h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20001; destination IP address: 192.168.10.10; bandwidth: 55 Kbps; flow time: 92 s
+2025-01-18 20:29:26,702 root INFO s5h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20204; destination IP address: 192.168.30.10; bandwidth: 37 Kbps; flow time: 115 s
+2025-01-18 20:29:49,176 root INFO s4h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20003; destination IP address: 192.168.10.10; bandwidth: 170 Kbps; flow time: 79 s
+2025-01-18 20:29:58,070 root INFO s1h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20400; destination IP address: 192.168.50.10; bandwidth: 173 Kbps; flow time: 92 s
+2025-01-18 20:30:06,251 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20203; destination IP address: 192.168.30.10; bandwidth: 165 Kbps; flow time: 72 s
+2025-01-18 20:30:07,783 root INFO s2h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20401; destination IP address: 192.168.50.10; bandwidth: 49 Kbps; flow time: 83 s
+2025-01-18 20:30:10,067 root INFO s4h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20403; destination IP address: 192.168.50.10; bandwidth: 51 Kbps; flow time: 94 s
+2025-01-18 20:30:10,444 root INFO s2h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20301; destination IP address: 192.168.40.10; bandwidth: 145 Kbps; flow time: 118 s
+2025-01-18 20:30:20,048 root INFO s3h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20402; destination IP address: 192.168.50.10; bandwidth: 10 Kbps; flow time: 98 s
+2025-01-18 20:30:22,368 root INFO s2h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20201; destination IP address: 192.168.30.10; bandwidth: 92 Kbps; flow time: 91 s
+2025-01-18 20:30:26,580 root INFO s1h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20200; destination IP address: 192.168.30.10; bandwidth: 14 Kbps; flow time: 67 s
+2025-01-18 20:30:29,608 root INFO s4h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20103; destination IP address: 192.168.20.10; bandwidth: 102 Kbps; flow time: 116 s
+2025-01-18 20:30:34,598 root INFO s5h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20004; destination IP address: 192.168.10.10; bandwidth: 88 Kbps; flow time: 75 s
+2025-01-18 20:30:41,001 root INFO s3h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20002; destination IP address: 192.168.10.10; bandwidth: 24 Kbps; flow time: 75 s
+2025-01-18 20:30:52,383 root INFO s3h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20302; destination IP address: 192.168.40.10; bandwidth: 155 Kbps; flow time: 120 s
+2025-01-18 20:30:54,092 root INFO s1h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20100; destination IP address: 192.168.20.10; bandwidth: 30 Kbps; flow time: 65 s
+2025-01-18 20:30:56,359 root INFO s5h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20104; destination IP address: 192.168.20.10; bandwidth: 197 Kbps; flow time: 91 s
+2025-01-18 20:31:01,109 root INFO s5h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20304; destination IP address: 192.168.40.10; bandwidth: 27 Kbps; flow time: 108 s
+2025-01-18 20:31:03,327 root INFO s2h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20001; destination IP address: 192.168.10.10; bandwidth: 146 Kbps; flow time: 109 s
+2025-01-18 20:31:11,554 root INFO s3h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20102; destination IP address: 192.168.20.10; bandwidth: 42 Kbps; flow time: 68 s
+2025-01-18 20:31:13,467 root INFO s4h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20003; destination IP address: 192.168.10.10; bandwidth: 178 Kbps; flow time: 90 s
+2025-01-18 20:31:14,387 root INFO s1h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20300; destination IP address: 192.168.40.10; bandwidth: 150 Kbps; flow time: 70 s
+2025-01-18 20:31:23,565 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20203; destination IP address: 192.168.30.10; bandwidth: 77 Kbps; flow time: 93 s
+2025-01-18 20:31:27,103 root INFO s5h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20204; destination IP address: 192.168.30.10; bandwidth: 165 Kbps; flow time: 87 s
+2025-01-18 20:31:35,339 root INFO s1h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20400; destination IP address: 192.168.50.10; bandwidth: 64 Kbps; flow time: 119 s
+2025-01-18 20:31:36,298 root INFO s2h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20401; destination IP address: 192.168.50.10; bandwidth: 148 Kbps; flow time: 108 s
+2025-01-18 20:31:39,103 root INFO s1h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20200; destination IP address: 192.168.30.10; bandwidth: 196 Kbps; flow time: 104 s
+2025-01-18 20:31:49,363 root INFO s4h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20403; destination IP address: 192.168.50.10; bandwidth: 61 Kbps; flow time: 105 s
+2025-01-18 20:31:54,927 root INFO s5h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20004; destination IP address: 192.168.10.10; bandwidth: 89 Kbps; flow time: 85 s
+2025-01-18 20:31:58,792 root INFO s2h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20201; destination IP address: 192.168.30.10; bandwidth: 181 Kbps; flow time: 101 s
+2025-01-18 20:32:01,335 root INFO s3h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20002; destination IP address: 192.168.10.10; bandwidth: 105 Kbps; flow time: 88 s
+2025-01-18 20:32:04,348 root INFO s3h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20402; destination IP address: 192.168.50.10; bandwidth: 142 Kbps; flow time: 88 s
+2025-01-18 20:32:04,460 root INFO s1h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20100; destination IP address: 192.168.20.10; bandwidth: 40 Kbps; flow time: 75 s
+2025-01-18 20:32:13,765 root INFO s2h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20301; destination IP address: 192.168.40.10; bandwidth: 67 Kbps; flow time: 64 s
+2025-01-18 20:32:24,867 root INFO s3h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20102; destination IP address: 192.168.20.10; bandwidth: 96 Kbps; flow time: 61 s
+2025-01-18 20:32:29,807 root INFO s1h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20300; destination IP address: 192.168.40.10; bandwidth: 160 Kbps; flow time: 95 s
+2025-01-18 20:32:30,921 root INFO s4h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20103; destination IP address: 192.168.20.10; bandwidth: 68 Kbps; flow time: 97 s
+2025-01-18 20:32:32,892 root INFO s5h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20104; destination IP address: 192.168.20.10; bandwidth: 66 Kbps; flow time: 60 s
+2025-01-18 20:32:48,820 root INFO s4h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20003; destination IP address: 192.168.10.10; bandwidth: 28 Kbps; flow time: 105 s
+2025-01-18 20:32:54,610 root INFO s5h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20304; destination IP address: 192.168.40.10; bandwidth: 171 Kbps; flow time: 63 s
+2025-01-18 20:32:57,607 root INFO s2h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20001; destination IP address: 192.168.10.10; bandwidth: 68 Kbps; flow time: 64 s
+2025-01-18 20:32:57,689 root INFO s3h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20302; destination IP address: 192.168.40.10; bandwidth: 18 Kbps; flow time: 115 s
+2025-01-18 20:32:59,390 root INFO s5h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20204; destination IP address: 192.168.30.10; bandwidth: 94 Kbps; flow time: 64 s
+2025-01-18 20:33:01,862 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20203; destination IP address: 192.168.30.10; bandwidth: 141 Kbps; flow time: 75 s
+2025-01-18 20:33:23,222 root INFO s2h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20301; destination IP address: 192.168.40.10; bandwidth: 81 Kbps; flow time: 102 s
+2025-01-18 20:33:24,935 root INFO s1h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20100; destination IP address: 192.168.20.10; bandwidth: 134 Kbps; flow time: 73 s
+2025-01-18 20:33:25,150 root INFO s5h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20004; destination IP address: 192.168.10.10; bandwidth: 148 Kbps; flow time: 68 s
+2025-01-18 20:33:28,358 root INFO s1h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20200; destination IP address: 192.168.30.10; bandwidth: 195 Kbps; flow time: 119 s
+2025-01-18 20:33:29,551 root INFO s2h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20401; destination IP address: 192.168.50.10; bandwidth: 156 Kbps; flow time: 96 s
+2025-01-18 20:33:31,242 root INFO s3h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20102; destination IP address: 192.168.20.10; bandwidth: 131 Kbps; flow time: 75 s
+2025-01-18 20:33:34,594 root INFO s3h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20002; destination IP address: 192.168.10.10; bandwidth: 131 Kbps; flow time: 111 s
+2025-01-18 20:33:37,639 root INFO s3h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20402; destination IP address: 192.168.50.10; bandwidth: 114 Kbps; flow time: 72 s
+2025-01-18 20:33:39,257 root INFO s5h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20104; destination IP address: 192.168.20.10; bandwidth: 34 Kbps; flow time: 66 s
+2025-01-18 20:33:39,970 root INFO s4h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20403; destination IP address: 192.168.50.10; bandwidth: 178 Kbps; flow time: 87 s
+2025-01-18 20:33:40,071 root INFO s1h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20400; destination IP address: 192.168.50.10; bandwidth: 100 Kbps; flow time: 87 s
+2025-01-18 20:33:44,993 root INFO s2h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20201; destination IP address: 192.168.30.10; bandwidth: 115 Kbps; flow time: 89 s
+2025-01-18 20:34:02,899 root INFO s5h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20304; destination IP address: 192.168.40.10; bandwidth: 196 Kbps; flow time: 63 s
+2025-01-18 20:34:06,818 root INFO s2h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20001; destination IP address: 192.168.10.10; bandwidth: 182 Kbps; flow time: 101 s
+2025-01-18 20:34:08,621 root INFO s5h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20204; destination IP address: 192.168.30.10; bandwidth: 175 Kbps; flow time: 66 s
+2025-01-18 20:34:10,120 root INFO s1h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20300; destination IP address: 192.168.40.10; bandwidth: 25 Kbps; flow time: 85 s
+2025-01-18 20:34:13,341 root INFO s4h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20103; destination IP address: 192.168.20.10; bandwidth: 196 Kbps; flow time: 81 s
+2025-01-18 20:34:22,127 root INFO s4h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20203; destination IP address: 192.168.30.10; bandwidth: 37 Kbps; flow time: 75 s
+2025-01-18 20:34:38,452 root INFO s5h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20004; destination IP address: 192.168.10.10; bandwidth: 59 Kbps; flow time: 72 s
+2025-01-18 20:34:39,535 root INFO s4h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20003; destination IP address: 192.168.10.10; bandwidth: 147 Kbps; flow time: 88 s
+2025-01-18 20:34:43,155 root INFO s1h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20100; destination IP address: 192.168.20.10; bandwidth: 45 Kbps; flow time: 87 s
+2025-01-18 20:34:50,762 root INFO s5h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20104; destination IP address: 192.168.20.10; bandwidth: 56 Kbps; flow time: 77 s
+2025-01-18 20:34:51,606 root INFO s3h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20102; destination IP address: 192.168.20.10; bandwidth: 128 Kbps; flow time: 75 s
+2025-01-18 20:34:54,951 root INFO s3h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20402; destination IP address: 192.168.50.10; bandwidth: 29 Kbps; flow time: 88 s
+2025-01-18 20:34:58,440 root INFO s3h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20302; destination IP address: 192.168.40.10; bandwidth: 150 Kbps; flow time: 66 s
+2025-01-18 20:35:10,586 root INFO s2h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20301; destination IP address: 192.168.40.10; bandwidth: 22 Kbps; flow time: 101 s
+2025-01-18 20:35:10,939 root INFO s2h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20401; destination IP address: 192.168.50.10; bandwidth: 148 Kbps; flow time: 113 s
+2025-01-18 20:35:11,202 root INFO s5h1 -> s4h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20304; destination IP address: 192.168.40.10; bandwidth: 13 Kbps; flow time: 65 s
+2025-01-18 20:35:12,291 root INFO s4h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s4h1; port: 20403; destination IP address: 192.168.50.10; bandwidth: 70 Kbps; flow time: 70 s
+2025-01-18 20:35:12,332 root INFO s1h1 -> s5h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20400; destination IP address: 192.168.50.10; bandwidth: 114 Kbps; flow time: 91 s
+2025-01-18 20:35:19,790 root INFO s2h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s2h1; port: 20201; destination IP address: 192.168.30.10; bandwidth: 133 Kbps; flow time: 73 s
+2025-01-18 20:35:19,873 root INFO s5h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s5h1; port: 20204; destination IP address: 192.168.30.10; bandwidth: 112 Kbps; flow time: 117 s
+2025-01-18 20:35:30,892 root INFO s3h1 -> s1h1 flow (UDP) - Starting iperf UDP client; host: s3h1; port: 20002; destination IP address: 192.168.10.10; bandwidth: 25 Kbps; flow time: 70 s
+2025-01-18 20:35:32,589 root INFO s1h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s1h1; port: 20200; destination IP address: 192.168.30.10; bandwidth: 107 Kbps; flow time: 60 s
+2025-01-18 20:35:37,784 root INFO Ending emulation!
+2025-01-18 20:35:39,636 root INFO Ending measurements!
