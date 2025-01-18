@@ -38,14 +38,14 @@ links:
   - node a: r2
     node b: r4
     port a: 3
-    port b: 4
+    port b: 3
     bw: 0.5 # in Mbps
     delay: 5  # in ms
     metric: 20
   - node a: r3
     node b: r4
     port a: 3
-    port b: 3
+    port b: 4
     bw: 1.5 # in Mbps
     delay: 15  # in ms
     metric: 5
