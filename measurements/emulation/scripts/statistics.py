@@ -31,11 +31,20 @@ parser = argparse.ArgumentParser()
 # Emu_topo_5_test_ppo_off_v3
 # Emu_topo_5_test_ppo_on_v3
 
+# Emu_topo_5_test_ppo_off_v1.2
+# Emu_topo_5_test_ppo_on_v1.2
+# Emu_topo_5_test_ppo_off_v2.2
+# Emu_topo_5_test_ppo_on_v2.2
+# Emu_topo_5_test_ppo_off_v3.2
+# Emu_topo_5_test_ppo_on_v3.2
+
 # Emu_topo_10_test_ppo_off_v1
 # Emu_topo_10_test_ppo_on_v1
 # Emu_topo_10_test_ppo_off_v2
 # Emu_topo_10_test_ppo_on_v2
-parser.add_argument('-e', '--emulation', dest='emulation', default='Emu_topo_10_test_ppo_on_v2',
+
+# test_debug_10
+parser.add_argument('-e', '--emulation', dest='emulation', default='test_debug_10',
                     help='Traffic emulation name')
 parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
                     help='Topology file in .yaml format')
