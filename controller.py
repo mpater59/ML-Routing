@@ -256,7 +256,13 @@ class RestController(ControllerBase):
 
     @staticmethod
     def _get_route_port(s_dpid, d_dpid):
+        print()
+        print('debugging!')
+        print(s_dpid)
+        print(d_dpid)
+        print(ospf['links'])
         for link in ospf['links']:
+            print(link)
             if (link['sw1']['dpid'] == s_dpid and link['sw2']['dpid'] == d_dpid) or (link['sw1']['dpid'] == d_dpid and
                                                                                      link['sw2']['dpid'] == s_dpid):
                 if link['sw1']['dpid'] == s_dpid:
