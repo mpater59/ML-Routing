@@ -1,6 +1,7 @@
 import csv
 import argparse
 import matplotlib.pyplot as plt
+import matplotlib
 import numpy as np
 import yaml
 
@@ -40,6 +41,11 @@ parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
                     help='Topology file in .yaml format')
 args = parser.parse_args()
 
+font = {'family': 'monospace',
+        'weight': 'bold',
+        'size': 20}
+matplotlib.rc('font', **font)
+
 topo_info = {}
 with open(args.file) as f:
     try:
@@ -60,11 +66,18 @@ with open(f'measurements/emulation/results/{args.emulation}/switches/if_out_byte
         if_out_bytes_csv.append(row)
 
 timestamps = []
+rows_limit = 120
+
 for row in if_in_bytes_csv:
+    if len(timestamps) > rows_limit:
+        break
     if int(row[0]) not in timestamps:
         timestamps.append(int(row[0]))
 
-delta_time = 600 - timestamps[-1]
+max_timestamp = []
+for row in if_in_bytes_csv:
+    if int(row[0]) not in max_timestamp:
+        max_timestamp.append(int(row[0]))
 
 link_max_loads = {}
 for link in topo_info['links']:
@@ -81,7 +94,7 @@ for row in if_in_bytes_csv:
     if_in_results[row[1]]['timestamp values'].append(int(row[2]) * 8)
 
 for _, if_in_result in if_in_results.items():
-    if_in_result['mean'] = if_in_result['mean'] / len(timestamps)
+    if_in_result['mean'] = if_in_result['mean'] / len(max_timestamp)
 if_in_results = dict(sorted(if_in_results.items()))
 
 # egress interface statistics
@@ -95,7 +108,7 @@ for row in if_out_bytes_csv:
     if_out_results[row[1]]['timestamp values'].append(int(row[2]) * 8)
 
 for _, if_in_result in if_out_results.items():
-    if_in_result['mean'] = if_in_result['mean'] / len(timestamps)
+    if_in_result['mean'] = if_in_result['mean'] / len(max_timestamp)
 if_out_results = dict(sorted(if_out_results.items()))
 
 # combine interface statistics
@@ -118,7 +131,7 @@ for interface, values in if_combine_results.items():
     if switch_name not in switches_results:
         switches_results[switch_name] = {}
         switches_results[switch_name]['mean'] = 0
-        switches_results[switch_name]['timestamp values'] = [0] * len(timestamps)
+        switches_results[switch_name]['timestamp values'] = [0] * len(max_timestamp)
         switches_results[switch_name]['interfaces'] = []
     switches_results[switch_name]['mean'] += values['mean']
     for index, value in enumerate(values['timestamp values']):
@@ -176,6 +189,8 @@ plt.figure(1)
 for switch_name, values in switches_results.items():
     format_values = []
     for value in values['timestamp values']:
+        if len(format_values) > rows_limit:
+            break
         format_values.append(round(value / 1000, 3))
     plt.plot(timestamps, format_values, label=f'{switch_name}')
 plt.legend()
@@ -186,8 +201,7 @@ plt.ylabel("Switch load [Kbps]")
 plt.title("Switch load over time")
 
 num_ticks = 21
-tick_positions = np.linspace(timestamps[0], timestamps[-1] + delta_time, num_ticks)
-tick_positions[-1] = timestamps[-1]
+tick_positions = np.linspace(timestamps[0], timestamps[-1], num_ticks)
 plt.xticks(tick_positions)
 
 
@@ -196,6 +210,8 @@ plt.figure(2)
 for link_name, values in links_results.items():
     format_values = []
     for value in values['timestamp values']:
+        if len(format_values) > rows_limit:
+            break
         format_values.append(round(value / 1000, 3))
     plt.plot(timestamps, format_values, label=f'{link_name}')
 plt.legend()
@@ -206,14 +222,15 @@ plt.ylabel("Link load [Kbps]")
 plt.title("Link load over time")
 
 num_ticks = 21
-tick_positions = np.linspace(timestamps[0], timestamps[-1] + delta_time, num_ticks)
-tick_positions[-1] = timestamps[-1]
+tick_positions = np.linspace(timestamps[0], timestamps[-1], num_ticks)
 plt.xticks(tick_positions)
 
 plt.figure(3)
 for link_name, values in links_results.items():
     format_values = []
     for value in values['normalized values']:
+        if len(format_values) > rows_limit:
+            break
         format_values.append(round(value, 3))
     plt.plot(timestamps, format_values, label=f'{link_name}')
 plt.legend()
@@ -224,8 +241,7 @@ plt.ylabel("Link load")
 plt.title("Link load over time")
 
 num_ticks = 21
-tick_positions = np.linspace(timestamps[0], timestamps[-1] + delta_time, num_ticks)
-tick_positions[-1] = timestamps[-1]
+tick_positions = np.linspace(timestamps[0], timestamps[-1], num_ticks)
 plt.xticks(tick_positions)
 
 # # plotting selected interfaces
