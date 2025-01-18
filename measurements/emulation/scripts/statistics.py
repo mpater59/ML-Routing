@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import yaml
 
+from cycler import cycler
+
 
 parser = argparse.ArgumentParser()
 # test_5_42_v1
@@ -32,7 +34,7 @@ parser = argparse.ArgumentParser()
 # Emu_topo_10_test_ppo_on_v1
 # Emu_topo_10_test_ppo_off_v2
 # Emu_topo_10_test_ppo_on_v2
-parser.add_argument('-e', '--emulation', dest='emulation', default='Emu_topo_5_test_ppo_on_v3',
+parser.add_argument('-e', '--emulation', dest='emulation', default='Emu_topo_10_test_ppo_on_v2',
                     help='Traffic emulation name')
 parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
                     help='Topology file in .yaml format')
@@ -61,6 +63,8 @@ timestamps = []
 for row in if_in_bytes_csv:
     if int(row[0]) not in timestamps:
         timestamps.append(int(row[0]))
+
+delta_time = 600 - timestamps[-1]
 
 link_max_loads = {}
 for link in topo_info['links']:
@@ -163,6 +167,10 @@ print('Printing normalized link average load:')
 for link_name, values in links_results.items():
     print(f"Link {link_name} - average load: {round(values['mean'] / link_max_loads[link_name], 3)}")
 
+if len(links_results) > 10:
+    custom_colors = plt.cm.get_cmap('tab20', 15).colors
+    plt.rc('axes', prop_cycle=cycler('color', custom_colors))
+
 # plotting average throughput of switches
 plt.figure(1)
 for switch_name, values in switches_results.items():
@@ -178,7 +186,7 @@ plt.ylabel("Switch load [Kbps]")
 plt.title("Switch load over time")
 
 num_ticks = 21
-tick_positions = np.linspace(timestamps[0], timestamps[-1] + 5, num_ticks)
+tick_positions = np.linspace(timestamps[0], timestamps[-1] + delta_time, num_ticks)
 tick_positions[-1] = timestamps[-1]
 plt.xticks(tick_positions)
 
@@ -198,7 +206,7 @@ plt.ylabel("Link load [Kbps]")
 plt.title("Link load over time")
 
 num_ticks = 21
-tick_positions = np.linspace(timestamps[0], timestamps[-1] + 5, num_ticks)
+tick_positions = np.linspace(timestamps[0], timestamps[-1] + delta_time, num_ticks)
 tick_positions[-1] = timestamps[-1]
 plt.xticks(tick_positions)
 
@@ -216,7 +224,7 @@ plt.ylabel("Link load")
 plt.title("Link load over time")
 
 num_ticks = 21
-tick_positions = np.linspace(timestamps[0], timestamps[-1] + 5, num_ticks)
+tick_positions = np.linspace(timestamps[0], timestamps[-1] + delta_time, num_ticks)
 tick_positions[-1] = timestamps[-1]
 plt.xticks(tick_positions)
 

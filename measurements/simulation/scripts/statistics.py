@@ -1,8 +1,11 @@
 import csv
 import argparse
 import matplotlib.pyplot as plt
+import matplotlib
 import numpy as np
 import yaml
+
+from cycler import cycler
 
 
 parser = argparse.ArgumentParser()
@@ -36,11 +39,16 @@ parser = argparse.ArgumentParser()
 # Sim_topo_10_test_ppo_on_v1
 # Sim_topo_10_test_ppo_off_v2
 # Sim_topo_10_test_ppo_on_v2
-parser.add_argument('-e', '--emulation', dest='emulation', default='Sim_topo_10_test_ppo_on_v2',
+parser.add_argument('-e', '--emulation', dest='emulation', default='Sim_topo_5_test_ppo_on_v3',
                     help='Traffic emulation name')
 parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
                     help='Topology file in .yaml format')
 args = parser.parse_args()
+
+font = {'family': 'monospace',
+        'weight': 'bold',
+        'size': 20}
+matplotlib.rc('font', **font)
 
 topo_info = {}
 with open(args.file) as f:
@@ -116,6 +124,12 @@ print()
 print('Printing link normalized average load:')
 for link_name, values in link_loads.items():
     print(f"Link {link_name} - average load: {round(values['mean'] / link_max_loads[link_name], 3)}")
+
+
+if len(link_loads) > 10:
+    custom_colors = plt.cm.get_cmap('tab20', 20).colors
+    plt.rc('axes', prop_cycle=cycler('color', custom_colors))
+
 
 # plotting average throughput of switches
 plt.figure(1)

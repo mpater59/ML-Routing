@@ -30,7 +30,7 @@ def traffic_control_main(topo_info, env_file, model_name, save_model):
 
     total_timesteps = 1000
 
-    logging.info("Initializing the DQN model")
+    logging.info("Initializing the PPO model")
     if os.path.isfile(model_file):
         model = PPO.load(model_file, env=vec_env)
         logging.info(f"Model loaded successfully from {model_file}. Continuing training")

@@ -52,7 +52,7 @@ def traffic_control_main(topo_info, env_file, model_name, save_model, disable_le
 
     total_timesteps = timesteps
 
-    logging.info("Initializing the DQN model")
+    logging.info("Initializing the PPO model")
     if os.path.isfile(model_file):
         model = PPO.load(model_file, env=vec_env)
         # model.learning_rate = 0.0003
