@@ -864,4 +864,3 @@
 2025-01-18 19:41:31,456 root INFO s9h1 -> s2h1 flow (UDP) - Starting iperf UDP client; host: s9h1; port: 20108; destination IP address: 192.168.20.10; bandwidth: 189 Kbps; flow time: 70 s
 2025-01-18 19:41:33,126 root INFO s10h1 -> s3h1 flow (UDP) - Starting iperf UDP client; host: s10h1; port: 20209; destination IP address: 192.168.30.10; bandwidth: 68 Kbps; flow time: 88 s
 2025-01-18 19:41:33,453 root INFO Ending emulation!
-2025-01-18 19:41:35,540 root INFO Ending measurements!
