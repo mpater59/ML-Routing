@@ -1,0 +1,131 @@
+hosts number: 1
+bandwidth interval: [500, 2500] # bandwidth interval for network emulation in Kbps
+max topo bandwidth: 3000 # in Kbps
+time interval: [60, 120] # time interval for network emulation in s
+nodes:
+  - name: r1
+    id: 1
+  - name: r2
+    id: 2
+  - name: r3
+    id: 3
+  - name: r4
+    id: 4
+  - name: r5
+    id: 5
+  - name: r6
+    id: 6
+  - name: r7
+    id: 7
+  - name: r8
+    id: 8
+  - name: r9
+    id: 9
+  - name: r10
+    id: 10
+links:
+  - node a: r1
+    node b: r2
+    bw: 20 # in Mbps
+    delay: 10  # in ms
+    metric: 5
+    port a: 2
+    port b: 2
+  - node a: r1
+    node b: r3
+    bw: 15 # in Mbps
+    delay: 10  # in ms
+    metric: 10
+    port a: 3
+    port b: 2
+  - node a: r1
+    node b: r4
+    bw: 10 # in Mbps
+    delay: 10  # in ms
+    metric: 20
+    port a: 4
+    port b: 2
+  - node a: r2
+    node b: r4
+    bw: 10 # in Mbps
+    delay: 10  # in ms
+    metric: 20
+    port a: 3
+    port b: 3
+  - node a: r2
+    node b: r5
+    bw: 15 # in Mbps
+    delay: 10  # in ms
+    metric: 10
+    port a: 4
+    port b: 2
+  - node a: r3
+    node b: r9
+    bw: 15 # in Mbps
+    delay: 10  # in ms
+    metric: 10
+    port a: 3
+    port b: 2
+  - node a: r4
+    node b: r5
+    bw: 10 # in Mbps
+    delay: 10  # in ms
+    metric: 20
+    port a: 4
+    port b: 3
+  - node a: r4
+    node b: r7
+    bw: 15 # in Mbps
+    delay: 10  # in ms
+    metric: 10
+    port a: 5
+    port b: 2
+  - node a: r4
+    node b: r8
+    bw: 20 # in Mbps
+    delay: 10  # in ms
+    metric: 5
+    port a: 6
+    port b: 2
+  - node a: r5
+    node b: r6
+    bw: 15 # in Mbps
+    delay: 10  # in ms
+    metric: 10
+    port a: 4
+    port b: 2
+  - node a: r6
+    node b: r7
+    bw: 15 # in Mbps
+    delay: 10  # in ms
+    metric: 10
+    port a: 3
+    port b: 3
+  - node a: r6
+    node b: r10
+    bw: 20 # in Mbps
+    delay: 10  # in ms
+    metric: 5
+    port a: 4
+    port b: 2
+  - node a: r7
+    node b: r10
+    bw: 10 # in Mbps
+    delay: 10  # in ms
+    metric: 20
+    port a: 4
+    port b: 3
+  - node a: r8
+    node b: r9
+    bw: 10 # in Mbps
+    delay: 10  # in ms
+    metric: 20
+    port a: 3
+    port b: 3
+  - node a: r9
+    node b: r10
+    bw: 15 # in Mbps
+    delay: 10  # in ms
+    metric: 10
+    port a: 4
+    port b: 4

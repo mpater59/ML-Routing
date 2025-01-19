@@ -1,8 +1,11 @@
 import csv
 import argparse
 import matplotlib.pyplot as plt
+import matplotlib
 import numpy as np
 import yaml
+
+from cycler import cycler
 
 
 parser = argparse.ArgumentParser()
@@ -20,11 +23,36 @@ parser = argparse.ArgumentParser()
 # test_v3_reference
 # test_v3_ppo
 
-parser.add_argument('-e', '--emulation', dest='emulation', default='test_v2_ppo',
+# final tests
+# Emu_topo_5_test_ppo_off_v1
+# Emu_topo_5_test_ppo_on_v1
+# Emu_topo_5_test_ppo_off_v2
+# Emu_topo_5_test_ppo_on_v2
+# Emu_topo_5_test_ppo_off_v3
+# Emu_topo_5_test_ppo_on_v3
+
+# Emu_topo_5_test_ppo_off_v1.2
+# Emu_topo_5_test_ppo_on_v1.2
+# Emu_topo_5_test_ppo_off_v2.2
+# Emu_topo_5_test_ppo_on_v2.2
+# Emu_topo_5_test_ppo_off_v3.2
+# Emu_topo_5_test_ppo_on_v3.2
+
+# Emu_topo_10_test_ppo_off_v1
+# Emu_topo_10_test_ppo_on_v1
+# Emu_topo_10_test_ppo_off_v2
+# Emu_topo_10_test_ppo_on_v2
+parser.add_argument('-e', '--emulation', dest='emulation', default='Emu_topo_10_test_ppo_on_v2',
                     help='Traffic emulation name')
-parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
+parser.add_argument('-f', '--file', dest='file', default='topo_10_v2.yaml',
                     help='Topology file in .yaml format')
 args = parser.parse_args()
+
+font = {'family': 'monospace',
+        'weight': 'bold',
+        'size': 20}
+matplotlib.rc('font', **font)
+label_font_size = 15
 
 topo_info = {}
 with open(args.file) as f:
@@ -46,9 +74,18 @@ with open(f'measurements/emulation/results/{args.emulation}/switches/if_out_byte
         if_out_bytes_csv.append(row)
 
 timestamps = []
+rows_limit = 120
+
 for row in if_in_bytes_csv:
+    if len(timestamps) > rows_limit:
+        break
     if int(row[0]) not in timestamps:
         timestamps.append(int(row[0]))
+
+max_timestamp = []
+for row in if_in_bytes_csv:
+    if int(row[0]) not in max_timestamp:
+        max_timestamp.append(int(row[0]))
 
 link_max_loads = {}
 for link in topo_info['links']:
@@ -65,7 +102,7 @@ for row in if_in_bytes_csv:
     if_in_results[row[1]]['timestamp values'].append(int(row[2]) * 8)
 
 for _, if_in_result in if_in_results.items():
-    if_in_result['mean'] = if_in_result['mean'] / len(timestamps)
+    if_in_result['mean'] = if_in_result['mean'] / len(max_timestamp)
 if_in_results = dict(sorted(if_in_results.items()))
 
 # egress interface statistics
@@ -79,7 +116,7 @@ for row in if_out_bytes_csv:
     if_out_results[row[1]]['timestamp values'].append(int(row[2]) * 8)
 
 for _, if_in_result in if_out_results.items():
-    if_in_result['mean'] = if_in_result['mean'] / len(timestamps)
+    if_in_result['mean'] = if_in_result['mean'] / len(max_timestamp)
 if_out_results = dict(sorted(if_out_results.items()))
 
 # combine interface statistics
@@ -102,7 +139,7 @@ for interface, values in if_combine_results.items():
     if switch_name not in switches_results:
         switches_results[switch_name] = {}
         switches_results[switch_name]['mean'] = 0
-        switches_results[switch_name]['timestamp values'] = [0] * len(timestamps)
+        switches_results[switch_name]['timestamp values'] = [0] * len(max_timestamp)
         switches_results[switch_name]['interfaces'] = []
     switches_results[switch_name]['mean'] += values['mean']
     for index, value in enumerate(values['timestamp values']):
@@ -151,21 +188,27 @@ print('Printing normalized link average load:')
 for link_name, values in links_results.items():
     print(f"Link {link_name} - average load: {round(values['mean'] / link_max_loads[link_name], 3)}")
 
+if len(links_results) > 10:
+    custom_colors = plt.cm.get_cmap('tab20', 20).colors
+    plt.rc('axes', prop_cycle=cycler('color', custom_colors))
+
 # plotting average throughput of switches
 plt.figure(1)
 for switch_name, values in switches_results.items():
     format_values = []
     for value in values['timestamp values']:
+        if len(format_values) > rows_limit:
+            break
         format_values.append(round(value / 1000, 3))
     plt.plot(timestamps, format_values, label=f'{switch_name}')
-plt.legend()
+plt.legend(fontsize=label_font_size)
 plt.grid()
 plt.gca().ticklabel_format(axis='y', style='plain')
-plt.xlabel("Time [s]")
-plt.ylabel("Switch load [Kbps]")
-plt.title("Switch load over time")
+plt.xlabel("Czas emulacji [s]")
+plt.ylabel("Obciążenie przełącznika [kb/s]")
+plt.title("Obciążenie przełączników w czasie")
 
-num_ticks = 20
+num_ticks = 21
 tick_positions = np.linspace(timestamps[0], timestamps[-1], num_ticks)
 plt.xticks(tick_positions)
 
@@ -175,16 +218,18 @@ plt.figure(2)
 for link_name, values in links_results.items():
     format_values = []
     for value in values['timestamp values']:
+        if len(format_values) > rows_limit:
+            break
         format_values.append(round(value / 1000, 3))
     plt.plot(timestamps, format_values, label=f'{link_name}')
-plt.legend()
+plt.legend(fontsize=label_font_size)
 plt.grid()
 plt.gca().ticklabel_format(axis='y', style='plain')
-plt.xlabel("Time [s]")
-plt.ylabel("Link load [Kbps]")
-plt.title("Link load over time")
+plt.xlabel("Czas emulacji [s]")
+plt.ylabel("Obciążenie łącza [kb/s]")
+plt.title("Obciążenie łączy w czasie")
 
-num_ticks = 20
+num_ticks = 21
 tick_positions = np.linspace(timestamps[0], timestamps[-1], num_ticks)
 plt.xticks(tick_positions)
 
@@ -192,16 +237,18 @@ plt.figure(3)
 for link_name, values in links_results.items():
     format_values = []
     for value in values['normalized values']:
+        if len(format_values) > rows_limit:
+            break
         format_values.append(round(value, 3))
     plt.plot(timestamps, format_values, label=f'{link_name}')
-plt.legend()
+plt.legend(fontsize=label_font_size)
 plt.grid()
 plt.gca().ticklabel_format(axis='y', style='plain')
-plt.xlabel("Time [s]")
-plt.ylabel("Link load")
-plt.title("Link load over time")
+plt.xlabel("Czas emulacji [s]")
+plt.ylabel("Znormalizowane obciążenie łącza")
+plt.title("Znormalizowane obciążenie łączy w czasie")
 
-num_ticks = 20
+num_ticks = 21
 tick_positions = np.linspace(timestamps[0], timestamps[-1], num_ticks)
 plt.xticks(tick_positions)
 

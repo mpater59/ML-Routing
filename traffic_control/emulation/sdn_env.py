@@ -59,14 +59,15 @@ class SDN_env(gym.Env):
         self.action_space = spaces.MultiDiscrete([num_paths for num_paths in self.flow_paths])
         self.observation_space = spaces.Dict({
             # "switch loads": spaces.Box(low=0, high=1, shape=(self.num_switches,), dtype=np.float32),
-            "link loads": spaces.Box(low=0, high=2, shape=(self.num_links,), dtype=np.float32),
+            # "link loads": spaces.Box(low=0, high=2, shape=(self.num_links,), dtype=np.float32),
             "connection throughputs": spaces.Box(low=0, high=1, shape=(self.max_connections,), dtype=np.float32),
             "connection paths": spaces.MultiDiscrete(self.flow_paths)
         })
-        self.state = self.reset()[0]
+        self.state = self.get_topology_state()
 
     def reset(self, *, seed: int | None = None, options: dict[str, Any] | None = None) -> tuple[ObsType, dict[str, Any]]:
-        return self.get_topology_state(), {}
+        self.state = self.get_topology_state()
+        return self.state, {}
 
     def step(self, action: ActType) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
         from traffic_control.emulation.traffic_control_learning import LOGGER
@@ -80,7 +81,7 @@ class SDN_env(gym.Env):
         # calculate rewards
         reward = self.compute_reward(self.state, next_state)
 
-        time.sleep(2)
+        time.sleep(1)
         next_state = self.get_topology_state()
 
         # end step
@@ -92,7 +93,10 @@ class SDN_env(gym.Env):
         LOGGER.info(f"Step info - action: {action}")
         LOGGER.info(f"Step info - state: {self.state}")
         LOGGER.info(f"Step info - reward: {reward}")
-        return self.state, reward, done, False, {}
+
+        returned_state = {"connection throughputs": self.state["connection throughputs"],
+                          "connection paths": self.state["connection paths"]}
+        return returned_state, reward, done, False, {}
 
     def get_topology_state(self):
         topo_stats = get_stats(self.topo_info, self.env_info, self.if_index_datasource, self.rt_flow_topo)
