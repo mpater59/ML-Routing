@@ -42,11 +42,9 @@ parser = argparse.ArgumentParser()
 # Emu_topo_10_test_ppo_on_v1
 # Emu_topo_10_test_ppo_off_v2
 # Emu_topo_10_test_ppo_on_v2
-
-# test_debug_10
-parser.add_argument('-e', '--emulation', dest='emulation', default='Emu_topo_5_test_ppo_off_v1.2',
+parser.add_argument('-e', '--emulation', dest='emulation', default='Emu_topo_10_test_ppo_on_v2',
                     help='Traffic emulation name')
-parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
+parser.add_argument('-f', '--file', dest='file', default='topo_10_v2.yaml',
                     help='Topology file in .yaml format')
 args = parser.parse_args()
 
@@ -54,6 +52,7 @@ font = {'family': 'monospace',
         'weight': 'bold',
         'size': 20}
 matplotlib.rc('font', **font)
+label_font_size = 15
 
 topo_info = {}
 with open(args.file) as f:
@@ -190,7 +189,7 @@ for link_name, values in links_results.items():
     print(f"Link {link_name} - average load: {round(values['mean'] / link_max_loads[link_name], 3)}")
 
 if len(links_results) > 10:
-    custom_colors = plt.cm.get_cmap('tab20', 15).colors
+    custom_colors = plt.cm.get_cmap('tab20', 20).colors
     plt.rc('axes', prop_cycle=cycler('color', custom_colors))
 
 # plotting average throughput of switches
@@ -202,12 +201,12 @@ for switch_name, values in switches_results.items():
             break
         format_values.append(round(value / 1000, 3))
     plt.plot(timestamps, format_values, label=f'{switch_name}')
-plt.legend()
+plt.legend(fontsize=label_font_size)
 plt.grid()
 plt.gca().ticklabel_format(axis='y', style='plain')
-plt.xlabel("Time [s]")
-plt.ylabel("Switch load [Kbps]")
-plt.title("Switch load over time")
+plt.xlabel("Czas emulacji [s]")
+plt.ylabel("Obciążenie przełącznika [kb/s]")
+plt.title("Obciążenie przełączników w czasie")
 
 num_ticks = 21
 tick_positions = np.linspace(timestamps[0], timestamps[-1], num_ticks)
@@ -223,12 +222,12 @@ for link_name, values in links_results.items():
             break
         format_values.append(round(value / 1000, 3))
     plt.plot(timestamps, format_values, label=f'{link_name}')
-plt.legend()
+plt.legend(fontsize=label_font_size)
 plt.grid()
 plt.gca().ticklabel_format(axis='y', style='plain')
-plt.xlabel("Time [s]")
-plt.ylabel("Link load [Kbps]")
-plt.title("Link load over time")
+plt.xlabel("Czas emulacji [s]")
+plt.ylabel("Obciążenie łącza [kb/s]")
+plt.title("Obciążenie łączy w czasie")
 
 num_ticks = 21
 tick_positions = np.linspace(timestamps[0], timestamps[-1], num_ticks)
@@ -242,12 +241,12 @@ for link_name, values in links_results.items():
             break
         format_values.append(round(value, 3))
     plt.plot(timestamps, format_values, label=f'{link_name}')
-plt.legend()
+plt.legend(fontsize=label_font_size)
 plt.grid()
 plt.gca().ticklabel_format(axis='y', style='plain')
-plt.xlabel("Time [s]")
-plt.ylabel("Link load")
-plt.title("Link load over time")
+plt.xlabel("Czas emulacji [s]")
+plt.ylabel("Znormalizowane obciążenie łącza")
+plt.title("Znormalizowane obciążenie łączy w czasie")
 
 num_ticks = 21
 tick_positions = np.linspace(timestamps[0], timestamps[-1], num_ticks)

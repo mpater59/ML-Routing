@@ -5,8 +5,6 @@ import matplotlib
 import numpy as np
 import yaml
 
-from cycler import cycler
-
 
 parser = argparse.ArgumentParser()
 # final tests
@@ -21,20 +19,21 @@ parser = argparse.ArgumentParser()
 # Sim_topo_10_test_ppo_on_v1
 # Sim_topo_10_test_ppo_off_v2
 # Sim_topo_10_test_ppo_on_v2
-parser.add_argument('-e1', '--emulation-1', dest='emulation_1', default='Sim_topo_5_test_ppo_off_v3',
+parser.add_argument('-e1', '--emulation-1', dest='emulation_1', default='Sim_topo_10_test_ppo_off_v2',
                     help='Name of the first traffic emulation to comparison')
-parser.add_argument('-e2', '--emulation-2', dest='emulation_2', default='Sim_topo_5_test_ppo_on_v3',
+parser.add_argument('-e2', '--emulation-2', dest='emulation_2', default='Sim_topo_10_test_ppo_on_v2',
                     help='Name of the second traffic emulation to comparison')
-parser.add_argument('-ln', '--link-name', dest='link_name', default='r4-r5',
+parser.add_argument('-ln', '--link-name', dest='link_name', default='r6-r10',
                     help='Name of the link to comparison')
-parser.add_argument('-f', '--file', dest='file', default='topo.yaml',
+parser.add_argument('-f', '--file', dest='file', default='topo_10.yaml',
                     help='Topology file in .yaml format')
 args = parser.parse_args()
 
 font = {'family': 'monospace',
         'weight': 'bold',
-        'size': 15}
+        'size': 20}
 matplotlib.rc('font', **font)
+label_font_size = 15
 
 topo_info = {}
 with open(args.file) as f:
@@ -150,21 +149,21 @@ for value in link_info_1:
     if len(format_values) > rows_limit:
         break
     format_values.append(round(value, 3))
-plt.plot(timestamps_1, format_values, label='Disabled ML agent')
+plt.plot(timestamps_1, format_values, label='Wyłączony agent ML')
 
 format_values = []
 for value in link_info_2:
     if len(format_values) > rows_limit:
         break
     format_values.append(round(value, 3))
-plt.plot(timestamps_2, format_values, label='Enabled ML agent')
+plt.plot(timestamps_2, format_values, label='Włączony agent ML')
 
-plt.legend()
+plt.legend(fontsize=label_font_size)
 plt.grid()
 plt.gca().ticklabel_format(axis='y', style='plain')
-plt.xlabel("Time [s]")
-plt.ylabel("Link load")
-plt.title(f"{link_name} link load comparison over time")
+plt.xlabel("Czas emulacji [s]")
+plt.ylabel("Znormalizowane obciążenie łącza")
+plt.title(f"Porównanie znormalizowanych obciążeń łącza {link_name} w czasie")
 
 num_ticks = 21
 tick_positions = np.linspace(timestamps_1[0], timestamps_1[-1], num_ticks)
